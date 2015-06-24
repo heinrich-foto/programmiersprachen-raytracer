@@ -15,12 +15,12 @@
 class Shape
 {
 public: 
-	Shape() : name_("default_shape"), color_{} {};
+	Shape() : name_("default_shape"), color_{0,0,0} {};
 
 	~Shape() {};
 
-	virtual double area() const;
-	virtual double volume() const;
+	virtual double area() const = 0;
+	virtual double volume() const = 0;
 
 private:
 	std::string name_;
