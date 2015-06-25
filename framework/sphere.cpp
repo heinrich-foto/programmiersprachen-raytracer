@@ -32,12 +32,12 @@ Sphere::Sphere(std::string const name, Color const color, glm::vec3 const& cente
 	center_{center}, 
 	radius_{radius} 
 	{ 
-		std::cout << "++ Konstruktor Sphere " << *this << std::endl; 
+		// std::cout << "++ Konstruktor Sphere " << *this << std::endl; 
 	}
 
 Sphere::~Sphere() 
 	{ 
-		std::cout << "-- Destruktor Sphere " << *this << std::endl;
+		// std::cout << "-- Destruktor Sphere " << *this << std::endl;
 	}
 
 
