@@ -20,9 +20,13 @@ class Shape
 public: 
 	// Shape() : name_("shape_default_w"), color_{0,0,0} {};
 	Shape(std::string const& name) : name_(name), color_{0,0,0} {};
-	Shape(std::string const& name, Color const& color): name_(name), color_{color} {};
+	Shape(std::string const& name, Color const& color): name_(name), color_{color} { 
+		std::cout << "++ Konstruktor Shape " << *this << std::endl; 
+	};
 	// Shape(Color const color): name_("shape_"+color.str()),color_{color} {}; 
-	virtual ~Shape() {};
+	virtual ~Shape() { 
+		std::cout << "--  Destruktor Shape " << *this << std::endl; 
+	};
 
 	virtual double area() const = 0;
 	virtual double volume() const = 0;

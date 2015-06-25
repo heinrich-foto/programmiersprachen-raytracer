@@ -129,6 +129,66 @@ TEST_CASE("destructor","[destructor]")
 	s2->print(std::cout);
 	
 	delete s1; delete s2;
+
+	/* ... if the static type of the object to be deleted is different 
+	from its dynamic type, ... the static type shall have a virtual 
+	destructor or the behavior is undefined. ... */
+	
+/* with virtual
+===============
+++ Konstruktor Shape sphere_cr_sphere0: with color (255,0,0)
+
+++ Konstruktor Sphere sphere_cr_sphere0: with color (255,0,0)
+  [0.000000;0.000000;0.000000] with radius 1.2
+
+++ Konstruktor Shape sphere_cr_sphere1: with color (255,0,0)
+
+++ Konstruktor Sphere sphere_cr_sphere1: with color (255,0,0)
+  [0.000000;0.000000;0.000000] with radius 1.2
+
+sphere_cr_sphere0: with color (255,0,0)
+  [0.000000;0.000000;0.000000] with radius 1.2
+sphere_cr_sphere1: with color (255,0,0)
+  [0.000000;0.000000;0.000000] with radius 1.2
+-- Destruktor Sphere sphere_cr_sphere0: with color (255,0,0)
+  [0.000000;0.000000;0.000000] with radius 1.2
+
+--  Destruktor Shape sphere_cr_sphere0: with color (255,0,0)
+
+-- Destruktor Sphere sphere_cr_sphere1: with color (255,0,0)
+  [0.000000;0.000000;0.000000] with radius 1.2
+
+--  Destruktor Shape sphere_cr_sphere1: with color (255,0,0)
+*/
+
+/* without virtual
+==================
+/Users/mh/Documents/XCode/WS2015/programmiersprachen-raytracer/tests/main.cpp:131:13: warning: delete called on 'Shape' that is abstract but has non-virtual
+      destructor [-Wdelete-non-virtual-dtor]
+        delete s1; delete s2;
+
+++ Konstruktor Shape sphere_cr_sphere0: with color (255,0,0)
+
+++ Konstruktor Sphere sphere_cr_sphere0: with color (255,0,0)
+  [0.000000;0.000000;0.000000] with radius 1.2
+
+++ Konstruktor Shape sphere_cr_sphere1: with color (255,0,0)
+
+++ Konstruktor Sphere sphere_cr_sphere1: with color (255,0,0)
+  [0.000000;0.000000;0.000000] with radius 1.2
+
+sphere_cr_sphere0: with color (255,0,0)
+  [0.000000;0.000000;0.000000] with radius 1.2
+sphere_cr_sphere1: with color (255,0,0)
+  [0.000000;0.000000;0.000000] with radius 1.2
+-- Destruktor Sphere sphere_cr_sphere0: with color (255,0,0)
+  [0.000000;0.000000;0.000000] with radius 1.2
+
+--  Destruktor Shape sphere_cr_sphere0: with color (255,0,0)
+
+--  Destruktor Shape sphere_cr_sphere1: with color (255,0,0)
+
+*/
 }
 
 int main(int argc, char *argv[])

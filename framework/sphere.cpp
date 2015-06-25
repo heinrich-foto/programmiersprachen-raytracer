@@ -31,9 +31,14 @@ Sphere::Sphere(std::string const name, Color const color, glm::vec3 const& cente
 	Shape("sphere_cr_"+name, color), 
 	center_{center}, 
 	radius_{radius} 
-	{}
+	{ 
+		std::cout << "++ Konstruktor Sphere " << *this << std::endl; 
+	}
 
-Sphere::~Sphere() {}
+Sphere::~Sphere() 
+	{ 
+		std::cout << "-- Destruktor Sphere " << *this << std::endl;
+	}
 
 
 glm::vec3 Sphere::center() const
