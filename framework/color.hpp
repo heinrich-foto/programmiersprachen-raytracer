@@ -19,6 +19,11 @@ struct Color
   float g;
   float b;
 
+  std::string str() const
+  {
+    return '#' + std::to_string(r) + std::to_string(g) + std::to_string(b);
+  }
+
   friend std::ostream& operator<<(std::ostream& os, Color const& c)
   {
     os << "(" << c.r << "," << c.g << "," << c.b << ")\n";

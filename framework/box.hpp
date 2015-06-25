@@ -22,6 +22,9 @@ class Box : public Shape
 public: 
 	Box();
 	Box(glm::vec3 const&, glm::vec3 const&);
+
+	Box(std::string const, Color const);
+	Box(std::string const, Color const, glm::vec3 const&, glm::vec3 const&);
 	~Box();
 
 

@@ -22,6 +22,10 @@ public:
 	Sphere();
 	Sphere(double const&);
 	Sphere(glm::vec3 const&, double const&);
+
+	Sphere(std::string const, Color const);
+	Sphere(std::string const, Color const, double const& );
+	Sphere(std::string const, Color const, glm::vec3 const&, double const& );
 	~Sphere();
 
 
@@ -33,7 +37,6 @@ public:
 
 	/*virtual*/ double area() const override;
 	/*virtual*/ double volume() const override;
-
 
 private:
 	glm::vec3 	center_;

@@ -1,9 +1,38 @@
 #include "sphere.hpp"
 #include <cmath>
 
-Sphere::Sphere() : center_{}, radius_{} {}
-Sphere::Sphere(double const& invalue) : center_{}, radius_{invalue} {}
-Sphere::Sphere(glm::vec3 const& invec, double const& inradius) : center_{invec}, radius_{inradius} {}
+Sphere::Sphere() : 
+	Shape{"sphere_default"}, 
+	center_{}, 
+	radius_{} 
+	{}
+Sphere::Sphere(double const& invalue) : 
+	Shape{"sphere_r_w"}, 
+	center_{}, 
+	radius_{invalue} 
+	{}
+Sphere::Sphere(glm::vec3 const& invec, double const& inradius) : 
+	Shape{"sphere_cr_w"}, 
+	center_{invec}, 
+	radius_{inradius} 
+	{}
+
+Sphere::Sphere(std::string const name, Color const color): 
+	Shape("sphere_default_"+name, color), 
+	center_{}, 
+	radius_{} 
+	{}
+Sphere::Sphere(std::string const name, Color const color, double const& radius ):
+	Shape("sphere_r_"+name,color),
+	center_{},
+	radius_{radius}
+	{}
+Sphere::Sphere(std::string const name, Color const color, glm::vec3 const& center, double const& radius) :
+	Shape("sphere_cr_"+name, color), 
+	center_{center}, 
+	radius_{radius} 
+	{}
+
 Sphere::~Sphere() {}
 
 
