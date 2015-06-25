@@ -12,8 +12,10 @@
 
 #include "shape.hpp"
 #include "color.hpp"
+#include "ray.hpp"
 
-
+#include <glm/glm.hpp>
+#include <glm/gtx/intersect.hpp>
 #include <glm/vec3.hpp>
 
 class Sphere : public Shape
@@ -37,6 +39,9 @@ public:
 
 	/*virtual*/ double area() const override;
 	/*virtual*/ double volume() const override;
+
+	// bool intersect(Ray const& ray) const;
+	double intersect(Ray const& ray) const;
 
 	/*virtual*/ std::ostream& print(std::ostream& os) const override;
 
