@@ -34,6 +34,11 @@ public:
 
 	virtual std::ostream& print(std::ostream& os) const;
 
+	friend std::ostream& operator<<(std::ostream& os, Shape const& s);
+	// friend std::ostream& operator<<(std::ostream& os, glm::vec3 const vec);
+
+protected: 
+	std::string print_point(glm::vec3 const& vec) const;
 private:
 	std::string name_;
 	Color 		color_;

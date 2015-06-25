@@ -40,3 +40,11 @@ glm::vec3 Box::max() const
 	glm::vec3 tmp = abs(min_-max_); // abs from Shape
 	return tmp.x * tmp.y * tmp.z;
 }
+
+std::ostream& Box::print(std::ostream& os) const
+{
+	Shape::print(os);
+	os << print_point(min_) << " " << print_point(max_);
+	return os;
+}
+

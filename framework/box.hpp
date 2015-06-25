@@ -34,6 +34,7 @@ public:
 	/*virtual*/ double area() const override;
 	/*virtual*/ double volume() const override;
 
+	/*virtual*/ std::ostream& print(std::ostream& os) const override;
 
 private:
 	glm::vec3 	min_;

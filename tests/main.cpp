@@ -72,11 +72,24 @@ TEST_CASE("name of shapes","[name]")
 	Sphere sphere3("123_02",Color{0,0,0}, glm::vec3{1,2,3}, 0.2);
 	REQUIRE("sphere_cr_123_02"==sphere3.name());
 
-	Sphere sphere4{};
-	REQUIRE("sphere_default"==sphere4.name());
-
 	Box box3{};
 	REQUIRE("box_default"==box3.name());
+
+	Sphere sphere4{};
+	REQUIRE("sphere_default"==sphere4.name());
+}
+
+TEST_CASE("ostream sphere and box","[ostream]")
+{
+	Box 	object ("hallo",Color{0.1,0.03,0.02});
+	Sphere  object2("world",Color{1,2,3});
+	std::stringstream os;
+	os << object;
+	REQUIRE("box_default_hallo: with color (0.1,0.03,0.02)\n[0.000000;0.000000;0.000000] [0.000000;0.000000;0.000000]"==os.str());
+	os.str( std::string() );
+	os.clear();
+	os << object2;
+	REQUIRE("sphere_default_world: with color (1,2,3)\n[0.000000;0.000000;0.000000] with radius 0"==os.str());
 }
 
 int main(int argc, char *argv[])
