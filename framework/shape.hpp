@@ -11,6 +11,8 @@
 #define BUW_SHAPE_HPP
 
 #include "color.hpp"
+#include <glm/vec3.hpp>
+#include <cmath>
 
 class Shape
 {
@@ -21,6 +23,8 @@ public:
 
 	virtual double area() const = 0;
 	virtual double volume() const = 0;
+
+	glm::vec3 abs(glm::vec3 const& ivec) const { return {std::fabs(ivec.x),std::fabs(ivec.y),std::fabs(ivec.z)}; };
 
 private:
 	std::string name_;

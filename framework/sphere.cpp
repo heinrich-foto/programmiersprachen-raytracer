@@ -21,9 +21,9 @@ double Sphere::radius() const
 
 /*virtual*/ double Sphere::area() const
 {
-	return 4 * M_PI * pow(radius_,2);
+	return (radius_>0)? 4 * M_PI * pow(radius_,2) : 0;
 }
 /*virtual*/ double Sphere::volume() const
 {
-	return 4 * pow(3,-1) * M_PI * pow(radius_,3);
+	return (radius_>0)? 4 * pow(3,-1) * M_PI * pow(radius_,3) : 0;
 }

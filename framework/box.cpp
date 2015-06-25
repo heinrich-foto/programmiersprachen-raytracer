@@ -1,4 +1,5 @@
 #include "box.hpp"
+#include <cmath>
 
 Box::Box() : min_{}, max_{} {}
 Box::Box(glm::vec3 const& min, glm::vec3 const& max) : min_{min}, max_{max} {}
@@ -15,11 +16,11 @@ glm::vec3 Box::max() const
 
 /*virtual*/ double Box::area() const
 {
-	glm::vec3 tmp = min_-max_;
+	glm::vec3 tmp = abs(min_-max_); // abs from Shape
 	return 2*(tmp.x * tmp.y)+2*(tmp.x * tmp.z)+2*(tmp.y* tmp.z);
 }
 /*virtual*/ double Box::volume() const
 {
-	glm::vec3 tmp = min_-max_;
+	glm::vec3 tmp = abs(min_-max_); // abs from Shape
 	return tmp.x * tmp.y * tmp.z;
 }
