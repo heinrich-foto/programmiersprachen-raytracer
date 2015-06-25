@@ -89,11 +89,11 @@ TEST_CASE("ostream sphere and box","[ostream]")
 	Sphere  object2("world",Color{1,2,3});
 	std::stringstream os;
 	os << object;
-	REQUIRE("box_default_hallo: with color (0.1,0.03,0.02)\n[0.000000;0.000000;0.000000] [0.000000;0.000000;0.000000]"==os.str());
+	REQUIRE("box_default_hallo: with color (0.1,0.03,0.02)\n  [0.000000;0.000000;0.000000] [0.000000;0.000000;0.000000]\n"==os.str());
 	os.str( std::string() );
 	os.clear();
 	os << object2;
-	REQUIRE("sphere_default_world: with color (1,2,3)\n[0.000000;0.000000;0.000000] with radius 0"==os.str());
+	REQUIRE("sphere_default_world: with color (1,2,3)\n  [0.000000;0.000000;0.000000] with radius 0\n"==os.str());
 }
 
 TEST_CASE("intersectRaySphere", "[intersect]")
@@ -119,13 +119,13 @@ TEST_CASE("intersectRaySphere", "[intersect]")
 TEST_CASE("destructor","[destructor]")
 {
 	Color red(255, 0, 0); 
-	glm::vec3 position(0,0);
+	glm::vec3 position(0,0,0);
 	// Sphere* s1 = new Sphere(position, 1.2, red, "sphere0"); 
 	// Shape*  s2 = new Sphere(position, 1.2, red, "sphere1");
 	Sphere* s1 = new Sphere("sphere0", red, position, 1.2); 
 	Shape*  s2 = new Sphere("sphere1", red, position, 1.2);
 	
-	s1->print(std::cout); 
+	s1->print(std::cout);
 	s2->print(std::cout);
 	
 	delete s1; delete s2;

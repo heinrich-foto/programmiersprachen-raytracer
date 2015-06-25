@@ -44,7 +44,6 @@ glm::vec3 Box::max() const
 std::ostream& Box::print(std::ostream& os) const
 {
 	Shape::print(os);
-	os << print_point(min_) << " " << print_point(max_);
-	return os;
+	return os << "  " << print_point(min_) << " " << print_point(max_) << std::endl;
 }
 

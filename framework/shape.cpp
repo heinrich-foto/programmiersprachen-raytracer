@@ -2,8 +2,7 @@
 
 std::ostream& Shape::print(std::ostream& os) const
 {
-	os << name_ << ": with color " << color_;
-	return os;
+	return os << name_ << ": with color " << color_;
 }
 
 

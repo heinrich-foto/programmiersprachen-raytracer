@@ -22,7 +22,7 @@ public:
 	Shape(std::string const& name) : name_(name), color_{0,0,0} {};
 	Shape(std::string const& name, Color const& color): name_(name), color_{color} {};
 	// Shape(Color const color): name_("shape_"+color.str()),color_{color} {}; 
-	~Shape() {};
+	virtual ~Shape() {};
 
 	virtual double area() const = 0;
 	virtual double volume() const = 0;

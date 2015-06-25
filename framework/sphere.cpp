@@ -68,7 +68,6 @@ double Sphere::intersect(Ray const& ray) const
 std::ostream& Sphere::print(std::ostream& os) const
 {
 	Shape::print(os);
-	os << print_point(center_) << " with radius " << radius_;
-	return os;
+	return os << "  " << print_point(center_) << " with radius " << radius_ << std::endl;
 }
 
