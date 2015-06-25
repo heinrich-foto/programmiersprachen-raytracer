@@ -189,7 +189,10 @@ sphere_cr_sphere1: with color (255,0,0)
 --  Destruktor Shape sphere_cr_sphere1: with color (255,0,0)
 
 */
-}
+} // end Test_case
+
+
+
 
 int main(int argc, char *argv[])
 {
