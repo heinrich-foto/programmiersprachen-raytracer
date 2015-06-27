@@ -125,8 +125,8 @@ TEST_CASE("destructor","[destructor]")
 	Sphere* s1 = new Sphere("sphere0", red, position, 1.2); 
 	Shape*  s2 = new Sphere("sphere1", red, position, 1.2);
 	
-	s1->print(std::cout);
-	s2->print(std::cout);
+	// s1->print(std::cout);
+	// s2->print(std::cout);
 	
 	delete s1; delete s2;
 
@@ -191,7 +191,23 @@ sphere_cr_sphere1: with color (255,0,0)
 */
 } // end Test_case
 
+TEST_CASE("box ray intersect") 
+{
+	// Ray
+	glm::vec3 ray_origin(0.0,0.0,0.0);
+	// ray direction has to be normalized ! // you can use:
+	// v = glm::normalize(some_vector) 
+	glm::vec3 ray_direction(0.0,0.0,1.0);
+	// Sphere
+	glm::vec3 box_min(0.0,1.0,5.0); 
+	glm::vec3 box_max(1.0,1.0,1.0);
+	
+	Box box (box_min, box_max);
+	Ray ray(ray_origin,ray_direction);
 
+	REQUIRE(true == box.intersect(ray).second);
+	REQUIRE(Approx(5.0) == box.intersect(ray).first);
+}
 
 
 int main(int argc, char *argv[])

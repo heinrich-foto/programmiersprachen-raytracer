@@ -12,9 +12,23 @@
 
 struct Ray
 {
-	Ray(glm::vec3 const& origin, glm::vec3 const& direction ): origin(origin), direction(direction) {};
+	// Ray(glm::vec3 const& origin, glm::vec3 const& direction ): origin(origin), direction(direction) {};
+	// glm::vec3 origin;
+	// glm::vec3 direction; 
+
+	Ray(glm::vec3 const& o, glm::vec3 const& d) :
+		origin(o),
+		direction(d)
+		{
+			inv_direction = glm::vec3{1/d.x, 1/d.y, 1/d.z};
+			sign[0] = (inv_direction.x < 0);
+			sign[1] = (inv_direction.y < 0);
+			sign[2] = (inv_direction.z < 0);
+		}
 	glm::vec3 origin;
-	glm::vec3 direction; 
+	glm::vec3 direction;
+	glm::vec3 inv_direction;
+	int sign[3];
 };
 
 
