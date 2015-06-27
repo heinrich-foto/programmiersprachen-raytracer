@@ -13,9 +13,10 @@
 
 #include "shape.hpp"
 #include "color.hpp"
-
+#include "ray.hpp"
 
 #include <glm/vec3.hpp>
+#include <glm/gtx/intersect.hpp>
 
 class Box : public Shape
 {
@@ -35,6 +36,8 @@ public:
 	/*virtual*/ double volume() const override;
 
 	/*virtual*/ std::ostream& print(std::ostream& os) const override;
+
+	std::pair<float,bool> intersect(Ray const&) const;
 
 private:
 	glm::vec3 	min_;
