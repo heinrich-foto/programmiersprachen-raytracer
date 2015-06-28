@@ -45,7 +45,7 @@ glm::vec3 Box::max() const
 }
 
 // bool Box::intersect(const Ray &r, float t0, float t1) const {
-std::pair<float,bool> Box::intersect(const Ray &r) const {
+std::pair<bool,float> Box::intersect(const Ray &r) const {
 	float tmin, tmax, tymin, tymax, tzmin, tzmax;
 
 	tmin  = (min_.x - r.origin.x) * r.inv_direction.x;
@@ -54,7 +54,7 @@ std::pair<float,bool> Box::intersect(const Ray &r) const {
 	tymax = (max_.y - r.origin.y) * r.inv_direction.y;
 	
 	if ( (tmin > tymax) || (tymin > tmax) )
-		return std::make_pair(tmax,false);
+		return std::make_pair(false,tmax);
 	if (tymin > tmin)
 		tmin = tymin;
 	if (tymax < tmax)
@@ -62,14 +62,14 @@ std::pair<float,bool> Box::intersect(const Ray &r) const {
 	tzmin = (min_.z - r.origin.z) * r.inv_direction.z;
 	tzmax = (max_.z - r.origin.z) * r.inv_direction.z;
 	if ( (tmin > tzmax) || (tzmin > tmax) )
-		return std::make_pair(tmax,false);
+		return std::make_pair(false,tmax);
 	if (tzmin > tmin)
 		tmin = tzmin;
 	if (tzmax < tmax)
 		tmax = tzmax;
 
 	std::cout << "min: " << tmin << " max: " << tmax << std::endl;
- 	// return ( (tmin < t1) && (tmax > t0) );
+ 	return std::make_pair(( (tmin < '+inf') && (tmax > '-inf') ), tmin);
 }
 
 std::ostream& Box::print(std::ostream& os) const
