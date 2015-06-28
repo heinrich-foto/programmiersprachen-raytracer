@@ -62,12 +62,12 @@ double Sphere::radius() const
 	return (radius_>0)? 4 * pow(3,-1) * M_PI * pow(radius_,3) : 0;
 }
 
-double Sphere::intersect(Ray const& ray) const
+std::pair<bool,float> Sphere::intersect(Ray const& ray) const
 {
 	float distance;
-	glm::intersectRaySphere(
+	auto result = glm::intersectRaySphere(
 	ray.origin , glm::normalize(ray.direction) , center_ , radius_ , distance );
-	return distance;
+	return std::make_pair(result, distance);
 }
 
 std::ostream& Sphere::print(std::ostream& os) const

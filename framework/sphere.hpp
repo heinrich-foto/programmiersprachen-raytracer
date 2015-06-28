@@ -41,7 +41,7 @@ public:
 	/*virtual*/ double volume() const override;
 
 	// bool intersect(Ray const& ray) const;
-	double intersect(Ray const& ray) const;
+	std::pair<bool,float> intersect(Ray const& ray) const;
 
 	/*virtual*/ std::ostream& print(std::ostream& os) const override;
 
