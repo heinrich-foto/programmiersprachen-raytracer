@@ -11,6 +11,8 @@
 #define BUW_SHAPE_HPP
 
 #include "color.hpp"
+#include "ray.hpp"
+
 #include <glm/vec3.hpp>
 #include <cmath>
 #include <iostream>
@@ -37,6 +39,8 @@ public:
 	glm::vec3 abs(glm::vec3 const& ivec) const { return {std::fabs(ivec.x),std::fabs(ivec.y),std::fabs(ivec.z)}; };
 
 	virtual std::ostream& print(std::ostream& os) const;
+
+	virtual std::pair<bool,float> intersect(const Ray &r) const = 0;
 
 	friend std::ostream& operator<<(std::ostream& os, Shape const& s);
 	// friend std::ostream& operator<<(std::ostream& os, glm::vec3 const vec);

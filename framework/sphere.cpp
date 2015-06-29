@@ -17,17 +17,17 @@ Sphere::Sphere(glm::vec3 const& invec, double const& inradius) :
 	radius_{inradius} 
 	{}
 
-Sphere::Sphere(std::string const name, Color const color): 
+Sphere::Sphere(std::string const& name, Color const& color): 
 	Shape("sphere_default_"+name, color), 
 	center_{}, 
 	radius_{} 
 	{}
-Sphere::Sphere(std::string const name, Color const color, double const& radius ):
+Sphere::Sphere(std::string const& name, Color const& color, double const& radius ):
 	Shape("sphere_r_"+name,color),
 	center_{},
 	radius_{radius}
 	{}
-Sphere::Sphere(std::string const name, Color const color, glm::vec3 const& center, double const& radius) :
+Sphere::Sphere(std::string const& name, Color const& color, glm::vec3 const& center, double const& radius) :
 	Shape("sphere_cr_"+name, color), 
 	center_{center}, 
 	radius_{radius} 
@@ -61,12 +61,12 @@ double Sphere::radius() const
 {
 	return (radius_>0)? 4 * pow(3,-1) * M_PI * pow(radius_,3) : 0;
 }
-
+// std::optional
 std::pair<bool,float> Sphere::intersect(Ray const& ray) const
 {
 	float distance;
 	auto result = glm::intersectRaySphere(
-	ray.origin , glm::normalize(ray.direction) , center_ , radius_ , distance );
+	ray.origin , glm::normalize(ray.direction) , center_ , radius_ * radius_, distance );
 	// std::cout << print_point(ray.direction) << print_point(glm::normalize(ray.direction)) << std::endl;
 	return std::make_pair(result, distance);
 }

@@ -11,8 +11,6 @@
 #define BUW_SPHERE_HPP
 
 #include "shape.hpp"
-#include "color.hpp"
-#include "ray.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtx/intersect.hpp>
@@ -25,9 +23,9 @@ public:
 	Sphere(double const&);
 	Sphere(glm::vec3 const&, double const&);
 
-	Sphere(std::string const, Color const);
-	Sphere(std::string const, Color const, double const& );
-	Sphere(std::string const, Color const, glm::vec3 const&, double const& );
+	Sphere(std::string const&, Color const&);
+	Sphere(std::string const&, Color const&, double const& );
+	Sphere(std::string const&, Color const&, glm::vec3 const&, double const& );
 	~Sphere();
 
 
