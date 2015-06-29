@@ -56,31 +56,19 @@ std::pair<float,bool> Box::intersect(Ray const& ray) const
 	dirfrac.z = 1.0f / r.z;
 	// lb is the corner of AABB with minimal coordinates - left bottom, rt is maximal corner
 	// r.org is origin of ray
-	std::vector<float> t_stack;
-	t_stack.push_back( (min_.x - ray.origin.x)*dirfrac.x );
-	t_stack.push_back( (max_.x - ray.origin.x)*dirfrac.x );
-	t_stack.push_back( (min_.y - ray.origin.y)*dirfrac.y );
-	t_stack.push_back( (max_.y - ray.origin.y)*dirfrac.y );
-	t_stack.push_back( (min_.z - ray.origin.z)*dirfrac.z );
-	t_stack.push_back( (max_.z - ray.origin.z)*dirfrac.z );
+	
+	float t1 = (min_.x - ray.origin.x) * dirfrac.x ;
+	float t2 = (max_.x - ray.origin.x) * dirfrac.x ;
+	
+	float t3 = (min_.y - ray.origin.y) * dirfrac.y ;
+	float t4 = (max_.y - ray.origin.y) * dirfrac.y ;
+	
+	float t5 = (min_.z - ray.origin.z) * dirfrac.z ;
+	float t6 = (max_.z - ray.origin.z) * dirfrac.z ;
 
-	for (auto iter  = t_stack.begin(); iter != t_stack.end(); ) {
-		if (*iter!=*iter || !isfinite(*iter)) {
-			t_stack.erase(iter); 
-		}
-		else {
-			std::cout << *iter << std::endl;
-			++iter;
-		}
-	}
-	if (t_stack.size() >= 2) 
-	{
-		std::sort(t_stack.begin(),t_stack.end());
-		
-		double tmax = t_stack.front();
-		double tmin = t_stack.back();
+		float tmin = std::max(std::max(std::min(t1, t2), std::min(t3, t4)), std::min(t5, t6));
+		float tmax = std::min(std::min(std::max(t1, t2), std::max(t3, t4)), std::max(t5, t6));
 
-		std::cout << "min: "<< tmin << " max: " << tmax << " length: " << t_stack.size() << std::endl;
 		// if tmax < 0, ray (line) is intersecting AABB, but whole AABB is behing us
 		if (tmax < 0)
 		{
@@ -97,7 +85,6 @@ std::pair<float,bool> Box::intersect(Ray const& ray) const
 
 		t = tmin;
 		return std::make_pair(t,true);
-	}
 }
 
 std::ostream& Box::print(std::ostream& os) const
