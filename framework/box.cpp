@@ -46,30 +46,45 @@ glm::vec3 Box::max() const
 
 // bool Box::intersect(const Ray &r, float t0, float t1) const {
 std::pair<bool,float> Box::intersect(const Ray &r) const {
-	float tmin, tmax, tymin, tymax, tzmin, tzmax;
+/* 
+	the computet distence is untestet, 
+	and at the moment not implemented!! 
+	at the moment the boolean value returns 
+	true if the ray intersects the box. 
+
+	possible could be a input double vlaue per reference for distance.
+	its an more better way maybe, for returning values. (intersection Hitpoint, distance etc.)
+*/
+	float tmin, tmax, tmin_y, tmax_y, tmin_z, tmax_z;
 
 	tmin  = (min_.x - r.origin.x) * r.inv_direction.x;
 	tmax  = (max_.x - r.origin.x) * r.inv_direction.x;
-	tymin = (min_.y - r.origin.y) * r.inv_direction.y;
-	tymax = (max_.y - r.origin.y) * r.inv_direction.y;
+	tmin_y = (min_.y - r.origin.y) * r.inv_direction.y;
+	tmax_y = (max_.y - r.origin.y) * r.inv_direction.y;
 	
-	if ( (tmin > tymax) || (tymin > tmax) )
+	if ( (tmin > tmax_y) || (tmin_y > tmax) )
+	{ 
+		//std::cout << tmin <<" > " << tmax_y << " || " <<  tmin_y << " > "  << tmax << std::endl;
+		return std::make_pair(false,tmax); 
+	}
+	if (tmin_y > tmin)
+		tmin = tmin_y;
+	if (tmax_y < tmax)
+		tmax = tmax_y;
+	tmin_z = (min_.z - r.origin.z) * r.inv_direction.z;
+	tmax_z = (max_.z - r.origin.z) * r.inv_direction.z;
+	if ( (tmin > tmax_z) || (tmin_z > tmax) )
+	{
+		//std::cout << tmin <<" > "<< tmax_z<< " || " <<tmin_z<< " > " << tmax << std::endl;
 		return std::make_pair(false,tmax);
-	if (tymin > tmin)
-		tmin = tymin;
-	if (tymax < tmax)
-		tmax = tymax;
-	tzmin = (min_.z - r.origin.z) * r.inv_direction.z;
-	tzmax = (max_.z - r.origin.z) * r.inv_direction.z;
-	if ( (tmin > tzmax) || (tzmin > tmax) )
-		return std::make_pair(false,tmax);
-	if (tzmin > tmin)
-		tmin = tzmin;
-	if (tzmax < tmax)
-		tmax = tzmax;
+	}
+	if (tmin_z > tmin)
+		tmin = tmin_z;
+	if (tmax_z < tmax)
+		tmax = tmax_z;
 
-	std::cout << "min: " << tmin << " max: " << tmax << std::endl;
- 	return std::make_pair(( (tmin < '+inf') && (tmax > '-inf') ), tmin);
+	//std::cout << "min: " << tmin << " max: " << tmax << std::endl;
+ 	return std::make_pair(true, tmin);
 }
 
 std::ostream& Box::print(std::ostream& os) const

@@ -115,6 +115,10 @@ TEST_CASE("intersectRaySphere", "[intersect]")
 	Ray ray(ray_origin,ray_direction);
 	REQUIRE(Approx(4) == sphere.intersect(ray).second);
 	REQUIRE(true == sphere.intersect(ray).first);
+
+	Ray ray2(ray_origin,glm::vec3{0,0,3});
+	REQUIRE(Approx(4) == sphere.intersect(ray2).second);
+	REQUIRE(true == sphere.intersect(ray2).first);	
 }
 
 TEST_CASE("destructor","[destructor]")
@@ -190,6 +194,11 @@ sphere_cr_sphere1: with color (255,0,0)
 --  Destruktor Shape sphere_cr_sphere1: with color (255,0,0)
 
 */
+
+// -- Destruktor Sphere sphere_cr_sphere1: with color (255,0,0)
+//  [0.000000;0.000000;0.000000] with radius 1.2
+// wird ohne virtual nicht ausgeführt. Nur der Shape Destructor wird aufgerufen.
+
 } // end Test_case
 
 TEST_CASE("box ray intersect") 
@@ -212,7 +221,7 @@ TEST_CASE("box ray intersect")
 	Ray ray_yz  (ray_origin,glm::vec3{0,1,1});
 	Ray ray_xyz (ray_origin,glm::vec3{1,1,1});
 
-	Ray ray_ (ray_origin,glm::vec3{8,9,1});
+	Ray ray_ (ray_origin,glm::vec3{8,9,8});
 
 	REQUIRE(true  == box1.intersect(ray_xyz).first);
 	REQUIRE(true  == box1.intersect(ray_).first);

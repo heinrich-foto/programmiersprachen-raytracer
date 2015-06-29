@@ -67,6 +67,7 @@ std::pair<bool,float> Sphere::intersect(Ray const& ray) const
 	float distance;
 	auto result = glm::intersectRaySphere(
 	ray.origin , glm::normalize(ray.direction) , center_ , radius_ , distance );
+	// std::cout << print_point(ray.direction) << print_point(glm::normalize(ray.direction)) << std::endl;
 	return std::make_pair(result, distance);
 }
 
