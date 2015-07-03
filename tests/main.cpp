@@ -8,6 +8,7 @@
 #include "sphere.hpp"
 #include "box.hpp"
 #include "ray.hpp"
+#include "sdfloader.hpp"
 
 TEST_CASE("Sphere default","[sphere]")
 {
@@ -252,6 +253,15 @@ TEST_CASE("box ray intersect")
 	// dosnt work...
 	// REQUIRE(true  == box2.intersect(ray_xz,t));
 	REQUIRE(true  == s2->intersect(ray_xz).first);	
+}
+
+
+TEST_CASE("SDFLoader","[sdf::load()]"){
+	auto SDF = SDFLoader::instance();
+	auto scene = SDF->load("../material.sdf");
+
+	REQUIRE(2 == scene.material.size());
+	for (auto const& item : scene.material) std::cout << item << std::endl;
 }
 
 int main(int argc, char *argv[])
