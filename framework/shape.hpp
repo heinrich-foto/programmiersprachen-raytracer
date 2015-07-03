@@ -20,11 +20,6 @@
 class Shape
 {
 public: 
-	// Shape() : name_("shape_default_w"), color_{0,0,0} {};
-	Shape(std::string const& name) : name_(name), color_{0,0,0} {};
-	Shape(std::string const& name, Color const& color): name_(name), color_{color} { 
-		// std::cout << "++ Konstruktor Shape " << *this << std::endl; 
-	};
 	// Shape(Color const color): name_("shape_"+color.str()),color_{color} {}; 
 	virtual ~Shape() { 
 		// std::cout << "--  Destruktor Shape " << *this << std::endl; 
@@ -47,8 +42,16 @@ public:
 	// friend std::ostream& operator<<(std::ostream& os, glm::vec3 const vec);
 
 protected: 
+	// Protected Construktor.
+	// Shape() : name_("shape_default_w"), color_{0,0,0} {};
+	Shape(std::string const& name) : name_(name), color_{0,0,0} {};
+	Shape(std::string const& name, Color const& color): name_(name), color_{color} { 
+		// std::cout << "++ Konstruktor Shape " << *this << std::endl; 
+	};
 	std::string print_point(glm::vec3 const& vec) const;
 private:
+	// Shape(const Shape&); // no copy
+	// Shape& operator=(const Shape&); 
 	std::string name_;
 	Color 		color_;
 };
