@@ -1,6 +1,6 @@
 Programmiersprachen: Raytracer
 ===========
 
-[![Build Status](https://secure.travis-ci.org/vrsys/programmiersprachen-raytracer.png)](http://travis-ci.org/vrsys/programmiersprachen-raytracer)
+[![Build Status](https://travis-ci.org/heinrich-foto/programmiersprachen-raytracer.svg)](http://travis-ci.org/heinrich-foto/programmiersprachen-raytracer)
 
 Framework for exercise 08.
