@@ -23,9 +23,9 @@ public:
 	Sphere(double const&);
 	Sphere(glm::vec3 const&, double const&);
 
-	Sphere(std::string const&, Color const&);
-	Sphere(std::string const&, Color const&, double const& );
-	Sphere(std::string const&, Color const&, glm::vec3 const&, double const& );
+	Sphere(std::string const&, Material const&);
+	Sphere(std::string const&, Material const&, double const& );
+	Sphere(std::string const&, Material const&, glm::vec3 const&, double const& );
 	~Sphere();
 
 

@@ -10,7 +10,7 @@
 #ifndef BUW_SHAPE_HPP
 #define BUW_SHAPE_HPP
 
-#include "color.hpp"
+#include "material.hpp"
 #include "ray.hpp"
 
 #include <glm/vec3.hpp>
@@ -28,7 +28,7 @@ public:
 	virtual double area() const = 0;
 	virtual double volume() const = 0;
 
-	Color color() const { return color_; };
+	Material material() const { return color_; };
 	std::string name() const { return name_; };
 
 	glm::vec3 abs(glm::vec3 const& ivec) const { return {std::fabs(ivec.x),std::fabs(ivec.y),std::fabs(ivec.z)}; };
@@ -44,8 +44,8 @@ public:
 protected: 
 	// Protected Construktor.
 	// Shape() : name_("shape_default_w"), color_{0,0,0} {};
-	Shape(std::string const& name) : name_(name), color_{0,0,0} {};
-	Shape(std::string const& name, Color const& color): name_(name), color_{color} { 
+	Shape(std::string const& name) : name_(name), color_{} {};
+	Shape(std::string const& name, Material const& material): name_(name), color_{material} { 
 		// std::cout << "++ Konstruktor Shape " << *this << std::endl; 
 	};
 	std::string print_point(glm::vec3 const& vec) const;
@@ -53,7 +53,7 @@ private:
 	// Shape(const Shape&); // no copy
 	// Shape& operator=(const Shape&); 
 	std::string name_;
-	Color 		color_;
+	Material	color_;
 };
 
 #endif // BUW_SHAPE

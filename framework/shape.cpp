@@ -2,7 +2,7 @@
 
 std::ostream& Shape::print(std::ostream& os) const
 {
-	return os << name_ << ": with color " << color_;
+	return os << name_ << ": with material " << color_;
 }
 
 bool Shape::intersect(Ray const& ray, float& t) const {

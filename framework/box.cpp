@@ -4,18 +4,18 @@
 
 Box::Box() : Shape{"box_default"}, min_{}, max_{} {}
 Box::Box(glm::vec3 const& min, glm::vec3 const& max) : 
-	Shape{"box_mm_w"}, 
+	Shape{"box_mm_b"}, 
 	min_{min}, 
 	max_{max} 
 	{}
 
-Box::Box(std::string const& name, Color const& color):
-	Shape("box_default_"+name,color),
+Box::Box(std::string const& name, Material const& material):
+	Shape("box_default_"+name,material),
 	min_{},
 	max_{}
 	{}
-Box::Box(std::string const& name, Color const& color, glm::vec3 const& min, glm::vec3 const& max):
-	Shape("box_mm_"+name, color),
+Box::Box(std::string const& name, Material const& material, glm::vec3 const& min, glm::vec3 const& max):
+	Shape("box_mm_"+name, material),
 	min_{min},
 	max_{max}
 	{}
