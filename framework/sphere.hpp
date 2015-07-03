@@ -39,7 +39,7 @@ public:
 	/*virtual*/ double volume() const override;
 
 	// bool intersect(Ray const& ray) const;
-	std::pair<bool,float> intersect(Ray const& ray) const;
+	/*virtual*/ std::pair<bool,float> intersect(const Ray &r) const override;
 
 	/*virtual*/ std::ostream& print(std::ostream& os) const override;
 

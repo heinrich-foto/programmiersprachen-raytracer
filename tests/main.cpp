@@ -207,19 +207,6 @@ TEST_CASE("box ray intersect")
 	glm::vec3 ray_origin(0.0,0.0,0.0);
 	// ray direction has to be normalized ! // you can use:
 	// v = glm::normalize(some_vector) 
-<<<<<<< HEAD
-	glm::vec3 ray_direction(0.0,0.0,1.0);
-	// Sphere
-	glm::vec3 box_min(0.0,1.0,5.0); 
-	glm::vec3 box_max(-1.0,-1.0,4.0);
-	
-	Box box (box_min, box_max);
-	Ray ray(ray_origin,ray_direction);
-
-	REQUIRE(true == box.intersect(ray).second);
-	REQUIRE(Approx(5.0) == box.intersect(ray).first);
-}
-=======
 
 	Box box1 (glm::vec3{1,1,1}, glm::vec3{2,2,2});
 	Box box2 (glm::vec3{-2,-2,-2},glm::vec3{1,1,1});
@@ -255,8 +242,6 @@ TEST_CASE("box ray intersect")
 	REQUIRE(true  == box2.intersect(ray_xz).first);
 	
 }
-
->>>>>>> master
 
 int main(int argc, char *argv[])
 {
