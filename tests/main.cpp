@@ -240,7 +240,13 @@ TEST_CASE("box ray intersect")
 	REQUIRE(true  == box2.intersect(ray_xy).first);
 	REQUIRE(true  == box2.intersect(ray_yz).first);
 	REQUIRE(true  == box2.intersect(ray_xz).first);
-	
+
+	Shape*  s2 = new Box(box2);
+	float t = 0;
+	REQUIRE(true  == s2->intersect(ray_xz,t));
+	// dosnt work...
+	// REQUIRE(true  == box2.intersect(ray_xz,t));
+	REQUIRE(true  == s2->intersect(ray_xz).first);	
 }
 
 int main(int argc, char *argv[])

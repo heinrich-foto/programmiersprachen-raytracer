@@ -5,6 +5,11 @@ std::ostream& Shape::print(std::ostream& os) const
 	return os << name_ << ": with color " << color_;
 }
 
+bool Shape::intersect(Ray const& ray, float& t) const {
+	auto value = intersect(ray);
+	t = value.second;
+	return value.first;
+}
 
 std::ostream& operator<<(std::ostream& os, Shape const& s)
 {

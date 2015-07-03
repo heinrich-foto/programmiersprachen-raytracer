@@ -40,6 +40,7 @@ public:
 
 	virtual std::ostream& print(std::ostream& os) const;
 
+	virtual bool intersect(Ray const& ray, float& t) const;
 	virtual std::pair<bool,float> intersect(const Ray &r) const = 0;
 
 	friend std::ostream& operator<<(std::ostream& os, Shape const& s);
