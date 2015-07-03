@@ -12,7 +12,7 @@ before_script:
   - mkdir build
   - cd build
   - cmake -DFENSTERCHEN_TESTS=TRUE ..
-  - make -j2
+  - make
 
 script:
   - make test
