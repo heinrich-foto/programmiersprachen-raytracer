@@ -12,11 +12,18 @@
 #define BUW_BOX_HPP
 
 #include "shape.hpp"
+<<<<<<< HEAD
 #include "color.hpp"
 #include "ray.hpp"
 
 #include <glm/vec3.hpp>
 #include <glm/gtx/intersect.hpp>
+=======
+
+#include <glm/vec3.hpp>
+#include <glm/gtx/intersect.hpp>
+#include <glm/vec3.hpp>
+>>>>>>> master
 
 class Box : public Shape
 {
@@ -24,8 +31,8 @@ public:
 	Box();
 	Box(glm::vec3 const&, glm::vec3 const&);
 
-	Box(std::string const, Color const);
-	Box(std::string const, Color const, glm::vec3 const&, glm::vec3 const&);
+	Box(std::string const&, Color const&);
+	Box(std::string const&, Color const&, glm::vec3 const&, glm::vec3 const&);
 	~Box();
 
 
@@ -34,6 +41,8 @@ public:
 
 	/*virtual*/ double area() const override;
 	/*virtual*/ double volume() const override;
+
+	std::pair<bool,float> intersect(Ray const&) const;
 
 	/*virtual*/ std::ostream& print(std::ostream& os) const override;
 

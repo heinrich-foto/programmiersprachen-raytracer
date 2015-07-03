@@ -113,7 +113,12 @@ TEST_CASE("intersectRaySphere", "[intersect]")
 
 	Sphere sphere (sphere_center, sphere_radius);
 	Ray ray(ray_origin,ray_direction);
-	REQUIRE(Approx(4) == sphere.intersect(ray));
+	REQUIRE(Approx(4) == sphere.intersect(ray).second);
+	REQUIRE(true == sphere.intersect(ray).first);
+
+	Ray ray2(ray_origin,glm::vec3{0,0,3});
+	REQUIRE(Approx(4) == sphere.intersect(ray2).second);
+	REQUIRE(true == sphere.intersect(ray2).first);	
 }
 
 TEST_CASE("destructor","[destructor]")
@@ -125,8 +130,8 @@ TEST_CASE("destructor","[destructor]")
 	Sphere* s1 = new Sphere("sphere0", red, position, 1.2); 
 	Shape*  s2 = new Sphere("sphere1", red, position, 1.2);
 	
-	s1->print(std::cout);
-	s2->print(std::cout);
+	// s1->print(std::cout);
+	// s2->print(std::cout);
 	
 	delete s1; delete s2;
 
@@ -189,6 +194,11 @@ sphere_cr_sphere1: with color (255,0,0)
 --  Destruktor Shape sphere_cr_sphere1: with color (255,0,0)
 
 */
+
+// -- Destruktor Sphere sphere_cr_sphere1: with color (255,0,0)
+//  [0.000000;0.000000;0.000000] with radius 1.2
+// wird ohne virtual nicht ausgeführt. Nur der Shape Destructor wird aufgerufen.
+
 } // end Test_case
 
 TEST_CASE("box ray intersect") 
@@ -197,6 +207,7 @@ TEST_CASE("box ray intersect")
 	glm::vec3 ray_origin(0.0,0.0,0.0);
 	// ray direction has to be normalized ! // you can use:
 	// v = glm::normalize(some_vector) 
+<<<<<<< HEAD
 	glm::vec3 ray_direction(0.0,0.0,1.0);
 	// Sphere
 	glm::vec3 box_min(0.0,1.0,5.0); 
@@ -208,6 +219,44 @@ TEST_CASE("box ray intersect")
 	REQUIRE(true == box.intersect(ray).second);
 	REQUIRE(Approx(5.0) == box.intersect(ray).first);
 }
+=======
+
+	Box box1 (glm::vec3{1,1,1}, glm::vec3{2,2,2});
+	Box box2 (glm::vec3{-2,-2,-2},glm::vec3{1,1,1});
+	Box box3 (glm::vec3{1,1,1},glm::vec3{-1,-1,-1});
+
+	Ray ray_x (ray_origin,glm::vec3{1,0,0});
+	Ray ray_y (ray_origin,glm::vec3{0,1,0});
+	Ray ray_z (ray_origin,glm::vec3{0,0,1});
+
+	Ray ray_xy  (ray_origin,glm::vec3{1,1,0});
+	Ray ray_xz  (ray_origin,glm::vec3{1,0,1});
+	Ray ray_yz  (ray_origin,glm::vec3{0,1,1});
+	Ray ray_xyz (ray_origin,glm::vec3{1,1,1});
+
+	Ray ray_ (ray_origin,glm::vec3{8,9,8});
+
+	REQUIRE(true  == box1.intersect(ray_xyz).first);
+	REQUIRE(true  == box1.intersect(ray_).first);
+	REQUIRE(false == box1.intersect(ray_x).first);
+	REQUIRE(false == box1.intersect(ray_y).first);
+	REQUIRE(false == box1.intersect(ray_z).first);
+	REQUIRE(false == box1.intersect(ray_xy).first);
+	REQUIRE(false == box1.intersect(ray_yz).first);
+	REQUIRE(false == box1.intersect(ray_xz).first);
+
+	REQUIRE(true  == box2.intersect(ray_xyz).first);
+	REQUIRE(true  == box2.intersect(ray_).first);
+	REQUIRE(true  == box2.intersect(ray_x).first);
+	REQUIRE(true  == box2.intersect(ray_y).first);
+	REQUIRE(true  == box2.intersect(ray_z).first);
+	REQUIRE(true  == box2.intersect(ray_xy).first);
+	REQUIRE(true  == box2.intersect(ray_yz).first);
+	REQUIRE(true  == box2.intersect(ray_xz).first);
+	
+}
+
+>>>>>>> master
 
 int main(int argc, char *argv[])
 {
