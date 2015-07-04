@@ -73,11 +73,11 @@ bool SDFLoader::parse(std::string const& line) {
 			std::string name = words.front();
 			words.pop_front();
 			if (words.size()==10){
-				Color ka{std::stof(words.at(0)),std::stof(words.at(2)),std::stof(words.at(3))};
+				Color ka{std::stof(words.at(0)),std::stof(words.at(1)),std::stof(words.at(2))};
 				words.pop_front(); words.pop_front(); words.pop_front();
-				Color kb{std::stof(words.at(0)),std::stof(words.at(2)),std::stof(words.at(3))};
+				Color kb{std::stof(words.at(0)),std::stof(words.at(1)),std::stof(words.at(2))};
 				words.pop_front(); words.pop_front(); words.pop_front();
-				Color ks{std::stof(words.at(0)),std::stof(words.at(2)),std::stof(words.at(3))};
+				Color ks{std::stof(words.at(0)),std::stof(words.at(1)),std::stof(words.at(2))};
 				words.pop_front(); words.pop_front(); words.pop_front();
 
 				float m = std::stof(words.front());
