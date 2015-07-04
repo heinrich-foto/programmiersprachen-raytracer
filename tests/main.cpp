@@ -260,7 +260,20 @@ TEST_CASE("SDFLoader","[sdf::load()]"){
 	auto SDF = SDFLoader::instance();
 	auto scene = SDF->load("../material.sdf");
 
+	Color red{1,0,0};
+	Color blue{0,0,1};
 	REQUIRE(2 == scene.material.size());
+	REQUIRE("red" == scene.material.front().name());
+	REQUIRE(red == scene.material.front().ka());
+	REQUIRE(red == scene.material.front().kd());
+	REQUIRE(red == scene.material.front().ks());
+	REQUIRE(1 == scene.material.front().m());
+
+	REQUIRE("blue"== scene.material.back().name());
+	REQUIRE(blue == scene.material.back().ka());
+	REQUIRE(blue == scene.material.back().kd());
+	REQUIRE(blue == scene.material.back().ks());
+	REQUIRE(1 == scene.material.back().m());
 	for (auto const& item : scene.material) std::cout << item << std::endl;
 }
 
