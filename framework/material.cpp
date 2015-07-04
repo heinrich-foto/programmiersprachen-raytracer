@@ -39,10 +39,10 @@ float Material::m() const {
 
 
 std::ostream& operator<<(std::ostream& os, Material const& input) {
-	return os << input.name_ << " with:"
-			<< "\n\t ka: " 	<< input.ka_
-			<< "\n\t kd: " 	<< input.kd_
-			<< "\n\t ks: " 	<< input.ks_
-			<< "\n\t m:  " 	<< input.m_ 
+	return os << input.name_ << " with:\n"
+			<< "\t ka: " 	<< input.ka_
+			<< "\t kd: " 	<< input.kd_
+			<< "\t ks: " 	<< input.ks_
+			<< "\t m:  " 	<< input.m_ 
 			<< std::endl;
 }
