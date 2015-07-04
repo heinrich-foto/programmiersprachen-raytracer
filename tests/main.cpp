@@ -260,21 +260,29 @@ TEST_CASE("SDFLoader","[sdf::load()]"){
 	auto SDF = SDFLoader::instance();
 	auto scene = SDF->load("../material.sdf");
 
+	for (auto const& item : scene.material) std::cout << item << std::endl;
+
 	Color red{1,0,0};
 	Color blue{0,0,1};
-	REQUIRE(2 == scene.material.size());
-	REQUIRE("red" == scene.material.front().name());
-	REQUIRE(red == scene.material.front().ka());
-	REQUIRE(red == scene.material.front().kd());
-	REQUIRE(red == scene.material.front().ks());
-	REQUIRE(1 == scene.material.front().m());
+	Color green{0,1,0};
+	REQUIRE(3 == scene.material.size());
+	REQUIRE("red" == scene.material.at(0).name());
+	REQUIRE(red == scene.material.at(0).ka());
+	REQUIRE(red == scene.material.at(0).kd());
+	REQUIRE(red == scene.material.at(0).ks());
+	REQUIRE(1 == scene.material.at(0).m());
 
-	REQUIRE("blue"== scene.material.back().name());
-	REQUIRE(blue == scene.material.back().ka());
-	REQUIRE(blue == scene.material.back().kd());
-	REQUIRE(blue == scene.material.back().ks());
-	REQUIRE(1 == scene.material.back().m());
-	for (auto const& item : scene.material) std::cout << item << std::endl;
+	REQUIRE("blue"== scene.material.at(1).name());
+	REQUIRE(blue == scene.material.at(1).ka());
+	REQUIRE(blue == scene.material.at(1).kd());
+	REQUIRE(blue == scene.material.at(1).ks());
+	REQUIRE(1 == scene.material.at(1).m());
+
+	REQUIRE("green"== scene.material.at(2).name());
+	REQUIRE(green == scene.material.at(2).ka());
+	REQUIRE(green == scene.material.at(2).kd());
+	REQUIRE(green == scene.material.at(2).ks());
+	REQUIRE(11 == scene.material.at(2).m());
 }
 
 int main(int argc, char *argv[])
