@@ -29,6 +29,19 @@ public:
     return colorbuffer_;
   }
 
+  // Color raytrace(Ray const& ray, unsigned depth) {
+  //   if (deth==0) {
+  //     return Color{0,0,0};
+  //   }
+  //   else {
+  //     o = intersect(ray);
+  //     if (o.hit)
+  //       shading( );
+  //     else
+  //       return background;
+  //   }
+  }
+
 private:
   unsigned width_;
   unsigned height_;

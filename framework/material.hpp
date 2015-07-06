@@ -31,10 +31,10 @@ public:
 	
 private:
 	std::string name_;
-	Color 		ka_;
-	Color 		kd_;
-	Color 		ks_;
-	float 		m_; 
+	Color 		ka_;	// koefficiant ambiend
+	Color 		kd_;	// koefficiant 
+	Color 		ks_;	// koefficiant 
+	float 		m_;  	// exponent
 };
 
 #endif // BUW_MATERIAL
