@@ -40,7 +40,7 @@ public:
   //     else
   //       return background;
   //   }
-  }
+  // }
 
 private:
   unsigned width_;
