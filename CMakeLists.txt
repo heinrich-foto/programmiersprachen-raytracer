@@ -51,8 +51,10 @@ set(LIBRARIES glfw ${GLFW_LIBRARIES})
 set(CATCH_DIRECTORY catch-1.1)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/${CATCH_DIRECTORY})
 
-# find_package(Boost REQUIRED)
-# include_directories(${Boost_INCLUDE_DIRS})
+find_package(Boost)
+if (${Boost_FOUND})
+  include_directories(${Boost_INCLUDE_DIRS})
+endif()
 
 ################################
 # Add output directory
