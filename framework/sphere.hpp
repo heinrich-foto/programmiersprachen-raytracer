@@ -23,9 +23,9 @@ public:
 	Sphere(double const&);
 	Sphere(glm::vec3 const&, double const&);
 
-	Sphere(std::string const&, Color const&);
-	Sphere(std::string const&, Color const&, double const& );
-	Sphere(std::string const&, Color const&, glm::vec3 const&, double const& );
+	Sphere(std::string const&, Material const&);
+	Sphere(std::string const&, Material const&, double const& );
+	Sphere(std::string const&, Material const&, glm::vec3 const&, double const& );
 	~Sphere();
 
 
@@ -39,7 +39,7 @@ public:
 	/*virtual*/ double volume() const override;
 
 	// bool intersect(Ray const& ray) const;
-	std::pair<bool,float> intersect(Ray const& ray) const;
+	/*virtual*/ std::pair<bool,float> intersect(const Ray &r) const override;
 
 	/*virtual*/ std::ostream& print(std::ostream& os) const override;
 

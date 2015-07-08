@@ -23,8 +23,8 @@ public:
 	Box();
 	Box(glm::vec3 const&, glm::vec3 const&);
 
-	Box(std::string const&, Color const&);
-	Box(std::string const&, Color const&, glm::vec3 const&, glm::vec3 const&);
+	Box(std::string const&, Material const&);
+	Box(std::string const&, Material const&, glm::vec3 const&, glm::vec3 const&);
 	~Box();
 
 
@@ -34,7 +34,7 @@ public:
 	/*virtual*/ double area() const override;
 	/*virtual*/ double volume() const override;
 
-	std::pair<bool,float> intersect(Ray const&) const;
+	/*virtual*/ std::pair<bool,float> intersect(const Ray &r) const override;
 
 	/*virtual*/ std::ostream& print(std::ostream& os) const override;
 

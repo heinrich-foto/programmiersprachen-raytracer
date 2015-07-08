@@ -7,28 +7,28 @@ Sphere::Sphere() :
 	radius_{} 
 	{}
 Sphere::Sphere(double const& invalue) : 
-	Shape{"sphere_r_w"}, 
+	Shape{"sphere_r_b"}, 
 	center_{}, 
 	radius_{invalue} 
 	{}
 Sphere::Sphere(glm::vec3 const& invec, double const& inradius) : 
-	Shape{"sphere_cr_w"}, 
+	Shape{"sphere_cr_b"}, 
 	center_{invec}, 
 	radius_{inradius} 
 	{}
 
-Sphere::Sphere(std::string const& name, Color const& color): 
-	Shape("sphere_default_"+name, color), 
+Sphere::Sphere(std::string const& name, Material const& material): 
+	Shape("sphere_default_"+name, material), 
 	center_{}, 
 	radius_{} 
 	{}
-Sphere::Sphere(std::string const& name, Color const& color, double const& radius ):
-	Shape("sphere_r_"+name,color),
+Sphere::Sphere(std::string const& name, Material const& material, double const& radius ):
+	Shape("sphere_r_"+name,material),
 	center_{},
 	radius_{radius}
 	{}
-Sphere::Sphere(std::string const& name, Color const& color, glm::vec3 const& center, double const& radius) :
-	Shape("sphere_cr_"+name, color), 
+Sphere::Sphere(std::string const& name, Material const& material, glm::vec3 const& center, double const& radius) :
+	Shape("sphere_cr_"+name, material), 
 	center_{center}, 
 	radius_{radius} 
 	{ 

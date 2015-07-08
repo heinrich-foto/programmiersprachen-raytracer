@@ -25,3 +25,4 @@ checkerboard.ppm
 build
 cmake_out
 xcode
+*.psd

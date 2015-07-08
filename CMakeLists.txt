@@ -15,9 +15,9 @@ if(MSVC)
 endif()
 
 if(("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang") OR ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") OR (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel") AND UNIX))
-  set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD "c++0x")
+  set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD "c++11")
   set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libc++")
-  set(CMAKE_CXX_FLAGS "-std=c++0x")
+  set(CMAKE_CXX_FLAGS "-std=c++11")
 endif()
 
 option(FENSTERCHEN_IN_SOURCE_BUILD "FENSTERCHEN_IN_SOURCE_BUILD" OFF)
@@ -50,6 +50,11 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/${GLM_DIRECTORY})
 set(LIBRARIES glfw ${GLFW_LIBRARIES})
 set(CATCH_DIRECTORY catch-1.1)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/${CATCH_DIRECTORY})
+
+find_package(Boost)
+if (${Boost_FOUND})
+  include_directories(${Boost_INCLUDE_DIRS})
+endif()
 
 ################################
 # Add output directory
