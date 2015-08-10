@@ -28,7 +28,8 @@ public:
 	float m() const;
 	
 	friend std::ostream& operator<<(std::ostream& os, Material const& input);
-	
+	friend std::istream& operator>>(std::istream& os, Material & input);
+
 private:
 	std::string name_;
 	Color 		ka_;	// koefficiant ambiend

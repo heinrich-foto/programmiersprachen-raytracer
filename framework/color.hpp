@@ -30,6 +30,13 @@ struct Color
     return os;
   }
 
+  friend std::istream& operator>>(std::istream& ins, Color & c) {
+    ins >> std::ws >> c.r;
+    ins >> std::ws >> c.g;
+    ins >> std::ws >> c.b;
+    return ins;
+  }
+
   Color& operator+=(Color const& other)
   {
     r += other.r;

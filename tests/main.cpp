@@ -265,7 +265,7 @@ TEST_CASE("SDFLoader","[sdf::load()]"){
 	Color red{1,0,0};
 	Color blue{0,0,1};
 	Color green{0,1,0};
-	REQUIRE(3 == scene.material.size());
+	REQUIRE(4 == scene.material.size());
 	REQUIRE("red" == scene.material.at(0).name());
 	REQUIRE(red == scene.material.at(0).ka());
 	REQUIRE(red == scene.material.at(0).kd());
