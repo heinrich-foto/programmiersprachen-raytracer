@@ -1,6 +1,7 @@
 #include "sdfloader.hpp"
 #include "material.hpp"
 #include <deque>
+#include <algorithm>
 // ------- c++14
 // #include <experimental/filesystem>
 // namespace fs = std::experimental::filesystem;
@@ -88,7 +89,8 @@ bool SDFLoader::parse(std::string const& line) {
 	std::stringstream stream(line);
 
 	if(stream.good())
-	{	std::string word="";
+	{	
+		std::string word="";
 		while (stream >> word)
 		{
 			if (word=="define") {
@@ -99,11 +101,53 @@ bool SDFLoader::parse(std::string const& line) {
 					if (!stream.good()) {
 						scene_.material.push_back(mat);
 						return true;
-					}
-					else {
+					} else {
 						return false;
 					}
+				} else if (word=="light") {
+
+				} else if (word=="shape") {
+					// shape einlesen in Shape Klasse erledigen? Problematisch Shape weiß seine Abgeleiteten Klassen nicht.
+					stream >> word;
+					if (word == "sphere") {
+
+					} else if (word == "box") {
+
+					} else if (word=="triangle") {
+
+					} else if (word == "composite") {
+						// könnte komplett im Streamoperator von Composite überladen werden.
+						// sollte vielleicht auch. (somit nur stream >> comp anstelle von word.)
+						// stream >> word;
+						// // Composite comp{word};
+						// while (stream.good()) {
+						// 	stream >> word;
+						// 	// auto it = std::find(scene_.shape.begin(), scene_.shape.end(),word);
+						// 	// comp.add_child(it);
+						// }
+						// // scene_.shape.push_back(comp);
+						
+						// folgendes könnte dann bleiben
+						// Composite comp{};
+						// stream >> comp;
+
+						// folgendes kommt in Composite Streamoperator --> ach ne... Problem ist Zugriff auf Scene Member für Pointer.
+						// stream >> name_;
+						// while (stream.good()) {
+						// 	stream >> word;
+						// 	auto it = std::find(scene_.shape.begin(), scene_.shape.end(),word);
+						// 	comp.add_child(it);
+						// }
+						// scene_.shape.push_back(comp);
+					}
 				}
+
+			} else if (word=="camera") {
+
+			} else if (word=="render") {
+
+			} else if (word == "transform") {
+
 			}
 		}
 	}
