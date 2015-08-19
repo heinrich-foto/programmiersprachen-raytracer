@@ -15,19 +15,30 @@
 
 #include "material.hpp"
 #include "shape.hpp"
-#include "box.hpp"
-#include "sphere.hpp"
-
+// #include "box.hpp"
+// #include "sphere.hpp"
+#include "color.hpp"
+// #include "light.hpp"
+// #include "camera.hpp"
 #include <vector>
 
 
 struct Scene
 {
+	Scene(): material{}, shape{}, ambientColor{0,0,0}, ambientBrightness{0.5}, resX{401}, resY{401} {};
+
 	std::vector<Material> material;
 	std::vector<std::shared_ptr<Shape>> shape;
 	// std::vector<Light> light;
 	// Camera camera;
-	// ...
+	Color ambientColor;
+	float ambientBrightness;
+	unsigned resX;
+	unsigned resY;
+
+	Material get_material(std::string name) {
+		
+	};
 };
 
 #endif // BUW_SCENE

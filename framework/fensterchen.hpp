@@ -12,5 +12,8 @@
 
 #include "color.hpp"
 #include "window.hpp"
+#include "shape.hpp"
+#include "sphere.hpp"
+#include "box.hpp"
 
 #endif // BUW_FENSTERCHEN_HPP

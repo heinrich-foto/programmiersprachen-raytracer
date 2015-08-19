@@ -112,7 +112,11 @@ bool SDFLoader::parse(std::string const& line) {
 					if (word == "sphere") {
 
 					} else if (word == "box") {
-
+						std::shared_ptr<Shape> box(new Box());
+						stream >> box;
+						if (!stream.good()) {
+							scene_.shape.push_back(box);
+						}
 					} else if (word=="triangle") {
 
 					} else if (word == "composite") {

@@ -43,7 +43,7 @@ glm::vec3 Box::max() const
 }
 
 // bool Box::intersect(const Ray &r, float t0, float t1) const {
-std::pair<bool,float> Box::intersect(const Ray &r) const {
+Hit Box::intersect(const Ray &r) const {
 /* 
 	the computet distence is untestet, 
 	and at the moment not implemented!! 
@@ -63,7 +63,7 @@ std::pair<bool,float> Box::intersect(const Ray &r) const {
 	if ( (tmin > tmax_y) || (tmin_y > tmax) )
 	{ 
 		//std::cout << tmin <<" > " << tmax_y << " || " <<  tmin_y << " > "  << tmax << std::endl;
-		return std::make_pair(false,tmax); 
+		return Hit {false,tmax, glm::vec3 {0,0,0}, glm::vec3 {0,0,0}, shared_from_this()}; 
 	}
 	if (tmin_y > tmin)
 		tmin = tmin_y;
@@ -74,7 +74,7 @@ std::pair<bool,float> Box::intersect(const Ray &r) const {
 	if ( (tmin > tmax_z) || (tmin_z > tmax) )
 	{
 		//std::cout << tmin <<" > "<< tmax_z<< " || " <<tmin_z<< " > " << tmax << std::endl;
-		return std::make_pair(false,tmax);
+		return Hit {false,tmax, glm::vec3 {0,0,0}, glm::vec3 {0,0,0}, shared_from_this()};
 	}
 	if (tmin_z > tmin)
 		tmin = tmin_z;
@@ -82,12 +82,27 @@ std::pair<bool,float> Box::intersect(const Ray &r) const {
 		tmax = tmax_z;
 
 	//std::cout << "min: " << tmin << " max: " << tmax << std::endl;
- 	return std::make_pair(true, tmin);
+ 	return Hit {true, tmin, glm::vec3 {0,0,0}, glm::vec3 {0,0,0}, shared_from_this()};
 }
 
 std::ostream& Box::print(std::ostream& os) const
 {
 	Shape::print(os);
 	return os << "  " << print_point(min_) << " " << print_point(max_) << std::endl;
+}
+
+std::istream& operator>>(std::istream & ins, Box & input) {
+	ins >> std::ws >> input.name_;
+	float x,y,z;
+	ins >> std::ws >> x;
+	ins >> std::ws >> y;
+	ins >> std::ws >> z;
+	input.min_= glm::vec3 {x,y,z};
+    
+    ins >> std::ws >> x;
+	ins >> std::ws >> y;
+	ins >> std::ws >> z;
+	input.max_= glm::vec3 {x,y,z};
+	return ins;
 }
 

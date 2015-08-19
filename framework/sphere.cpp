@@ -61,14 +61,14 @@ double Sphere::radius() const
 {
 	return (radius_>0)? 4 * pow(3,-1) * M_PI * pow(radius_,3) : 0;
 }
-// std::optional
-std::pair<bool,float> Sphere::intersect(Ray const& ray) const
+// std::optional (erst mit C++14)
+Hit Sphere::intersect(Ray const& ray) const
 {
 	float distance;
 	auto result = glm::intersectRaySphere(
 	ray.origin , glm::normalize(ray.direction) , center_ , radius_ * radius_, distance );
 	// std::cout << print_point(ray.direction) << print_point(glm::normalize(ray.direction)) << std::endl;
-	return std::make_pair(result, distance);
+	return Hit {result, distance, this->name()};
 }
 
 std::ostream& Sphere::print(std::ostream& os) const

@@ -34,9 +34,11 @@ public:
 	/*virtual*/ double area() const override;
 	/*virtual*/ double volume() const override;
 
-	/*virtual*/ std::pair<bool,float> intersect(const Ray &r) const override;
+	/*virtual*/ Hit intersect(const Ray &r) const override;
 
 	/*virtual*/ std::ostream& print(std::ostream& os) const override;
+
+	friend std::istream& operator>>(std::istream& os, Box & input);
 
 private:
 	glm::vec3 	min_;

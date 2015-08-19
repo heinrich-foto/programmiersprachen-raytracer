@@ -53,7 +53,5 @@ std::istream& operator>>(std::istream & ins, Material & input) {
     ins >> std::ws >> input.kd_;
     ins >> std::ws >> input.ks_;
     ins >> std::ws >> input.m_;
-    std::cout << std::endl;
-
 	return ins;
 }

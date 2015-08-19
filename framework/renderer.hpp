@@ -13,6 +13,9 @@
 #include "color.hpp"
 #include "pixel.hpp"
 #include "ppmwriter.hpp"
+#include "scene.hpp"
+#include "ray.hpp"
+#include "hit.hpp"
 #include <string>
 #include <glm/glm.hpp>
 
@@ -21,7 +24,8 @@ class Renderer
 public:
   Renderer(unsigned w, unsigned h, std::string const& file);
 
-  void render();
+  void render(Scene const& scene);
+  Color raytrace(Ray const& ray, unsigned depth, Scene const& scene);
   void write(Pixel const& p);
 
   inline std::vector<Color> const& colorbuffer() const
@@ -29,24 +33,11 @@ public:
     return colorbuffer_;
   }
 
-  // Color raytrace(Ray const& ray, unsigned depth) {
-  //   if (deth==0) {
-  //     return Color{0,0,0};
-  //   }
-  //   else {
-  //     o = intersect(ray);
-  //     if (o.hit)
-  //       shading( );
-  //     else
-  //       return background;
-  //   }
-  // }
-
 private:
   unsigned width_;
   unsigned height_;
   std::vector<Color> colorbuffer_;
-  std::string filename_;
+  std::string filename_; // outputfile
   PpmWriter ppm_;
 };
 

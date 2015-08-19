@@ -12,12 +12,14 @@
 
 #include "material.hpp"
 #include "ray.hpp"
+#include "hit.hpp"
 
 #include <glm/vec3.hpp>
 #include <cmath>
 #include <iostream>
+#include <memory> // shared_from_this() maybe...
 
-class Shape
+class Shape : public std::enable_shared_from_this<Shape>
 {
 public: 
 	// Shape(Color const color): name_("shape_"+color.str()),color_{color} {}; 
@@ -29,14 +31,16 @@ public:
 	virtual double volume() const = 0;
 
 	Material material() const { return color_; };
+	void material(Material const& material) { color_ = material; } 
 	std::string name() const { return name_; };
 
 	glm::vec3 abs(glm::vec3 const& ivec) const { return {std::fabs(ivec.x),std::fabs(ivec.y),std::fabs(ivec.z)}; };
 
 	virtual std::ostream& print(std::ostream& os) const;
 
-	virtual bool intersect(Ray const& ray, float& t) const;
-	virtual std::pair<bool,float> intersect(const Ray &r) const = 0;
+	// virtual bool intersect(Ray const& ray, float& t) const; // depricated
+	// virtual std::pair<bool,float> intersect(const Ray &r) const = 0;
+	virtual Hit intersect(const Ray &r) const = 0;
 
 	friend std::ostream& operator<<(std::ostream& os, Shape const& s);
 	// friend std::ostream& operator<<(std::ostream& os, glm::vec3 const vec);
@@ -49,7 +53,8 @@ protected:
 		// std::cout << "++ Konstruktor Shape " << *this << std::endl; 
 	};
 	std::string print_point(glm::vec3 const& vec) const;
-private:
+
+// private:
 	// Shape(const Shape&); // no copy
 	// Shape& operator=(const Shape&); 
 	std::string name_;
