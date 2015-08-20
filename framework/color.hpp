@@ -15,6 +15,7 @@
 struct Color
 {
   Color(float red, float green, float blue) : r(red), g(green), b(blue) {}
+  Color() : r(0), g(0), b(0) {}
   float r;
   float g;
   float b;

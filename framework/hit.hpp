@@ -14,6 +14,7 @@
 #include "shape.hpp"
 
 #include <glm/vec3.hpp>
+#include <memory>
 
 struct Hit {
 	// Hit(float d, std::string n):hit{false},distance{d},name{n} {};
@@ -22,7 +23,8 @@ struct Hit {
 	float distance;
 	glm::vec3 normalVec;
 	glm::vec3 hitPoint;
-	std::shared_ptr<Shape> object;
+	//std::shared_ptr<Shape> object;
+	std::string name;
 
 	friend bool operator<(Hit const& lhs, Hit const& rhs) {
 		return lhs.distance < rhs.distance;

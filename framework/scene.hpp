@@ -37,7 +37,10 @@ struct Scene
 	unsigned resY;
 
 	Material get_material(std::string name) {
-		
+		for (auto const& m_item : material) {
+			if (name == m_item.name()) return m_item;
+		}
+		return Material{};
 	};
 };
 

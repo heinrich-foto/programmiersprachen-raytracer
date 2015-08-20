@@ -1,5 +1,9 @@
 #include "sdfloader.hpp"
 #include "material.hpp"
+#include "shape.hpp"
+// mit angepassten Shape Stream redundant.
+   #include "box.hpp"
+   #include "sphere.hpp"
 #include <deque>
 #include <algorithm>
 // ------- c++14
@@ -108,17 +112,39 @@ bool SDFLoader::parse(std::string const& line) {
 
 				} else if (word=="shape") {
 					// shape einlesen in Shape Klasse erledigen? Problematisch Shape weiß seine Abgeleiteten Klassen nicht.
+					// und kann somit nicht den jeweiligen Stream Operator aufrufen. Es müssten alle durchprobiert werden, 
+					// um zu schauen ob einer passt... der Folgende Code ist somit noch sehr redundant. Vermutlich ist es aber 
+					// in gewisser Weise sinnvoll über diesen kleinen Umweg im Stream Operator des Shape zu gehen, damit wir ein
+					// Shape Objekt statt der abgeleiteten Objekte in der Hand haben und nicht immer den gleichen Code leicht an-
+					// gepasst benötigen...
 					stream >> word;
 					if (word == "sphere") {
-
-					} else if (word == "box") {
-						std::shared_ptr<Shape> box(new Box());
-						stream >> box;
+						std::shared_ptr<Sphere> sphere (new Sphere{});
+						Color color{};
+						std::string color_name = "";
+						stream >> *sphere >> color_name;
 						if (!stream.good()) {
+							sphere->material(scene_.get_material(color_name));
+							scene_.shape.push_back(sphere);
+						}
+					} else if (word == "box") {
+						std::shared_ptr<Box> box (new Box{});
+						Color color{};
+						std::string color_name = "";
+						stream >> *box >> color_name;
+						if (!stream.good()) {
+							box->material(scene_.get_material(color_name));
 							scene_.shape.push_back(box);
 						}
 					} else if (word=="triangle") {
-
+						// std::shared_ptr<Triangle> shape (new Triangle{});
+						// Color color{};
+						// std::string color_name = "";
+						// stream >> *shape >> color_name;
+						// if (!stream.good()) {
+						// 	shape->material(scene_.get_material(color_name));
+						// 	scene_.shape.push_back(shape);
+						// }
 					} else if (word == "composite") {
 						// könnte komplett im Streamoperator von Composite überladen werden.
 						// sollte vielleicht auch. (somit nur stream >> comp anstelle von word.)

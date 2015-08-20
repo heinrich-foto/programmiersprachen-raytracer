@@ -35,6 +35,7 @@ public:
 	double radius() const;
 	//void   radius(double const&);
 
+	// brauchen wir nicht. Behalten? (area volume)
 	/*virtual*/ double area() const override;
 	/*virtual*/ double volume() const override;
 
@@ -42,6 +43,8 @@ public:
 	/*virtual*/ Hit intersect(const Ray &r) const override;
 
 	/*virtual*/ std::ostream& print(std::ostream& os) const override;
+
+	friend std::istream& operator>>(std::istream& os, Sphere & input);
 
 private:
 	glm::vec3 	center_;

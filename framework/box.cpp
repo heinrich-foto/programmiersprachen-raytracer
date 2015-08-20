@@ -63,7 +63,8 @@ Hit Box::intersect(const Ray &r) const {
 	if ( (tmin > tmax_y) || (tmin_y > tmax) )
 	{ 
 		//std::cout << tmin <<" > " << tmax_y << " || " <<  tmin_y << " > "  << tmax << std::endl;
-		return Hit {false,tmax, glm::vec3 {0,0,0}, glm::vec3 {0,0,0}, shared_from_this()}; 
+		// return Hit {false,tmax, glm::vec3 {0,0,0}, glm::vec3 {0,0,0}, shared_from_this()}; 
+		return Hit {false,tmax, glm::vec3 {0,0,0}, glm::vec3 {0,0,0}, name_};
 	}
 	if (tmin_y > tmin)
 		tmin = tmin_y;
@@ -74,7 +75,8 @@ Hit Box::intersect(const Ray &r) const {
 	if ( (tmin > tmax_z) || (tmin_z > tmax) )
 	{
 		//std::cout << tmin <<" > "<< tmax_z<< " || " <<tmin_z<< " > " << tmax << std::endl;
-		return Hit {false,tmax, glm::vec3 {0,0,0}, glm::vec3 {0,0,0}, shared_from_this()};
+		// return Hit {false,tmax, glm::vec3 {0,0,0}, glm::vec3 {0,0,0}, shared_from_this()};
+		return Hit {false,tmax, glm::vec3 {0,0,0}, glm::vec3 {0,0,0}, name_};
 	}
 	if (tmin_z > tmin)
 		tmin = tmin_z;
@@ -82,7 +84,8 @@ Hit Box::intersect(const Ray &r) const {
 		tmax = tmax_z;
 
 	//std::cout << "min: " << tmin << " max: " << tmax << std::endl;
- 	return Hit {true, tmin, glm::vec3 {0,0,0}, glm::vec3 {0,0,0}, shared_from_this()};
+ 	// return Hit {true, tmin, glm::vec3 {0,0,0}, glm::vec3 {0,0,0}, shared_from_this()};
+ 	return Hit {true, tmin, glm::vec3 {0,0,0}, glm::vec3 {0,0,0}, name_};
 }
 
 std::ostream& Box::print(std::ostream& os) const

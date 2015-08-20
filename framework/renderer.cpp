@@ -44,7 +44,7 @@ void Renderer::render(Scene const & scene)
 }
 
 Color Renderer::raytrace(Ray const& ray, unsigned depth, Scene const & scene) {
-    Hit minHit{std::numeric_limits<double>::infinity(),"__INF__"};
+    Hit minHit{false, std::numeric_limits<double>::infinity(), {0,0,0}, {0,0,0}, "__INF__"};
 
     if (depth==0) {
       return Color{0,0,0};

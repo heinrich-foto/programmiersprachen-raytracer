@@ -44,7 +44,8 @@ public:
 
 	friend std::ostream& operator<<(std::ostream& os, Shape const& s);
 	// friend std::ostream& operator<<(std::ostream& os, glm::vec3 const vec);
-
+	// virtual std::istream& operator>>(std::istream & ins, Shape & input);
+	
 protected: 
 	// Protected Construktor.
 	// Shape() : name_("shape_default_w"), color_{0,0,0} {};

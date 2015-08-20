@@ -31,6 +31,7 @@ public:
 	glm::vec3 min() const;
 	glm::vec3 max() const;
 
+	// brauchen wir nicht? Behalten? (area, volume)
 	/*virtual*/ double area() const override;
 	/*virtual*/ double volume() const override;
 
