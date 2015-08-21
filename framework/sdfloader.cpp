@@ -53,11 +53,19 @@ Scene const& SDFLoader::load(std::string const& filename){
 				
 				std::string line;
 				while(getline(ifs, line))
-				{
-					if (!parse(line))
-					// if (!parse(delete_double(line,' ')))
-					{
-						std::cout << "-- ->\tInvalid Format in SDF File: \n!! ->\t|" << line << "|"<< std::endl;
+				{	try {
+						if (!parse(line))
+						// if (!parse(delete_double(line,' ')))
+						{	if (line!="") {
+								std::cout //<< "-- ->\tInvalid Format in SDF File: \n" 
+									  << "!! ->\t|" 
+									  << line << "| 62"<< std::endl;
+							}
+						}
+					} catch (std::length_error& e) {
+						std::cout << "vector lengt error: " << e.what() << std::endl;
+					} catch (std::invalid_argument& e) {
+						std::cout << "!! ->\t" << e.what() << " => |" << line << "| 67"<< std::endl;
 					}
 				}
 				ifs.close();
@@ -76,17 +84,20 @@ Scene const& SDFLoader::load(std::string const& filename){
 		}
 	} 
 	catch ( const std::invalid_argument& e ) {
-        std::cout << "!! ->\t" << e.what() << std::endl;
+        std::cout << "!! -> 86\t" << e.what() << std::endl;
 	}
+	// catch (std::length_error& e) {
+	// 	std::cout << "!! ->\t vector lengt error: " << e.what() << std::endl;
+	// }
 	catch (...)
 	{
-		std::cout << "!! ->\t" << "Error of unknown type." << std::endl;
+		std::cout << "!! -> 93\t" << "Error of unknown type." << std::endl;
 	}
 }
 
 bool SDFLoader::parse(std::string const& line) {
 	if (line.find("#")!=std::string::npos) {
-		std::cout << "?? ->\t" << line << std::endl;
+		// std::cout << "?? ->\t" << line << std::endl;
 		return true; //its a comment line
 	}
 
@@ -105,81 +116,79 @@ bool SDFLoader::parse(std::string const& line) {
 					if (!stream.good()) {
 						scene_.material.push_back(mat);
 						return true;
-					} else {
+					} else { return false; }
+
+				} else if (word=="light") {
+					throw std::invalid_argument("Not implemented.");
+				} else if (word=="shape") {
+					stream >> word;
+					try {
+						std::shared_ptr<Shape> shape (ShapeFactory(word));
+						Color color{}; std::string color_name = "";
+						
+						stream >> *shape >> color_name;
+						if (!stream.good()) {
+							shape->material(scene_.get_material(color_name));
+							scene_.shape.push_back(shape);
+							// std::cout << "added new "<< shape << " " << *shape << std::endl;
+							return true;
+						} else { return false; }
+					}
+					catch (const std::invalid_argument& e) {
+						std::cout << e.what() << "> in " << word << std::endl;
 						return false;
 					}
-				} else if (word=="light") {
-
-				} else if (word=="shape") {
-					// shape einlesen in Shape Klasse erledigen? Problematisch Shape weiß seine Abgeleiteten Klassen nicht.
-					// und kann somit nicht den jeweiligen Stream Operator aufrufen. Es müssten alle durchprobiert werden, 
-					// um zu schauen ob einer passt... der Folgende Code ist somit noch sehr redundant. Vermutlich ist es aber 
-					// in gewisser Weise sinnvoll über diesen kleinen Umweg im Stream Operator des Shape zu gehen, damit wir ein
-					// Shape Objekt statt der abgeleiteten Objekte in der Hand haben und nicht immer den gleichen Code leicht an-
-					// gepasst benötigen...
-					stream >> word;
-					if (word == "sphere") {
-						std::shared_ptr<Sphere> sphere (new Sphere{});
-						Color color{};
-						std::string color_name = "";
-						stream >> *sphere >> color_name;
-						if (!stream.good()) {
-							sphere->material(scene_.get_material(color_name));
-							scene_.shape.push_back(sphere);
-						}
-					} else if (word == "box") {
-						std::shared_ptr<Box> box (new Box{});
-						Color color{};
-						std::string color_name = "";
-						stream >> *box >> color_name;
-						if (!stream.good()) {
-							box->material(scene_.get_material(color_name));
-							scene_.shape.push_back(box);
-						}
-					} else if (word=="triangle") {
-						// std::shared_ptr<Triangle> shape (new Triangle{});
-						// Color color{};
-						// std::string color_name = "";
-						// stream >> *shape >> color_name;
-						// if (!stream.good()) {
-						// 	shape->material(scene_.get_material(color_name));
-						// 	scene_.shape.push_back(shape);
-						// }
-					} else if (word == "composite") {
-						// könnte komplett im Streamoperator von Composite überladen werden.
-						// sollte vielleicht auch. (somit nur stream >> comp anstelle von word.)
-						// stream >> word;
-						// // Composite comp{word};
-						// while (stream.good()) {
-						// 	stream >> word;
-						// 	// auto it = std::find(scene_.shape.begin(), scene_.shape.end(),word);
-						// 	// comp.add_child(it);
-						// }
-						// // scene_.shape.push_back(comp);
-						
-						// folgendes könnte dann bleiben
-						// Composite comp{};
-						// stream >> comp;
-
-						// folgendes kommt in Composite Streamoperator --> ach ne... Problem ist Zugriff auf Scene Member für Pointer.
-						// stream >> name_;
-						// while (stream.good()) {
-						// 	stream >> word;
-						// 	auto it = std::find(scene_.shape.begin(), scene_.shape.end(),word);
-						// 	comp.add_child(it);
-						// }
-						// scene_.shape.push_back(comp);
-					}
+					
 				}
 
 			} else if (word=="camera") {
-
+				throw std::invalid_argument("Not implemented.");
 			} else if (word=="render") {
-
+				throw std::invalid_argument("Not implemented.");
 			} else if (word == "transform") {
-
+				throw std::invalid_argument("Not implemented."); 
 			}
 		}
 	}
 	return false;
+}
+
+std::shared_ptr<Shape> SDFLoader::ShapeFactory(std::string const& input) {
+	// vielleicht ein Switch Case Statement.
+	if (input == "sphere") {
+		return std::make_shared<Sphere> ();
+	} else if (input == "box") {
+		return std::make_shared<Box> ();
+	} else if (input=="triangle") {
+		throw std::invalid_argument("Not implemented."); 
+		// return std::make_shared<Triangle> ();
+	} else if (input == "composite") {
+		throw std::invalid_argument("Not implemented."); 
+		// könnte komplett im Streamoperator von Composite überladen werden.
+		// sollte vielleicht auch. (somit nur stream >> comp anstelle von word.)
+		// stream >> word;
+		// // Composite comp{word};
+		// while (stream.good()) {
+		// 	stream >> word;
+		// 	// auto it = std::find(scene_.shape.begin(), scene_.shape.end(),word);
+		// 	// comp.add_child(it);
+		// }
+		// // scene_.shape.push_back(comp);
+		
+		// folgendes könnte dann bleiben
+		// Composite comp{};
+		// stream >> comp;
+
+		// folgendes kommt in Composite Streamoperator --> ach ne... Problem ist Zugriff auf Scene Member für Pointer.
+		// stream >> name_;
+		// while (stream.good()) {
+		// 	stream >> word;
+		// 	auto it = std::find(scene_.shape.begin(), scene_.shape.end(),word);
+		// 	comp.add_child(it);
+		// }
+		// scene_.shape.push_back(comp);
+	} else {
+		throw std::invalid_argument("No valid Shape Object."); 
+	}
+	return nullptr;
 }
