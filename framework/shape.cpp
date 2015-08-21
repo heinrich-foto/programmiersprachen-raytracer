@@ -17,8 +17,13 @@ std::ostream& operator<<(std::ostream& os, Shape const& s)
 	return os;
 }
 
+std::istream& operator>>(std::istream & ins, Shape & input)
+{
+	input.readFromStream(ins);
+	return ins;
+}
+
 std::string Shape::print_point(glm::vec3 const& vec) const
 {
 	return "[" + std::to_string(vec.x) + ";" + std::to_string(vec.y) + ";" + std::to_string(vec.z) + "]";
 }
-
