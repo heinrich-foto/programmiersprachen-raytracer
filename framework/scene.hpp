@@ -15,8 +15,6 @@
 
 #include "material.hpp"
 #include "shape.hpp"
-// #include "box.hpp"
-// #include "sphere.hpp"
 #include "color.hpp"
 // #include "light.hpp"
 // #include "camera.hpp"
