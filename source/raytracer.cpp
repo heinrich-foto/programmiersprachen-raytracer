@@ -10,9 +10,16 @@ int main(int argc, char* argv[])
   std::string const filename = "./checkerboard.ppm";
 
   Renderer app(width, height, filename);
-  
+    
+  std::string sdfFileName = "../";
+  if (argc == 2) {
+    sdfFileName += argv[1];
+  } else {
+    sdfFileName += "sdf_scene_test.sdf";
+  }
+  std::cout << "Starting Raytracer with this SDF File: " << sdfFileName << std::endl << std::endl;
   auto SDF = SDFLoader::instance();
-  Scene scene = SDF->load("../material.sdf");
+  Scene scene = SDF->load(sdfFileName);
 
   std::thread thr([&app,&scene]() { app.render(scene); });
 
