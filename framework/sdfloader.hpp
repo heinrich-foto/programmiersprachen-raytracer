@@ -32,6 +32,7 @@ public:
 
 private:
 	bool parse(std::string const& line);
+	std::shared_ptr<Shape> ShapeFactory(std::string const& input);
 
 	Scene scene_;
 	static SDFLoader* s_instance_;
