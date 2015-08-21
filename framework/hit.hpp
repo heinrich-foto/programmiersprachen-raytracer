@@ -15,7 +15,7 @@
 
 #include <glm/vec3.hpp>
 #include <memory>
-
+class Shape; // hit.hpp:26:18: error: use of undeclared identifier 'Shape'
 struct Hit {
 	// Hit(float d, std::string n):hit{false},distance{d},name{n} {};
 	// Hit(bool h,float d, std::string n):hit{h},distance{d},name{n} {};
@@ -23,8 +23,8 @@ struct Hit {
 	float distance;
 	glm::vec3 normalVec;
 	glm::vec3 hitPoint;
-	//std::shared_ptr<Shape> object;
-	std::string name;
+	std::shared_ptr<const Shape> object;
+	// std::string name;
 
 	friend bool operator<(Hit const& lhs, Hit const& rhs) {
 		return lhs.distance < rhs.distance;

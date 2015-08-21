@@ -70,7 +70,8 @@ Hit Sphere::intersect(Ray const& ray) const
 	// std::cout << print_point(ray.direction) << print_point(glm::normalize(ray.direction)) << std::endl;
 	// return Hit {result, distance, {0,0,0}, {0,0,0}, this->name()};
 	// at the moment a lot of debugging code... No Point and so on...
-	return Hit {result, distance, {0,0,0}, {0,0,0}, name_ };
+	// return Hit {result, distance, {0,0,0}, {0,0,0}, name_ };
+	return Hit {result, distance, {0,0,0}, {0,0,0}, shared_from_this()};
 }
 
 std::ostream& Sphere::print(std::ostream& os) const
@@ -79,14 +80,26 @@ std::ostream& Sphere::print(std::ostream& os) const
 	return os << "  " << print_point(center_) << " with radius " << radius_ << std::endl;
 }
 
-std::istream& operator>>(std::istream & ins, Sphere & input) {
-	ins >> std::ws >> input.name_;
+void Sphere::readFromStream (std::istream & ins) {
+	ins >> std::ws >> name_;
 	float x,y,z;
 	ins >> std::ws >> x;
 	ins >> std::ws >> y;
 	ins >> std::ws >> z;
-	input.center_= glm::vec3 {x,y,z};
+	center_= glm::vec3 {x,y,z};
     
-    ins >> std::ws >> input.radius_;
-	return ins;
+    ins >> std::ws >> radius_;
+	// return ins;
 }
+
+// std::istream& operator>>(std::istream & ins, Sphere & input) {
+// 	ins >> std::ws >> input.name_;
+// 	float x,y,z;
+// 	ins >> std::ws >> x;
+// 	ins >> std::ws >> y;
+// 	ins >> std::ws >> z;
+// 	input.center_= glm::vec3 {x,y,z};
+    
+//     ins >> std::ws >> input.radius_;
+// 	return ins;
+// }

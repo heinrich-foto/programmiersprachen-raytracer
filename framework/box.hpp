@@ -41,6 +41,9 @@ public:
 
 	friend std::istream& operator>>(std::istream& os, Box & input);
 
+protected:
+	/*virtual*/ void readFromStream (std::istream & ins) override;
+
 private:
 	glm::vec3 	min_;
 	glm::vec3 	max_;

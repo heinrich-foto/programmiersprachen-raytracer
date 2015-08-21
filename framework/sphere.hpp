@@ -46,6 +46,9 @@ public:
 
 	friend std::istream& operator>>(std::istream& os, Sphere & input);
 
+protected:
+	/*virtual*/ void readFromStream (std::istream & ins) override;
+
 private:
 	glm::vec3 	center_;
 	double 		radius_;

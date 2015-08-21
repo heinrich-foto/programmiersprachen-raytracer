@@ -63,8 +63,8 @@ Hit Box::intersect(const Ray &r) const {
 	if ( (tmin > tmax_y) || (tmin_y > tmax) )
 	{ 
 		//std::cout << tmin <<" > " << tmax_y << " || " <<  tmin_y << " > "  << tmax << std::endl;
-		// return Hit {false,tmax, glm::vec3 {0,0,0}, glm::vec3 {0,0,0}, shared_from_this()}; 
-		return Hit {false,tmax, glm::vec3 {0,0,0}, glm::vec3 {0,0,0}, name_};
+		return Hit {false,tmax, glm::vec3 {0,0,0}, glm::vec3 {0,0,0}, shared_from_this()}; 
+		// return Hit {false,tmax, glm::vec3 {0,0,0}, glm::vec3 {0,0,0}, name_};
 	}
 	if (tmin_y > tmin)
 		tmin = tmin_y;
@@ -75,8 +75,8 @@ Hit Box::intersect(const Ray &r) const {
 	if ( (tmin > tmax_z) || (tmin_z > tmax) )
 	{
 		//std::cout << tmin <<" > "<< tmax_z<< " || " <<tmin_z<< " > " << tmax << std::endl;
-		// return Hit {false,tmax, glm::vec3 {0,0,0}, glm::vec3 {0,0,0}, shared_from_this()};
-		return Hit {false,tmax, glm::vec3 {0,0,0}, glm::vec3 {0,0,0}, name_};
+		return Hit {false,tmax, glm::vec3 {0,0,0}, glm::vec3 {0,0,0}, shared_from_this()};
+		// return Hit {false,tmax, glm::vec3 {0,0,0}, glm::vec3 {0,0,0}, name_};
 	}
 	if (tmin_z > tmin)
 		tmin = tmin_z;
@@ -84,8 +84,8 @@ Hit Box::intersect(const Ray &r) const {
 		tmax = tmax_z;
 
 	//std::cout << "min: " << tmin << " max: " << tmax << std::endl;
- 	// return Hit {true, tmin, glm::vec3 {0,0,0}, glm::vec3 {0,0,0}, shared_from_this()};
- 	return Hit {true, tmin, glm::vec3 {0,0,0}, glm::vec3 {0,0,0}, name_};
+ 	return Hit {true, tmin, glm::vec3 {0,0,0}, glm::vec3 {0,0,0}, shared_from_this()};
+ 	// return Hit {true, tmin, glm::vec3 {0,0,0}, glm::vec3 {0,0,0}, name_};
 }
 
 std::ostream& Box::print(std::ostream& os) const
@@ -94,18 +94,33 @@ std::ostream& Box::print(std::ostream& os) const
 	return os << "  " << print_point(min_) << " " << print_point(max_) << std::endl;
 }
 
-std::istream& operator>>(std::istream & ins, Box & input) {
-	ins >> std::ws >> input.name_;
+void Box::readFromStream (std::istream & ins) {
+	ins >> std::ws >> name_;
 	float x,y,z;
 	ins >> std::ws >> x;
 	ins >> std::ws >> y;
 	ins >> std::ws >> z;
-	input.min_= glm::vec3 {x,y,z};
+	min_= glm::vec3 {x,y,z};
     
     ins >> std::ws >> x;
 	ins >> std::ws >> y;
 	ins >> std::ws >> z;
-	input.max_= glm::vec3 {x,y,z};
-	return ins;
+	max_= glm::vec3 {x,y,z};
+	// return ins;
 }
+
+// std::istream& operator>>(std::istream & ins, Box & input) {
+// 	ins >> std::ws >> input.name_;
+// 	float x,y,z;
+// 	ins >> std::ws >> x;
+// 	ins >> std::ws >> y;
+// 	ins >> std::ws >> z;
+// 	input.min_= glm::vec3 {x,y,z};
+    
+//     ins >> std::ws >> x;
+// 	ins >> std::ws >> y;
+// 	ins >> std::ws >> z;
+// 	input.max_= glm::vec3 {x,y,z};
+// 	return ins;
+// }
 
