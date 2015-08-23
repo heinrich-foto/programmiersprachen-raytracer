@@ -1,0 +1,13 @@
+define material red     1 0 0   1 0 0   1 0 0     1
+define material magenta 1 0.3 0.5 0 0 0  0 0 0  1
+define material 1     1 1 0   1 1 0   1 0 0     1
+define material 2     0 1 1   0 1 1   0 0 1     1    
+define material 3     0 1 0   0 1 0   0 1 0     0
+define material 4     1 1 0   1 1 0   1 0 0     1
+define material 5     0 1 1   0 1 1   0 0 1     1    
+define material 6     0 1 0   0 1 0   0 1 0     0
+
+define shape box  box 100 100 -300  -100 -100 -100 red
+define shape sphere s2 100 100 -300 20 magenta
+define shape sphere s3 50 50 -100 20 magenta
+define shape sphere s1 -100 -100 -100 20 1
