@@ -25,17 +25,19 @@ Renderer::Renderer(unsigned w, unsigned h, std::string const& file)
 void Renderer::render(Scene const & scene)
 {
   // const std::size_t checkersize = 20;
-
+  std::cout << "Start renderer..." << std::endl;
+  for (auto const& item : scene.material) std::cout << item << std::endl;
+  for (auto const& item : scene.shape) std::cout << item <<  " " << *item << std::endl;
   for (unsigned y = 0; y < height_; ++y) {
     for (unsigned x = 0; x < width_; ++x) {
-      Pixel p(x,y);
-      // if ( ((x/checkersize)%2) != ((y/checkersize)%2)) {
-      //   p.color = Color(0.0, 1.0, float(x)/height_);
-      // } else {
-      //   p.color = Color(1.0, 0.0, float(y)/width_);
-      // }
-      // ray from camera to pixel
-      Ray ray{{0,0,0},{0,0,1}};
+
+                Pixel p(x,y);
+
+                Ray ray{{},{}};
+                int FovX = 60;
+                ray.direction.x = -int(scene.resX)/2.0f+x; 
+                ray.direction.y = -int(scene.resY)/2.0f+y;
+                ray.direction.z = -int(scene.resX)/tan(FovX*M_PI/180);;
       p.color = raytrace(ray,DETH,scene);
       write(p);
     }
@@ -44,24 +46,31 @@ void Renderer::render(Scene const & scene)
 }
 
 Color Renderer::raytrace(Ray const& ray, unsigned depth, Scene const & scene) {
-    Hit minHit{false, std::numeric_limits<double>::infinity(), {0,0,0}, {0,0,0}, "__INF__"};
+    // Hit minHit{false, std::numeric_limits<double>::infinity(), {0,0,0}, {0,0,0}, nullptr};
+    Hit minHit{false, std::numeric_limits<double>::infinity(), {0,0,0}, {0,0,0}, "nullptr"};
 
     if (depth==0) {
       return Color{0,0,0};
     }
     else {
-      for (auto & item : scene.shape) {
-        Hit hit = item->intersect(ray);
-        if (hit < minHit) {
-          minHit = hit;
+      for (auto const& item : scene.shape) {
+        try {
+          Hit hit = item->intersect(ray);
+          
+          if (hit.hit && hit < minHit) {
+            minHit = hit;
+          }
+        } catch (...) {
+          std::cout << "Bad weak" << std::endl;
+          return Color(0.0,0.9,0.1);
         }
       }
       if (minHit.hit)
       {
         // for (light: scene_.lights) { ... }
-        std::cout << "HIT -- shading: " << minHit.name << std::endl;
+        // std::cout << "HIT -- shading: " << minHit.object << std::flush;
         // return shading();
-        return Color(0.5,0.5,0.5);
+        return (scene.get_shape(minHit.object))->material().ka();
       } else {
         return scene.ambientColor;
       }
