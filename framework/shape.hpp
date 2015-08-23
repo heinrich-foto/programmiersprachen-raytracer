@@ -19,7 +19,7 @@
 #include <iostream>
 #include <memory> // shared_from_this() maybe...
 
-class Shape : public std::enable_shared_from_this<Shape>
+class Shape
 {
 public: 
 	// Shape(Color const color): name_("shape_"+color.str()),color_{color} {}; 
