@@ -130,7 +130,7 @@ bool SDFLoader::parse(std::string const& line) {
 						if (!stream.good()) {
 							shape->material(scene_.get_material(color_name));
 							scene_.shape.push_back(shape);
-							// std::cout << "added new "<< shape << " " << *shape << std::endl;
+							std::cout << "added new "<< shape << " " << *shape << std::endl;
 							return true;
 						} else { return false; }
 					}
