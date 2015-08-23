@@ -23,7 +23,7 @@
 
 struct Scene
 {
-	Scene(): material{}, shape{}, ambientColor{0,0,0}, ambientBrightness{0.5}, resX{401}, resY{401} {};
+	Scene(): material{}, shape{}, ambientColor{0,0,0}, ambientBrightness{0.5}, resX{600}, resY{600} {};
 
 	std::vector<Material> material;
 	std::vector<std::shared_ptr<Shape>> shape;
@@ -34,11 +34,18 @@ struct Scene
 	unsigned resX;
 	unsigned resY;
 
-	Material get_material(std::string name) {
+	Material get_material(std::string name) const {
 		for (auto const& m_item : material) {
 			if (name == m_item.name()) return m_item;
 		}
 		return Material{};
+	};
+
+	std::shared_ptr<Shape> get_shape(std::string name) const {
+		for (auto const& m_item : shape) {
+			if (name == m_item->name()) return m_item;
+		}
+		return nullptr;
 	};
 };
 
