@@ -120,6 +120,8 @@ bool SDFLoader::parse(std::string const& line) {
 
 				} else if (word=="light") {
 					throw std::invalid_argument("Not implemented.");
+					// define light name pos La Ld
+					// define light name     La Ld
 				} else if (word=="shape") {
 					stream >> word;
 					try {
@@ -143,10 +145,16 @@ bool SDFLoader::parse(std::string const& line) {
 
 			} else if (word=="camera") {
 				throw std::invalid_argument("Not implemented.");
+				// camera name FovX (horizontaler Öffnungswinkel)
 			} else if (word=="render") {
 				throw std::invalid_argument("Not implemented.");
+				// render cam-name filename resx resy
 			} else if (word == "transform") {
 				throw std::invalid_argument("Not implemented."); 
+				// Object is String Name in Shape
+				// transform object scale value
+				// transform object rotate angle vec (Grad)
+				// transform object translate vec
 			}
 		}
 	}
@@ -164,6 +172,8 @@ std::shared_ptr<Shape> SDFLoader::ShapeFactory(std::string const& input) {
 		// return std::make_shared<Triangle> ();
 	} else if (input == "composite") {
 		throw std::invalid_argument("Not implemented."); 
+		// define shape composite name child
+
 		// könnte komplett im Streamoperator von Composite überladen werden.
 		// sollte vielleicht auch. (somit nur stream >> comp anstelle von word.)
 		// stream >> word;
