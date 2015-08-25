@@ -17,18 +17,24 @@
 #include <memory>
 class Shape; // hit.hpp:26:18: error: use of undeclared identifier 'Shape'
 class Hit {
+public:
 	Hit(bool h, float distance, glm::vec3 RayOrigin, std::string object);
 
+	bool hit() const;
+	float distance() const;
+	// std::shared_ptr<const Shape> object() const;
+	std::string object() const;
+
 	friend bool operator<(Hit const& lhs, Hit const& rhs) {
-		return lhs.distance < rhs.distance;
+		return lhs.distance_ < rhs.distance_;
 	};
 
 	friend bool operator>(Hit const& lhs, Hit const& rhs) {
-		return lhs.distance > rhs.distance;
+		return lhs.distance_ > rhs.distance_;
 	};
 
 	// friend bool operator==(Hit const& lhs, Hit const& rhs) {
-	// 	return ?(hit_)
+	// 	return (lhs.hit_==rhs.hit_)&&(lhs<rhs); // Objekt representiert keine Gleichheit mehr.
 	// };
 	
 private:

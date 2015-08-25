@@ -18,7 +18,7 @@
 #include <cmath>
 #include <iostream>
 #include <memory> // shared_from_this() maybe...
-
+class Hit; //error: unknown type name 'Hit'
 class Shape
 {
 public: 
@@ -27,8 +27,8 @@ public:
 		// std::cout << "--  Destruktor Shape " << *this << std::endl; 
 	};
 
-	virtual double area() const = 0;
-	virtual double volume() const = 0;
+	// virtual double area() const = 0;
+	// virtual double volume() const = 0;
 
 	Material material() const { return color_; };
 	void material(Material const& material) { color_ = material; } 
@@ -44,7 +44,7 @@ public:
 
 	friend std::ostream& operator<<(std::ostream& os, Shape const& s);
 	// friend std::ostream& operator<<(std::ostream& os, glm::vec3 const vec);
-	friend std::istream& operator>>(std::istream & ins, Shape & input);
+	friend std::istream& operator>>(std::istream & ins, Shape & input); // use virtual readFromStream
 
 protected: 
 	// Protected Construktor.
@@ -54,7 +54,7 @@ protected:
 		// std::cout << "++ Konstruktor Shape " << *this << std::endl; 
 	};
 	std::string print_point(glm::vec3 const& vec) const;
-	virtual void readFromStream (std::istream & ins) = 0;
+	virtual void readFromStream (std::istream & ins) = 0; // used by Input Stream Operator
 
 // private:
 	// Shape(const Shape&); // no copy

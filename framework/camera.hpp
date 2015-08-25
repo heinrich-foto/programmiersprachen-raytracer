@@ -13,8 +13,8 @@
 #include <glm/vec3.hpp>
 #include <string>
 
-Class camera {
-
+class Camera {
+public:
 	Camera(std::string name, glm::vec3 pos, float fovX,  float resX);
 	// glm::vec3 translate();
 	// glm::vec3 rotate();

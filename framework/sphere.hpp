@@ -36,8 +36,8 @@ public:
 	//void   radius(double const&);
 
 	// brauchen wir nicht. Behalten? (area volume)
-	/*virtual*/ double area() const override;
-	/*virtual*/ double volume() const override;
+	// /*virtual*/ double area() const override;
+	// /*virtual*/ double volume() const override;
 
 	// bool intersect(Ray const& ray) const;
 	/*virtual*/ Hit intersect(const Ray &r) const override;

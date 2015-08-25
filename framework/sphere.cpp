@@ -53,25 +53,25 @@ double Sphere::radius() const
 }
 //void   Sphere::radius(double const&);
 
-/*virtual*/ double Sphere::area() const
-{
-	return (radius_>0)? 4 * M_PI * pow(radius_,2) : 0;
-}
-/*virtual*/ double Sphere::volume() const
-{
-	return (radius_>0)? 4 * pow(3,-1) * M_PI * pow(radius_,3) : 0;
-}
+// /*virtual*/ double Sphere::area() const
+// {
+// 	return (radius_>0)? 4 * M_PI * pow(radius_,2) : 0;
+// }
+// /*virtual*/ double Sphere::volume() const
+// {
+// 	return (radius_>0)? 4 * pow(3,-1) * M_PI * pow(radius_,3) : 0;
+// }
 // std::optional (erst mit C++14)
-Hit Sphere::intersect(Ray const& ray) const
+Hit Sphere::intersect(Ray const& r) const
 {
 	float distance;
 	auto result = glm::intersectRaySphere(
-	ray.origin , glm::normalize(ray.direction) , center_ , radius_ * radius_, distance );
-	// std::cout << print_point(ray.direction) << print_point(glm::normalize(ray.direction)) << std::endl;
+	r.origin , glm::normalize(r.direction) , center_ , radius_ * radius_, distance );
+	// std::cout << print_point(r.direction) << print_point(glm::normalize(r.direction)) << std::endl;
 	// return Hit {result, distance, {0,0,0}, {0,0,0}, this->name()};
 	// at the moment a lot of debugging code... No Point and so on...
-	return Hit {result, distance, {0,0,0}, {0,0,0}, name_ };
-	// return Hit {result, distance, {0,0,0}, {0,0,0}, shared_from_this()};
+	return Hit {result, distance, r.origin, name_ };
+	// return Hit {result, distance, r.origin, shared_from_this()};
 }
 
 std::ostream& Sphere::print(std::ostream& os) const

@@ -46,8 +46,8 @@ void Renderer::render(Scene const & scene)
 }
 
 Color Renderer::raytrace(Ray const& ray, unsigned depth, Scene const & scene) {
-    // Hit minHit{false, std::numeric_limits<double>::infinity(), {0,0,0}, {0,0,0}, nullptr};
-    Hit minHit{false, std::numeric_limits<double>::infinity(), {0,0,0}, {0,0,0}, "nullptr"};
+    // Hit minHit{false, std::numeric_limits<double>::infinity(), {0,0,0}, nullptr};
+    Hit minHit{false, std::numeric_limits<double>::infinity(), {0,0,0}, "nullptr"};
 
     if (depth==0) {
       return Color{0,0,0};
@@ -57,7 +57,7 @@ Color Renderer::raytrace(Ray const& ray, unsigned depth, Scene const & scene) {
         try {
           Hit hit = item->intersect(ray);
           
-          if (hit.hit && hit < minHit) { // if (hit)
+          if (hit.hit() && hit < minHit) { // if (hit)
             minHit = hit;
           }
         } catch (...) {
@@ -65,12 +65,12 @@ Color Renderer::raytrace(Ray const& ray, unsigned depth, Scene const & scene) {
           return Color(0.0,0.9,0.1);
         }
       }
-      if (minHit.hit)
+      if (minHit.hit())
       {
         // for (light: scene_.lights) { ... }
         // std::cout << "HIT -- shading: " << minHit.object << std::flush;
         // return shading();
-        return (scene.get_shape(minHit.object))->material().ka();
+        return (scene.get_shape(minHit.object()))->material().ka();
       } else {
         return scene.ambientColor;
       }

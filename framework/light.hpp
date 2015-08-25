@@ -14,6 +14,7 @@
 #include <string>
 
 Class light {
+public:
 
 private:
 	std::string name_;
