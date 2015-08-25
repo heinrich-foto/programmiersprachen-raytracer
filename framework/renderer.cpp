@@ -37,7 +37,7 @@ void Renderer::render(Scene const & scene)
                 int FovX = 60;
                 ray.direction.x = -int(scene.resX)/2.0f+x; 
                 ray.direction.y = -int(scene.resY)/2.0f+y;
-                ray.direction.z = -int(scene.resX)/tan(FovX*M_PI/180);;
+                ray.direction.z = -int(scene.resX)/tan(FovX*M_PI/180);
       p.color = raytrace(ray,DETH,scene);
       write(p);
     }
@@ -57,7 +57,7 @@ Color Renderer::raytrace(Ray const& ray, unsigned depth, Scene const & scene) {
         try {
           Hit hit = item->intersect(ray);
           
-          if (hit.hit && hit < minHit) {
+          if (hit.hit && hit < minHit) { // if (hit)
             minHit = hit;
           }
         } catch (...) {
