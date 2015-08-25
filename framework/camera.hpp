@@ -5,6 +5,12 @@
 // Stability  : experimental
 //
 // Camera
+/*  Kamera ist definiert durch <Namen> und den 
+	horizontalen Öffnungsinkel <fovX>.
+	Sie befindet sich im Nullpunkt und blickt in Richtung der negativen z-Achse. 
+
+	Somit mit Camera() Konstruktor?
+*/
 // -----------------------------------------------------------------------------
 
 #ifndef BUW_CAMERA_HPP
@@ -12,12 +18,19 @@
 
 #include <glm/vec3.hpp>
 #include <string>
+#include <iostream>
 
 class Camera {
 public:
 	Camera(std::string name, glm::vec3 pos, float fovX,  float resX);
 	// glm::vec3 translate();
 	// glm::vec3 rotate();
+
+	friend std::istream& operator>>(std::istream & ins, Camera & input);
+
+protected:
+	void compute_distance();
+
 private:
 	std::string name_;
 	glm::vec3 position_;
