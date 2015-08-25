@@ -1,9 +1,9 @@
 #include "sdfloader.hpp"
 #include "material.hpp"
 #include "shape.hpp"
-// mit angepassten Shape Stream redundant.
-   #include "box.hpp"
-   #include "sphere.hpp"
+#include "box.hpp"
+#include "sphere.hpp"
+#include "composit.hpp"
 #include <deque>
 #include <algorithm>
 // ------- c++14
@@ -126,15 +126,26 @@ bool SDFLoader::parse(std::string const& line) {
 					stream >> word;
 					try {
 						std::shared_ptr<Shape> shape (ShapeFactory(word));
-						Color color{}; std::string color_name = "";
+						if (word!="composite") {
+							Color color{}; std::string color_name = "";
 						
-						stream >> *shape >> color_name;
-						if (!stream.good()) {
-							shape->material(scene_.get_material(color_name));
+							stream >> *shape >> color_name;
+							if (!stream.good()) {
+								shape->material(scene_.get_material(color_name));
+								scene_.shape.push_back(shape);
+								std::cout << "added new "<< shape << " " << *shape << std::endl;
+								return true;
+							} else { return false; }
+						} else { // if composite
+							stream >> *shape;
+							while (stream.good()) {
+								stream >> word;
+								if (!std::static_pointer_cast<Composit>(shape)->add_child(scene_.get_shape(word))) return false;
+							}
 							scene_.shape.push_back(shape);
-							std::cout << "added new "<< shape << " " << *shape << std::endl;
 							return true;
-						} else { return false; }
+						}
+						
 					}
 					catch (const std::invalid_argument& e) {
 						std::cout << e.what() << "> in " << word << std::endl;
@@ -173,17 +184,12 @@ std::shared_ptr<Shape> SDFLoader::ShapeFactory(std::string const& input) {
 	} else if (input == "composite") {
 		throw std::invalid_argument("Not implemented."); 
 		// define shape composite name child
-
+		return std::make_shared<Composit> ();
 		// könnte komplett im Streamoperator von Composite überladen werden.
 		// sollte vielleicht auch. (somit nur stream >> comp anstelle von word.)
 		// stream >> word;
 		// // Composite comp{word};
-		// while (stream.good()) {
-		// 	stream >> word;
-		// 	// auto it = std::find(scene_.shape.begin(), scene_.shape.end(),word);
-		// 	// comp.add_child(it);
-		// }
-		// // scene_.shape.push_back(comp);
+		// 
 		
 		// folgendes könnte dann bleiben
 		// Composite comp{};
