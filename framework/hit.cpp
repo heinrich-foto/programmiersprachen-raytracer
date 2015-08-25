@@ -10,6 +10,15 @@ Hit::Hit(bool h, float distance, glm::vec3 RayOrigin, std::string object):
 		// Berechnung des HitPoints und NormalVec (only if true)
 	}
 
+Hit::Hit(): 
+	hit_{false},
+	distance_{std::numeric_limits<double>::infinity()},
+	normalVec_{0,0,0},
+	hitPoint_{0,0,0},
+	// object_{nullptr},
+	object_{"nullptr"}
+	{}
+
 bool Hit::hit() const {
 	return hit_;
 }

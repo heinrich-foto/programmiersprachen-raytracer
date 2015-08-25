@@ -19,6 +19,7 @@ class Shape; // hit.hpp:26:18: error: use of undeclared identifier 'Shape'
 class Hit {
 public:
 	Hit(bool h, float distance, glm::vec3 RayOrigin, std::string object);
+	Hit();
 
 	bool hit() const;
 	float distance() const;
