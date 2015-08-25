@@ -182,27 +182,9 @@ std::shared_ptr<Shape> SDFLoader::ShapeFactory(std::string const& input) {
 		throw std::invalid_argument("Not implemented."); 
 		// return std::make_shared<Triangle> ();
 	} else if (input == "composite") {
-		throw std::invalid_argument("Not implemented."); 
+		// throw std::invalid_argument("Not implemented."); 
 		// define shape composite name child
 		return std::make_shared<Composit> ();
-		// könnte komplett im Streamoperator von Composite überladen werden.
-		// sollte vielleicht auch. (somit nur stream >> comp anstelle von word.)
-		// stream >> word;
-		// // Composite comp{word};
-		// 
-		
-		// folgendes könnte dann bleiben
-		// Composite comp{};
-		// stream >> comp;
-
-		// folgendes kommt in Composite Streamoperator --> ach ne... Problem ist Zugriff auf Scene Member für Pointer.
-		// stream >> name_;
-		// while (stream.good()) {
-		// 	stream >> word;
-		// 	auto it = std::find(scene_.shape.begin(), scene_.shape.end(),word);
-		// 	comp.add_child(it);
-		// }
-		// scene_.shape.push_back(comp);
 	} else {
 		throw std::invalid_argument("No valid Shape Object."); 
 	}
