@@ -4,6 +4,8 @@
 #include "box.hpp"
 #include "sphere.hpp"
 #include "composit.hpp"
+#include "camera.hpp"
+
 #include <deque>
 #include <algorithm>
 // ------- c++14
@@ -157,6 +159,12 @@ bool SDFLoader::parse(std::string const& line) {
 			} else if (word=="camera") {
 				throw std::invalid_argument("Not implemented.");
 				// camera name FovX (horizontaler Öffnungswinkel)
+				Camera camera{"def_cam",{0,0,0}, 0, 0};
+				stream >> camera;
+				if (!stream.good()) {
+					scene_.camera=camera;
+					return true;
+				} else { return false; }
 			} else if (word=="render") {
 				throw std::invalid_argument("Not implemented.");
 				// render cam-name filename resx resy

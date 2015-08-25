@@ -16,19 +16,27 @@
 #include "material.hpp"
 #include "shape.hpp"
 #include "color.hpp"
-// #include "light.hpp"
-// #include "camera.hpp"
+#include "light.hpp"
+#include "camera.hpp"
 #include <vector>
 
 
 struct Scene
 {
-	Scene(): material{}, shape{}, ambientColor{0,0,0}, ambientBrightness{0.5}, resX{600}, resY{600} {};
+	Scene(): 
+		material{}, 
+		shape{},
+		light{},
+		camera{"default_camera",{0,0,0}, 0, 0}, 
+		ambientColor{0,0,0}, 
+		ambientBrightness{0.5}, 
+		resX{600}, 
+		resY{600} {};
 
 	std::vector<Material> material;
 	std::vector<std::shared_ptr<Shape>> shape;
-	// std::vector<Light> light;
-	// Camera camera;
+	std::vector<Light> light;
+	Camera camera;
 	Color ambientColor;
 	float ambientBrightness;
 	unsigned resX;

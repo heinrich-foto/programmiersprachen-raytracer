@@ -13,9 +13,10 @@
 #include <glm/vec3.hpp>
 #include <string>
 
-Class light {
+class Light {
 public:
-
+	Light();
+	Light(std::string const&, glm::vec3 const&, Color const&, Color const&, Color const&);
 private:
 	std::string name_;
 	glm::vec3 position_;
