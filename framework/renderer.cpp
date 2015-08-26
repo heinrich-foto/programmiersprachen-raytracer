@@ -30,7 +30,7 @@ unsigned Renderer::height() const {
   return height_;
 }
 
-void Renderer::render(Scene const & scene)
+void Renderer::render(Scene & scene)
 {
   // std::cout << "Start renderer..." << std::endl;
   // for (auto const& item : scene.material) std::cout << item << std::endl;
@@ -38,11 +38,15 @@ void Renderer::render(Scene const & scene)
   height_ = scene.resX;
   width_  = scene.resY;
   colorbuffer_ = {height_*width_, Color(0,0,0)};
+  ppm_ = {width_,height_};
   for (unsigned y = 0; y < height_; ++y) {
     for (unsigned x = 0; x < width_; ++x) {
 
-      Pixel p(x,y);            
-      p.color = raytrace(scene.camera.compute_ray(x,y),DETH,scene);
+      Pixel p(x,y);
+      scene.camera.compute_distance(height_);
+      Ray ray{scene.camera.compute_ray(p,height_,width_)};  
+      std::cout << width_ << " " << x << " " << y << " " << ray;         
+      p.color = raytrace(ray,DETH,scene);
       write(p);
     }
   }

@@ -27,7 +27,7 @@ public:
   unsigned width() const;
   unsigned height() const;
   
-  void render(Scene const& scene);
+  void render(Scene & scene);
   Color raytrace(Ray const& ray, unsigned depth, Scene const& scene);
   void write(Pixel const& p);
 

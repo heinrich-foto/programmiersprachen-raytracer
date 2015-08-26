@@ -17,6 +17,7 @@
 #define BUW_CAMERA_HPP
 
 #include "ray.hpp"
+#include "pixel.hpp"
 #include <glm/vec3.hpp>
 #include <string>
 #include <iostream>
@@ -34,7 +35,7 @@ public:
 	friend std::ostream& operator<<(std::ostream& os, Camera const& input);
 	friend std::istream& operator>>(std::istream & ins, Camera & input);
 
-	Ray compute_ray(unsigned resX, unsigned resY) const;
+	Ray compute_ray(Pixel const& p, unsigned resX, unsigned resY) const;
 	float compute_distance( unsigned resX);
 
 private:

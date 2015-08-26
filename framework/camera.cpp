@@ -26,9 +26,9 @@ float Camera::distance() const {
 	return distance_;
 }
 
-Ray Camera::compute_ray(unsigned resX, unsigned resY) const {
-	unsigned x = -int(resX)/2.0f+x; 
-    unsigned y = -int(resY)/2.0f+y;
+Ray Camera::compute_ray(Pixel const& p, unsigned resX, unsigned resY) const {
+	unsigned x = -int(resX)/2.0f+p.x; 
+    unsigned y = -int(resY)/2.0f+p.y;
     unsigned z = -distance_;
     return Ray {position_, {x,y,z}};
 }
