@@ -11,6 +11,9 @@ Camera::Camera(std::string name, glm::vec3 pos, float fovX,  float resX) :
 	
 // glm::vec3 Camera::translate() {};
 // glm::vec3 Camera::rotate() {};
+std::string name() const {
+	return name_;
+}
 
 void Camera::compute_distance(resX) {
 	distance_= (tan(M_PI /360)*fovX_)*2/resX;
