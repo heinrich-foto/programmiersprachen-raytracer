@@ -49,7 +49,7 @@ Scene const& SDFLoader::load(std::string const& filename){
 
 				// Validation ob SDF -> Scene.
 				// Camera gesetzt?
-				scene_.compute_distance(scene_.resX);
+				scene_.camera.compute_distance(scene_.resX);
 				// Renderer gesetzt?
 				// root Composite?
 				return scene_;
