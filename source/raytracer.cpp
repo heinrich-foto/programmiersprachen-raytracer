@@ -5,9 +5,9 @@
 
 int main(int argc, char* argv[])
 {
-  unsigned const width = 600;
-  unsigned const height = 600;
-  std::string const filename = "./checkerboard.ppm";
+  unsigned width = 600;
+  unsigned height = 600;
+  std::string const filename = "./sinnlos_wird_ueberschrieben.ppm";
 
   Renderer app(width, height, filename);
     
