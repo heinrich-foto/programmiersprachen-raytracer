@@ -147,15 +147,19 @@ bool SDFLoader::parse(std::string const& line) {
 				
 				std::string cameraName;
 				std::string filename;
-				unsigned resx, resy;
-				stream >> cameraName >> filename >> resx >> resy;
+				unsigned resX, resY;
+				stream >> cameraName >> filename >> resX >> resY;
 
 				if (!stream.good()) {
 					// mehrere Cameras speichern - einlesen und rendern? 
 					// Oder darf es nur eine Kamera geben und somit nur einen Render Aufruf. (Could be?)
 					if (cameraName==scene_.camera.name()) {
-						scene_.resx = resX;
-						scene_.resy = resY;
+						scene_.resX = resX;
+						if (scene_.camera.compute_distance(scene_.resX) == -1) { 
+							throw std::invalid_argument("No valid Camera generated.");
+							return false;
+						}
+						scene_.resY = resY;
 						scene_.filename = filename;
 						return true;
 					} else { 

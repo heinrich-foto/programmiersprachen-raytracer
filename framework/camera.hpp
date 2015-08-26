@@ -22,15 +22,14 @@
 
 class Camera {
 public:
-	Camera(std::string name, glm::vec3 pos, float fovX,  float resX);
+	Camera(std::string name, glm::vec3 pos, float fovX,  unsigned resX);
 	// glm::vec3 translate();
 	// glm::vec3 rotate();
 	std::string name() const;
-	
+
 	friend std::istream& operator>>(std::istream & ins, Camera & input);
 
-protected:
-	void compute_distance();
+	float compute_distance( unsigned );
 
 private:
 	std::string name_;

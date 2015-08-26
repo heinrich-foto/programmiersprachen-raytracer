@@ -1,22 +1,27 @@
 #include "camera.hpp"
+#include <cmath>
 
-Camera::Camera(std::string name, glm::vec3 pos, float fovX,  float resX) :
+Camera::Camera(std::string name, glm::vec3 pos, float fovX,  unsigned resX) :
 	name_{name}, 
 	position_{pos}, 
 	fovX_{fovX}, 
 	distance_{0} 
-{
-	compute_distance(resX);
-}
+{ }
 	
 // glm::vec3 Camera::translate() {};
 // glm::vec3 Camera::rotate() {};
-std::string name() const {
+std::string Camera::name() const {
 	return name_;
 }
 
-void Camera::compute_distance(resX) {
-	distance_= (tan(M_PI /360)*fovX_)*2/resX;
+float Camera::compute_distance(unsigned resX) {
+	if (fovX_ >0 & resX > 0) { 
+		distance_= (tan(M_PI /360)*fovX_)*2/resX;
+		return distance_;
+	} else {
+		distance_ = -1;
+		return -1;
+	}
 	// Beachte! Bezugsgröße für die Distanz ist die Bildbreite, d.h. resY
 }
 
@@ -30,6 +35,5 @@ std::istream& operator>>(std::istream & ins, Camera & input) {
 		ins >> std::ws >> z;
 		input.position_= glm::vec3 {x,y,z};
 	}
-	input.compute_distance();
 	return ins; // should be empty
 }
