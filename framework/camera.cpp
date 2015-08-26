@@ -35,7 +35,8 @@ Ray Camera::compute_ray(Pixel const& p, unsigned resX, unsigned resY) const {
 
 float Camera::compute_distance(unsigned resX) {
 	if (fovX_ >0 & resX > 0) { 
-		distance_= (tan(M_PI /360)*fovX_)*2/resX;
+		// distance_= (tan(M_PI /360)*fovX_)*2/resX;
+		distance_=int(resX)/tan(fovX_*M_PI/180);
 		return distance_;
 	} else {
 		distance_ = -1;
