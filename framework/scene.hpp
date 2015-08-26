@@ -27,7 +27,7 @@ struct Scene
 		material{}, 
 		shape{},
 		light{},
-		camera{"default_camera",{0,0,0}, 0, 0}, 
+		camera{"default_camera",{0,0,0}, 60, 600}, 
 		ambientColor{0,0,0}, 
 		ambientBrightness{0.5}, 
 		resX{600}, 
