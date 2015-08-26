@@ -8,6 +8,9 @@
 
 #include <deque>
 #include <algorithm>
+#include <glm/vec3.hpp> // glm::vec3
+#include <glm/mat4x4.hpp> // glm::mat4
+#include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale
 // ------- c++14
 // #include <experimental/filesystem>
 // namespace fs = std::experimental::filesystem;
@@ -178,8 +181,13 @@ bool SDFLoader::parse(std::string const& line) {
 				throw std::invalid_argument("Not implemented."); 
 				// Object is String Name in Shape
 				// transform object scale value
+				glm::scale(/*vector*/);
 				// transform object rotate angle vec (Grad)
+				glm::rotate(/*winkel, vector*/);
 				// transform object translate vec
+				glm::translate(/*vector*/);
+				// inverse funktion
+				glm::inverse(/*mat4*/);
 			}
 		}
 	}
