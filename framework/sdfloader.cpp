@@ -38,11 +38,6 @@ Scene const& SDFLoader::load(std::string const& filename){
 									  << "!! ->\t|" 
 									  << line << "| 36"<< std::endl;
 							}
-						} else {
-							// Validation ob SDF -> Scene.
-							// Camera gesetzt?
-							// Renderer gesetzt?
-							// root Composite?
 						}
 					} catch (std::length_error& e) {
 						std::cout << "vector lengt error: " << e.what() << std::endl;
@@ -52,6 +47,11 @@ Scene const& SDFLoader::load(std::string const& filename){
 				}
 				ifs.close();
 
+				// Validation ob SDF -> Scene.
+				// Camera gesetzt?
+				scene_.compute_distance(scene_.resX);
+				// Renderer gesetzt?
+				// root Composite?
 				return scene_;
 			}
 			else {
