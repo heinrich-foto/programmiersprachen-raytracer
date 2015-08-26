@@ -31,7 +31,8 @@ struct Scene
 		ambientColor{0,0,0}, 
 		ambientBrightness{0.5}, 
 		resX{600}, 
-		resY{600} {};
+		resY{600},
+		filename{"image.ppm"} {};
 
 	std::vector<Material> material;
 	std::vector<std::shared_ptr<Shape>> shape;

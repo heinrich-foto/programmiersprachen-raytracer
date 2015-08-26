@@ -5,7 +5,7 @@ Camera::Camera(std::string name, glm::vec3 pos, float fovX,  unsigned resX) :
 	name_{name}, 
 	position_{pos}, 
 	fovX_{fovX}, 
-	distance_{int(resX)/tan(fovX*M_PI/180)} 
+	distance_{static_cast<float>(int(resX)/tan(fovX*M_PI/180))} 
 { }
 	
 // glm::vec3 Camera::translate() {};
