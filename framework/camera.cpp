@@ -6,15 +6,15 @@ Camera::Camera(std::string name, glm::vec3 pos, float fovX,  float resX) :
 	fovX_{fovX}, 
 	distance_{0} 
 {
-	compute_distance();
+	compute_distance(resX);
 }
 	
 // glm::vec3 Camera::translate() {};
 // glm::vec3 Camera::rotate() {};
 
-void Camera::compute_distance() {
-	// todo calculate Distance
-	// distance_= ;
+void Camera::compute_distance(resX) {
+	distance_= (tan(M_PI /360)*fovX_)*2/resX;
+	// Beachte! Bezugsgröße für die Distanz ist die Bildbreite, d.h. resY
 }
 
 std::istream& operator>>(std::istream & ins, Camera & input) {
