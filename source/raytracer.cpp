@@ -5,12 +5,6 @@
 
 int main(int argc, char* argv[])
 {
-  unsigned width = 600;
-  unsigned height = 600;
-  std::string const filename = "./sinnlos_wird_ueberschrieben.ppm";
-
-  Renderer app(width, height, filename);
-    
   std::string sdfFileName = "../";
   if (argc == 2) {
     sdfFileName += argv[1];
@@ -21,6 +15,11 @@ int main(int argc, char* argv[])
   auto SDF = SDFLoader::instance();
   Scene scene = SDF->load(sdfFileName);
 
+  unsigned width = scene.resX;
+  unsigned height = scene.resY;
+  std::string const filename = scene.filename;
+  
+  Renderer app(width, height, filename);
   std::thread thr([&app,&scene]() { app.render(scene); });
 
   Window win(glm::ivec2(width,height));

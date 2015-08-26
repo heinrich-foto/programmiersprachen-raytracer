@@ -17,8 +17,7 @@ unsigned DETH = 4;
 Renderer::Renderer(unsigned w, unsigned h, std::string const& file)
   : width_(w)
   , height_(h)
-  // , colorbuffer_(w*h, Color(0.0, 0.0, 0.0))
-  , colorbuffer_{}
+  , colorbuffer_(w*h, Color(0.0, 0.0, 0.0))
   , filename_(file)
   , ppm_(width_, height_)
 { }
@@ -30,20 +29,17 @@ unsigned Renderer::height() const {
   return height_;
 }
 
-void Renderer::render(Scene & scene)
+void Renderer::render(Scene const& scene)
 {
   // std::cout << "Start renderer..." << std::endl;
   // for (auto const& item : scene.material) std::cout << item << std::endl;
   // for (auto const& item : scene.shape) std::cout << item <<  " " << *item << std::endl;
-  height_ = scene.resX;
-  width_  = scene.resY;
-  colorbuffer_ = {height_*width_, Color(0,0,0)};
-  ppm_ = {width_,height_};
+
   for (unsigned y = 0; y < height_; ++y) {
     for (unsigned x = 0; x < width_; ++x) {
 
       Pixel p(x,y);
-      scene.camera.compute_distance(height_);
+
       Ray ray{scene.camera.compute_ray(p,height_,width_)};  
       std::cout << width_ << " " << x << " " << y << " " << ray;         
       p.color = raytrace(ray,DETH,scene);
