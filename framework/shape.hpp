@@ -15,6 +15,7 @@
 #include "hit.hpp"
 
 #include <glm/vec3.hpp>
+#include <glm/mat4x4.hpp> //glm::mat4
 #include <cmath>
 #include <iostream>
 #include <memory> // shared_from_this() maybe...
@@ -33,6 +34,14 @@ public:
 	Material material() const { return color_; };
 	void material(Material const& material) { color_ = material; } 
 	std::string name() const { return name_; };
+
+	glm::mat4 world_transformation() const {return world_transformation_; }
+	glm::mat4 world_transformation_inv() const {return world_transformation_inv_; }
+
+	void world_transformation(glm::mat4 const& matrix)
+		{ world_transformation_ = matrix; }
+	void world_transformation_inv(glm::mat4 const& matrix_inv)
+		{ world_transformation_inv_ = matrix_inv; }
 
 	glm::vec3 abs(glm::vec3 const& ivec) const { return {std::fabs(ivec.x),std::fabs(ivec.y),std::fabs(ivec.z)}; };
 
@@ -61,6 +70,8 @@ protected:
 	// Shape& operator=(const Shape&); 
 	std::string name_;
 	Material	color_;
+	glm::mat4 world_transformation_;
+	glm::mat4 world_transformation_inv_;
 };
 
 #endif // BUW_SHAPE
