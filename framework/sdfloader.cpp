@@ -50,11 +50,12 @@ Scene const& SDFLoader::load(std::string const& filename){
 				}
 				ifs.close();
 
-				// Validation ob SDF -> Scene.
-				// Camera gesetzt?
-				scene_.camera.compute_distance(scene_.resX);
+				// Validation ob SDF -> valide Scene. und falls nicht, versuche es zu retten.
+				
+				// root Composite?
 				if(!scene_.get_shape("root")) {
-					std::cout << "Warning: A default constructed root object was generated. It contains every Shape Object." << std::endl << "add this to SDF File:\tdefine shape composite root child_shape child_shape ..." << std::endl;
+					std::cout << "Warning: A default constructed root object was generated. It contains every Shape Object." << std::endl 
+					<< "add this to SDF File:\tdefine shape composite root child_shape child_shape ..." << std::endl;
 
 					std::shared_ptr<Shape> shape (ShapeFactory("composite"));
 					std::stringstream comp_stream;
@@ -65,8 +66,20 @@ Scene const& SDFLoader::load(std::string const& filename){
 					}
 					scene_.shape.push_back(shape);
 				}
+
+				// Camera gesetzt?
+				if(scene_.camera.name()=="default_camera") {
+					std::cout << "Warning: A default camera was generated. " << scene_.camera << std::endl
+					<< "add something like this to SDF File:\n\tcamera eye 60.0\n\trender eye image.ppm 600 600" << std::endl;
+				}
+
+				scene_.camera.compute_distance(scene_.resX);
+
 				// Renderer gesetzt?
-				// root Composite?
+				// hat keine weiteren Auswirkungen, Kamera ist wichtig und setzt im Grunde schon alles.
+				// denn wenn keine Kamera gesetzt ist, wurde auch kein Renderer gesetzt, somit kombinierte
+				// Fehlermeldung. (siehe oben)
+				
 				return scene_;
 			}
 			else {

@@ -147,9 +147,9 @@ define light ambient amb 0.1 0.2 0.1
 define light diffuse sun 0 0 -200 1.0 1.0 1.0
 
 # camera --- mit define? oder ohne?
-camera eye 60.0
+#camera eye 60.0
 # camera xform
 transform eye rotate -45 0 1 0
 transform eye translate 100 0 100
 # ... and go
-render eye image.ppm 900 900
+#render eye image.ppm 900 900
