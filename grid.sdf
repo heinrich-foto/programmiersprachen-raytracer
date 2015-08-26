@@ -133,12 +133,12 @@ define shape box box00-03   000 -300 -500  050 -350 -900 magenta
 define shape box box01-03   100 -300 -500  150 -350 -900 magenta
 define shape box box02-03   200 -300 -500  250 -350 -900 magenta
 define shape box box03-03   300 -300 -500  350 -350 -900 magenta
-
+define shape box root 1 1 1 0 0 0 magenta
 define shape composite boxes box-01+00 box-02+00 box-03+00 box-00+01 box-01+01 box-02+01 box-03+01 box-00+02 box-01+02 box-02+02 box-03+02 box-00+03 box-01+03 box-02+03 box-03+03 box01-00 box02-00 box03-00 box00-01 box01-01 box02-01 box03-01 box00-02 box01-02 box02-02 box03-02 box00-03 box01-03 box02-03 box03-03 
 
 define shape composite spheres shpere-00-00 shpere-01-00 shpere-02-00 shpere-03-00 shpere-00-01 shpere-01-01 shpere-02-01 shpere-03-01 shpere-00-02 shpere-01-02 shpere-02-02 shpere-03-02 shpere-00-03 shpere-01-03 shpere-02-03 shpere-03-03 shpere01+00 shpere02+00 shpere03+00 shpere00+01 shpere01+01 shpere02+01 shpere03+01 shpere00+02 shpere01+02 shpere02+02 shpere03+02 shpere00+03 shpere01+03 shpere02+03 shpere03+03 
 
-define shape composite root boxes spheres
+#define shape composite root boxes spheres
 
 transform root rotate 45 0 0 1
 transform root translate 0 0 -10

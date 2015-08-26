@@ -82,6 +82,7 @@ std::ostream& Sphere::print(std::ostream& os) const
 
 void Sphere::readFromStream (std::istream & ins) {
 	ins >> std::ws >> name_;
+	if (name_=="root") { throw std::invalid_argument("There can only be one root as composit.");}
 	float x,y,z;
 	ins >> std::ws >> x;
 	ins >> std::ws >> y;
