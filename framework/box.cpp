@@ -42,73 +42,73 @@ glm::vec3 Box::max() const
 // 	return tmp.x * tmp.y * tmp.z;
 // }
 
-Hit Box::intersect(const Ray &r) const {
-/* 
-	the computet distence is untestet, 
-	and at the moment not implemented!! 
-	at the moment the boolean value returns 
-	true if the ray intersects the box. 
-
-	possible could be a input double vlaue per reference for distance.
-	its an more better way maybe, for returning values. (intersection Hitpoint, distance etc.)
-*/
-	float tmin, tmax, tmin_y, tmax_y, tmin_z, tmax_z;
-
-	tmin  = (min_.x - r.origin.x) * r.inv_direction.x;
-	tmax  = (max_.x - r.origin.x) * r.inv_direction.x;
-	tmin_y = (min_.y - r.origin.y) * r.inv_direction.y;
-	tmax_y = (max_.y - r.origin.y) * r.inv_direction.y;
-	
-	if ( (tmin > tmax_y) || (tmin_y > tmax) )
-	{ 
-		//std::cout << tmin <<" > " << tmax_y << " || " <<  tmin_y << " > "  << tmax << std::endl;
-		// return Hit {false,tmax, r.origin, shared_from_this()}; 
-		return Hit {false,tmax, r.origin, name_};
-	}
-	if (tmin_y > tmin)
-		tmin = tmin_y;
-	if (tmax_y < tmax)
-		tmax = tmax_y;
-	tmin_z = (min_.z - r.origin.z) * r.inv_direction.z;
-	tmax_z = (max_.z - r.origin.z) * r.inv_direction.z;
-	if ( (tmin > tmax_z) || (tmin_z > tmax) )
-	{
-		//std::cout << tmin <<" > "<< tmax_z<< " || " <<tmin_z<< " > " << tmax << std::endl;
-		// return Hit {false,tmax, r.origin, shared_from_this()};
-		return Hit {false,tmax, r.origin, name_};
-	}
-	if (tmin_z > tmin)
-		tmin = tmin_z;
-	if (tmax_z < tmax)
-		tmax = tmax_z;
-
-	//std::cout << "min: " << tmin << " max: " << tmax << std::endl;
- 	// return Hit {true, tmin, r.origin, shared_from_this()};
- 	return Hit {true, tmin, r.origin, name_};
-}
 // Hit Box::intersect(const Ray &r) const {
-//  	double tx1 = (min_.x - r.origin.x)* r.inv_direction.x;
-// 	double tx2 = (max_.x - r.origin.x)* r.inv_direction.x;
-// 	double tmin_x = std::min(tx1, tx2);
-// 	double tmax_x = std::max(tx1, tx2);
+// /* 
+// 	the computet distence is untestet, 
+// 	and at the moment not implemented!! 
+// 	at the moment the boolean value returns 
+// 	true if the ray intersects the box. 
 
-// 	double tx3 = (min_.y - r.origin.y)* r.inv_direction.y;
-// 	double tx4 = (max_.y - r.origin.y)* r.inv_direction.y;
-// 	double tmin_y = std::min(tx3, tx4);
-// 	double tmax_y = std::max(tx3, tx4);
+// 	possible could be a input double vlaue per reference for distance.
+// 	its an more better way maybe, for returning values. (intersection Hitpoint, distance etc.)
+// */
+// 	float tmin, tmax, tmin_y, tmax_y, tmin_z, tmax_z;
 
-// 	double tx5 = (min_.z - r.origin.z)* r.inv_direction.z;
-// 	double tx6 = (max_.z - r.origin.z)* r.inv_direction.z;
-// 	double tmin_z = std::min(tx5, tx6);
-// 	double tmax_z = std::max(tx5, tx6);
+// 	tmin  = (min_.x - r.origin.x) * r.inv_direction.x;
+// 	tmax  = (max_.x - r.origin.x) * r.inv_direction.x;
+// 	tmin_y = (min_.y - r.origin.y) * r.inv_direction.y;
+// 	tmax_y = (max_.y - r.origin.y) * r.inv_direction.y;
+	
+// 	if ( (tmin > tmax_y) || (tmin_y > tmax) )
+// 	{ 
+// 		//std::cout << tmin <<" > " << tmax_y << " || " <<  tmin_y << " > "  << tmax << std::endl;
+// 		// return Hit {false,tmax, r.origin, shared_from_this()}; 
+// 		return Hit {false,tmax, r.origin, name_};
+// 	}
+// 	if (tmin_y > tmin)
+// 		tmin = tmin_y;
+// 	if (tmax_y < tmax)
+// 		tmax = tmax_y;
+// 	tmin_z = (min_.z - r.origin.z) * r.inv_direction.z;
+// 	tmax_z = (max_.z - r.origin.z) * r.inv_direction.z;
+// 	if ( (tmin > tmax_z) || (tmin_z > tmax) )
+// 	{
+// 		//std::cout << tmin <<" > "<< tmax_z<< " || " <<tmin_z<< " > " << tmax << std::endl;
+// 		// return Hit {false,tmax, r.origin, shared_from_this()};
+// 		return Hit {false,tmax, r.origin, name_};
+// 	}
+// 	if (tmin_z > tmin)
+// 		tmin = tmin_z;
+// 	if (tmax_z < tmax)
+// 		tmax = tmax_z;
 
-// 	double tmin = std::max(tmin_x, tmin_y);
-// 	double tmax = std::min(tmax_x, tmax_y);
-// 	tmin = std::max(tmin, tmin_z);
-// 	tmax = std::min(tmax, tmax_z);
-
-// 	return Hit {tmax >= tmin, tmin, r.origin, name_};
+// 	//std::cout << "min: " << tmin << " max: " << tmax << std::endl;
+//  	// return Hit {true, tmin, r.origin, shared_from_this()};
+//  	return Hit {true, tmin, r.origin, name_};
 // }
+Hit Box::intersect(const Ray &r) const {
+ 	float tx1 = (min_.x - r.origin.x)* r.inv_direction.x;
+	float tx2 = (max_.x - r.origin.x)* r.inv_direction.x;
+	float tmin_x = std::min(tx1, tx2);
+	float tmax_x = std::max(tx1, tx2);
+
+	float tx3 = (min_.y - r.origin.y)* r.inv_direction.y;
+	float tx4 = (max_.y - r.origin.y)* r.inv_direction.y;
+	float tmin_y = std::min(tx3, tx4);
+	float tmax_y = std::max(tx3, tx4);
+
+	float tx5 = (min_.z - r.origin.z)* r.inv_direction.z;
+	float tx6 = (max_.z - r.origin.z)* r.inv_direction.z;
+	float tmin_z = std::min(tx5, tx6);
+	float tmax_z = std::max(tx5, tx6);
+
+	float tmin = std::max(tmin_x, tmin_y);
+	float tmax = std::min(tmax_x, tmax_y);
+	tmin = std::max(tmin, tmin_z);
+	tmax = std::min(tmax, tmax_z);
+
+	return Hit {tmax >= tmin, tmax, r.origin, name_};
+}
 
 std::ostream& Box::print(std::ostream& os) const
 {
