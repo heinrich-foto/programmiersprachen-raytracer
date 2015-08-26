@@ -41,7 +41,7 @@ void Renderer::render(Scene const& scene)
       Pixel p(x,y);
 
       Ray ray{scene.camera.compute_ray(p,height_,width_)};  
-      std::cout << width_ << " " << x << " " << y << " " << ray;         
+      // std::cout << width_ << " " << x << " " << y << " " << ray;         
       p.color = raytrace(ray,DETH,scene);
       write(p);
     }
@@ -51,15 +51,16 @@ void Renderer::render(Scene const& scene)
 
 Color Renderer::raytrace(Ray const& ray, unsigned depth, Scene const & scene) {
     // Hit minHit{false, std::numeric_limits<double>::infinity(), {0,0,0}, nullptr};
-    Hit minHit{false, std::numeric_limits<double>::infinity(), {0,0,0}, "nullptr"};
+    Hit minHit{};
 
     if (depth==0) {
       return Color{0,0,0};
     }
     else {
-      for (auto const& item : scene.shape) {
+      // for (auto const& item : scene.shape) {
+      auto item = scene.get_shape("root");
         try {
-          Hit hit = item->intersect(ray);
+          Hit hit = item->intersect(ray); // intersect des Composit wird aufgerufen.
           
           if (hit.hit() && hit < minHit) { // if (hit)
             minHit = hit;
@@ -68,7 +69,7 @@ Color Renderer::raytrace(Ray const& ray, unsigned depth, Scene const & scene) {
           std::cout << "Bad weak" << std::endl;
           return Color(0.0,0.9,0.1);
         }
-      }
+      // } // for statement
       if (minHit.hit())
       {
         // for (light: scene_.lights) { ... }
