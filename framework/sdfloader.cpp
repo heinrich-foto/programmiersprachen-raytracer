@@ -17,31 +17,6 @@
 
 SDFLoader* SDFLoader::s_instance_ = nullptr;
 
-// std::string delete_double(std::string const& string, char sign) {
-// // Cleanup String from e.G. Spaces
-// 	std::string line = string;
-// 	bool leerzeichen = false;
-// 	while (line.front()==sign) line.erase(line.begin());
-// 	for (auto iter=line.begin();iter!=line.end();)
-// 	{
-// 		if (*iter==sign) {
-// 			if (leerzeichen==true) {
-// 				line.erase(iter);
-// 			} else {
-// 				leerzeichen = true;
-// 				++iter;
-// 			}
-// 		} else {
-// 			leerzeichen = false;
-// 			++iter;
-// 		}
-// 	}
-// 	while (line.back()==sign) line.pop_back();
-// 	// End Cleanup
-// 	return line;
-// }
-
-
 Scene const& SDFLoader::load(std::string const& filename){
 	try { 
 		if (s_instance_!=nullptr)
@@ -57,17 +32,17 @@ Scene const& SDFLoader::load(std::string const& filename){
 				while(getline(ifs, line))
 				{	try {
 						if (!parse(line))
-						// if (!parse(delete_double(line,' ')))
-						{	if (line!="") {
+						{	
+							if (line!="") {
 								std::cout //<< "-- ->\tInvalid Format in SDF File: \n" 
 									  << "!! ->\t|" 
-									  << line << "| 62"<< std::endl;
+									  << line << "| 36"<< std::endl;
 							}
 						}
 					} catch (std::length_error& e) {
 						std::cout << "vector lengt error: " << e.what() << std::endl;
 					} catch (std::invalid_argument& e) {
-						std::cout << "!! ->\t" << e.what() << " => |" << line << "| 67"<< std::endl;
+						std::cout << "!! ->\t" << e.what() << " => |" << line << "| 45"<< std::endl;
 					}
 				}
 				ifs.close();
@@ -86,14 +61,14 @@ Scene const& SDFLoader::load(std::string const& filename){
 		}
 	} 
 	catch ( const std::invalid_argument& e ) {
-        std::cout << "!! -> 86\t" << e.what() << std::endl;
+        std::cout << "!! -> 64\t" << e.what() << std::endl;
 	}
 	// catch (std::length_error& e) {
 	// 	std::cout << "!! ->\t vector lengt error: " << e.what() << std::endl;
 	// }
 	catch (...)
 	{
-		std::cout << "!! -> 93\t" << "Error of unknown type." << std::endl;
+		std::cout << "!! -> 71\t" << "Error of unknown type." << std::endl;
 	}
 }
 
@@ -159,6 +134,7 @@ bool SDFLoader::parse(std::string const& line) {
 			} else if (word=="camera") {
 				throw std::invalid_argument("Not implemented.");
 				// camera name FovX (horizontaler Öffnungswinkel)
+				// camera name FovX eye (Position) dir (Blickrichtung) up (Up-Vector)
 				Camera camera{"def_cam",{0,0,0}, 0, 0};
 				stream >> camera;
 				if (!stream.good()) {
@@ -168,6 +144,25 @@ bool SDFLoader::parse(std::string const& line) {
 			} else if (word=="render") {
 				throw std::invalid_argument("Not implemented.");
 				// render cam-name filename resx resy
+				
+				std::string cameraName;
+				std::string filename;
+				unsigned resx, resy;
+				stream >> cameraName >> filename >> resx >> resy;
+
+				if (!stream.good()) {
+					// mehrere Cameras speichern - einlesen und rendern? 
+					// Oder darf es nur eine Kamera geben und somit nur einen Render Aufruf. (Could be?)
+					if (cameraName==scene_.camera.name()) {
+						scene_.resx = resX;
+						scene_.resy = resY;
+						scene_.filename = filename;
+						return true;
+					} else { 
+						throw std::invalid_argument("No valid Camera Found.");
+						return false; 
+					}
+				} else { return false; }
 			} else if (word == "transform") {
 				throw std::invalid_argument("Not implemented."); 
 				// Object is String Name in Shape
@@ -190,7 +185,6 @@ std::shared_ptr<Shape> SDFLoader::ShapeFactory(std::string const& input) {
 		throw std::invalid_argument("Not implemented."); 
 		// return std::make_shared<Triangle> ();
 	} else if (input == "composite") {
-		// throw std::invalid_argument("Not implemented."); 
 		// define shape composite name child
 		return std::make_shared<Composit> ();
 	} else {

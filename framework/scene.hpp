@@ -41,6 +41,7 @@ struct Scene
 	float ambientBrightness;
 	unsigned resX;
 	unsigned resY;
+	std::string filename;
 
 	Material get_material(std::string name) const {
 		for (auto const& m_item : material) {
