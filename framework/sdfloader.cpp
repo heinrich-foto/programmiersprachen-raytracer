@@ -38,6 +38,11 @@ Scene const& SDFLoader::load(std::string const& filename){
 									  << "!! ->\t|" 
 									  << line << "| 36"<< std::endl;
 							}
+						} else {
+							// Validation ob SDF -> Scene.
+							// Camera gesetzt?
+							// Renderer gesetzt?
+							// root Composite?
 						}
 					} catch (std::length_error& e) {
 						std::cout << "vector lengt error: " << e.what() << std::endl;
@@ -132,7 +137,7 @@ bool SDFLoader::parse(std::string const& line) {
 				}
 
 			} else if (word=="camera") {
-				throw std::invalid_argument("Not implemented.");
+				// throw std::invalid_argument("Not implemented.");
 				// camera name FovX (horizontaler Öffnungswinkel)
 				// camera name FovX eye (Position) dir (Blickrichtung) up (Up-Vector)
 				Camera camera{"def_cam",{0,0,0}, 0, 0};
@@ -142,7 +147,7 @@ bool SDFLoader::parse(std::string const& line) {
 					return true;
 				} else { return false; }
 			} else if (word=="render") {
-				throw std::invalid_argument("Not implemented.");
+				// throw std::invalid_argument("Not implemented.");
 				// render cam-name filename resx resy
 				
 				std::string cameraName;
@@ -161,6 +166,8 @@ bool SDFLoader::parse(std::string const& line) {
 						}
 						scene_.resY = resY;
 						scene_.filename = filename;
+
+						std::cout << "added new "<< scene_.camera << std::endl;
 						return true;
 					} else { 
 						throw std::invalid_argument("No valid Camera Found.");

@@ -16,6 +16,7 @@
 #ifndef BUW_CAMERA_HPP
 #define BUW_CAMERA_HPP
 
+#include "ray.hpp"
 #include <glm/vec3.hpp>
 #include <string>
 #include <iostream>
@@ -26,10 +27,15 @@ public:
 	// glm::vec3 translate();
 	// glm::vec3 rotate();
 	std::string name() const;
+	glm::vec3 position() const;
+	float fovX() const;
+	float distance() const;
 
+	friend std::ostream& operator<<(std::ostream& os, Camera const& input);
 	friend std::istream& operator>>(std::istream & ins, Camera & input);
 
-	float compute_distance( unsigned );
+	Ray compute_ray(unsigned resX, unsigned resY) const;
+	float compute_distance( unsigned resX);
 
 private:
 	std::string name_;
