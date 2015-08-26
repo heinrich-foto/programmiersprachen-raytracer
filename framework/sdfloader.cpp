@@ -53,6 +53,18 @@ Scene const& SDFLoader::load(std::string const& filename){
 				// Validation ob SDF -> Scene.
 				// Camera gesetzt?
 				scene_.camera.compute_distance(scene_.resX);
+				if(!scene_.get_shape("root")) {
+					std::cout << "Warning: A default constructed root object was generated. It contains every Shape Object." << std::endl << "add this to SDF File:\tdefine shape composite root child_shape child_shape ..." << std::endl;
+
+					std::shared_ptr<Shape> shape (ShapeFactory("composite"));
+					std::stringstream comp_stream;
+					comp_stream << "root";
+					comp_stream >> *shape;
+					for (auto const& item : scene_.shape) {
+						std::static_pointer_cast<Composit>(shape)->add_child(item);
+					}
+					scene_.shape.push_back(shape);
+				}
 				// Renderer gesetzt?
 				// root Composite?
 				return scene_;
@@ -179,15 +191,15 @@ bool SDFLoader::parse(std::string const& line) {
 				} else { return false; }
 			} else if (word == "transform") {
 				throw std::invalid_argument("Not implemented."); 
-				// Object is String Name in Shape
-				// transform object scale value
-				glm::scale(/*vector*/);
-				// transform object rotate angle vec (Grad)
-				glm::rotate(/*winkel, vector*/);
-				// transform object translate vec
-				glm::translate(/*vector*/);
-				// inverse funktion
-				glm::inverse(/*mat4*/);
+				// // Object is String Name in Shape
+				// // transform object scale value
+				// glm::scale(/*vector*/);
+				// // transform object rotate angle vec (Grad)
+				// glm::rotate(/*winkel, vector*/);
+				// // transform object translate vec
+				// glm::translate(/*vector*/);
+				// // inverse funktion
+				// glm::inverse(/*mat4*/);
 			}
 		}
 	}
@@ -203,7 +215,7 @@ std::shared_ptr<Shape> SDFLoader::ShapeFactory(std::string const& input) {
 	} else if (input=="triangle") {
 		throw std::invalid_argument("Not implemented."); 
 		// return std::make_shared<Triangle> ();
-	} else if (input == "composite") {
+	} else if (input == "composite" || input == "composit") {
 		// define shape composite name child
 		return std::make_shared<Composit> ();
 	} else {
