@@ -138,8 +138,9 @@ define shape composite boxes box-01+00 box-02+00 box-03+00 box-00+01 box-01+01 b
 
 define shape composite spheres shpere-00-00 shpere-01-00 shpere-02-00 shpere-03-00 shpere-00-01 shpere-01-01 shpere-02-01 shpere-03-01 shpere-00-02 shpere-01-02 shpere-02-02 shpere-03-02 shpere-00-03 shpere-01-03 shpere-02-03 shpere-03-03 shpere01+00 shpere02+00 shpere03+00 shpere00+01 shpere01+01 shpere02+01 shpere03+01 shpere00+02 shpere01+02 shpere02+02 shpere03+02 shpere00+03 shpere01+03 shpere02+03 shpere03+03 
 
-#define shape composite root boxes spheres
+define shape composite root boxes spheres
 
+transform root scale 2 2 2
 transform root rotate 45 0 0 1
 transform root translate 0 0 -10
 
@@ -147,9 +148,9 @@ define light ambient amb 0.1 0.2 0.1
 define light diffuse sun 0 0 -200 1.0 1.0 1.0
 
 # camera --- mit define? oder ohne?
-#camera eye 60.0
+camera eye 60.0
 # camera xform
 transform eye rotate -45 0 1 0
 transform eye translate 100 0 100
 # ... and go
-#render eye image.ppm 900 900
+render eye image.ppm 900 900

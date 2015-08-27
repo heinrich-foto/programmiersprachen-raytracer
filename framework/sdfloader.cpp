@@ -11,6 +11,7 @@
 #include <glm/vec3.hpp> // glm::vec3
 #include <glm/mat4x4.hpp> // glm::mat4
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale
+#include <glm/gtx/string_cast.hpp>
 // ------- c++14
 // #include <experimental/filesystem>
 // namespace fs = std::experimental::filesystem;
@@ -203,7 +204,7 @@ bool SDFLoader::parse(std::string const& line) {
 					}
 				} else { return false; }
 			} else if (word == "transform") {
-				throw std::invalid_argument("Not implemented."); 
+				// throw std::invalid_argument("Not implemented."); 
 				// // Object is String Name in Shape
 				// // transform object scale value
 				// glm::scale(/*vector*/);
@@ -213,6 +214,16 @@ bool SDFLoader::parse(std::string const& line) {
 				// glm::translate(/*vector*/);
 				// // inverse funktion
 				// glm::inverse(/*mat4*/);
+				stream >> word;
+				auto shape = scene_.get_shape(word);
+				if (!shape) {
+					throw std::invalid_argument("No Shape with input Name found.");
+					return false;
+				}
+				stream >> *shape; // use Input Stream Operator of Shape.
+				std::cout << "transformed " << shape->name() << " with " <<
+					glm::to_string(shape->world_transformation()) << std::endl;
+				return !stream.good();
 			}
 		}
 	}

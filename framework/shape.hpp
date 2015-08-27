@@ -38,10 +38,11 @@ public:
 	glm::mat4 world_transformation() const {return world_transformation_; }
 	glm::mat4 world_transformation_inv() const {return world_transformation_inv_; }
 
-	void world_transformation(glm::mat4 const& matrix)
-		{ world_transformation_ = matrix; }
-	void world_transformation_inv(glm::mat4 const& matrix_inv)
-		{ world_transformation_inv_ = matrix_inv; }
+	// setter wird nicht benötigt, da Stream Operator verwendet wird.
+	// void world_transformation(glm::mat4 const& matrix)
+	// 	{ world_transformation_ = matrix; }
+	// void world_transformation_inv(glm::mat4 const& matrix_inv)
+	// 	{ world_transformation_inv_ = matrix_inv; }
 
 	glm::vec3 abs(glm::vec3 const& ivec) const { return {std::fabs(ivec.x),std::fabs(ivec.y),std::fabs(ivec.z)}; };
 
