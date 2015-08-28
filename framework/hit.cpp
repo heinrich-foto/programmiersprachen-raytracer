@@ -11,6 +11,14 @@ Hit::Hit(bool h, float distance, glm::vec3 RayOrigin, std::shared_ptr<const Shap
 		// Berechnung des HitPoints und NormalVec (only if true)
 	}
 
+Hit::Hit(bool h, float distance, glm::vec3 normalVec, glm::vec3 hitPoint, std::string object):
+	hit_{h},
+	distance_{distance},
+	normalVec_{normalVec},
+	hitPoint_{hitPoint},
+	object_{object} 
+	{}
+
 Hit::Hit(): 
 	hit_{false},
 	distance_{std::numeric_limits<double>::infinity()},

@@ -10,6 +10,11 @@
 	Sie befindet sich im Nullpunkt und blickt in Richtung der negativen z-Achse. 
 
 	Somit mit Camera() Konstruktor?
+
+	Erweitertes Kamera Modell
+	===========
+
+	camera <name> <fov-x> <eye> (Position) <dir> (Blickrichtung) <up> (Up-Vector)
 */
 // -----------------------------------------------------------------------------
 
@@ -40,10 +45,14 @@ public:
 
 private:
 	std::string name_;
-	glm::vec3 position_;
+	glm::vec3 position_; //eye
 	float fovX_;
-	float distance_;
+	float distance_; // Entfernung zur Bildebene 
+	glm::vec3 dir_; // Blickrichtung
+	glm::vec3 up_; // Up-Vector
+
 	// Translations und Rotationsmatrix??!!!!!
+	
 };
 
 #endif // BUW_CAMERA
