@@ -32,7 +32,7 @@ endif()
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external)
 add_definitions(-DGLEW_STATIC)
 
-set(GLFW_DIRECTORY glfw-3.0.3)
+set(GLFW_DIRECTORY glfw-3.1.1)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/${GLFW_DIRECTORY}/include)
 
 set(GLFW_INSTALL OFF CACHE STRING "" FORCE)
