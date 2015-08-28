@@ -52,6 +52,8 @@ void Renderer::render(Scene const& scene)
 Color Renderer::raytrace(Ray const& ray, unsigned depth, Scene const & scene) {
     // Hit minHit{false, std::numeric_limits<double>::infinity(), {0,0,0}, nullptr};
     Hit minHit{};
+    Color clr;
+    Color ambientColor{scene.ambientColor};
 
     if (depth==0) {
       return Color{0,0,0};
@@ -61,7 +63,11 @@ Color Renderer::raytrace(Ray const& ray, unsigned depth, Scene const & scene) {
       auto item = scene.get_shape("root");
         try {
           Hit hit = item->intersect(ray); // intersect des Composit wird aufgerufen.
-          
+          if (hit.hit()) { 
+            // Ambient Light -> jedes ka eluminierende Object erhöt the Ambient Light??!
+            // clr += ambientColor * scene.get_shape(hit.object())->material().ka();
+            clr += ambientColor * (hit.object())->material().ka();
+          }
           if (hit.hit() && hit < minHit) { // if (hit)
             minHit = hit;
           }
@@ -72,12 +78,16 @@ Color Renderer::raytrace(Ray const& ray, unsigned depth, Scene const & scene) {
       // } // for statement
       if (minHit.hit())
       {
-        // for (light: scene_.lights) { ... }
-        // std::cout << "HIT -- shading: " << minHit.object << std::flush;
-        // return shading();
-        return (scene.get_shape(minHit.object()))->material().ka();
+        // shading nicht in eigener Funktion.
+        // for (auto& light : scene_.lights) { 
+        //   auto lightRay = Ray(hit.object()->hitpoint(), glm::normalize(light.postion()- hit..object()->hitpoint()))
+        // }
+
+        // return shade(scene.get_shape(minHit.object()));
+        // return (scene.get_shape(minHit.object()))->material().kd();
+        return (minHit.object())->material().kd();
       } else {
-        return scene.ambientColor;
+        return clr;
       }
     }
   }

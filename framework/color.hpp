@@ -46,6 +46,21 @@ struct Color
     return *this;
   }
 
+  Color& operator*=(Color const& other)
+  {
+    r *= other.r;
+    g *= other.g;
+    b *= other.b;
+    return *this;
+  }
+  
+  Color& operator*=(float rsd){
+    r *= rsd;
+    g *= rsd;
+    b *= rsd;
+    return *this;
+  }
+
   Color& operator-=(Color const& other)
   {
     r -= other.r;
@@ -66,6 +81,18 @@ struct Color
     auto tmp(a);
     tmp -= b;
     return tmp;
+  }
+
+  friend Color operator*(Color const& lsd, Color const& rsd){
+    return Color(lsd)*=rsd;
+  }
+  
+  friend Color operator*(Color const& lsd, float rsd){
+    return Color(lsd)*=rsd;
+  }
+  
+  friend Color operator*(float lsd, Color const& rsd ){
+    return Color(rsd)*=lsd;
   }
 
   inline bool operator==( const Color& rhs){ 

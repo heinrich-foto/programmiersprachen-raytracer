@@ -1,3 +1,5 @@
+#define GLM_FORCE_RADIANS
+
 #include "shape.hpp"
 #include <glm/mat4x4.hpp> // glm::mat4
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale
@@ -40,7 +42,9 @@ std::istream& operator>>(std::istream & ins, Shape & input)
 		float x, y, z;
 		ins >> std::ws >> x >> std::ws >> y >> std::ws >> z >> std::ws;
 		if (!ins.good()) {
-			input.world_transformation_ = glm::scale(input.world_transformation_,{x,y,z});
+			// matrix_transform.inl:149:43: note: candidate function template not viable: requires 2 arguments, but 1 was provided
+			// input.world_transformation_ = glm::dot(input.world_transformation_, glm::scale({x,y,z}));
+			input.world_transformation_ = input.world_transformation_ * glm::scale(glm::mat4(),{x,y,z});
 			input.world_transformation_inv_ = glm::inverse(input.world_transformation_);
 			return ins;
 		} else {
@@ -50,7 +54,7 @@ std::istream& operator>>(std::istream & ins, Shape & input)
 		float degree, x, y, z;
 		ins >> std::ws >> degree >> std::ws >> x >> std::ws >> y >> std::ws >> z >> std::ws;
 		if (!ins.good()) {
-			input.world_transformation_ = glm::rotate(input.world_transformation_, degree,{x,y,z});
+			input.world_transformation_ = input.world_transformation_ * glm::rotate(glm::mat4(), degree,{x,y,z});
 			input.world_transformation_inv_ = glm::inverse(input.world_transformation_);
 			return ins;
 		} else {
@@ -60,7 +64,7 @@ std::istream& operator>>(std::istream & ins, Shape & input)
 		float x, y, z;
 		ins >> std::ws >> x >> std::ws >> y >> std::ws >> z >> std::ws;
 		if (!ins.good()) {
-			input.world_transformation_ = glm::translate(input.world_transformation_,{x,y,z});
+			input.world_transformation_ = input.world_transformation_ * glm::translate(glm::mat4(),{x,y,z});
 			input.world_transformation_inv_ = glm::inverse(input.world_transformation_);
 			return ins;
 		} else {
