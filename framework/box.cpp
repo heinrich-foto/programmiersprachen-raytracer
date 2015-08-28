@@ -30,28 +30,8 @@ glm::vec3 Box::max() const
 {
 	return max_;
 }
-// Unnötige Funktionen...
-// /*virtual*/ double Box::area() const
-// {
-// 	glm::vec3 tmp = abs(min_-max_); // abs from Shape
-// 	return 2*(tmp.x * tmp.y)+2*(tmp.x * tmp.z)+2*(tmp.y* tmp.z);
-// }
-// /*virtual*/ double Box::volume() const
-// {
-// 	glm::vec3 tmp = abs(min_-max_); // abs from Shape
-// 	return tmp.x * tmp.y * tmp.z;
-// }
 
 // Hit Box::intersect(const Ray &r) const {
-// /* 
-// 	the computet distence is untestet, 
-// 	and at the moment not implemented!! 
-// 	at the moment the boolean value returns 
-// 	true if the ray intersects the box. 
-
-// 	possible could be a input double vlaue per reference for distance.
-// 	its an more better way maybe, for returning values. (intersection Hitpoint, distance etc.)
-// */
 // 	float tmin, tmax, tmin_y, tmax_y, tmin_z, tmax_z;
 
 // 	tmin  = (min_.x - r.origin.x) * r.inv_direction.x;
@@ -82,7 +62,7 @@ glm::vec3 Box::max() const
 // 	if (tmax_z < tmax)
 // 		tmax = tmax_z;
 
-// 	//std::cout << "min: " << tmin << " max: " << tmax << std::endl;
+// 	std::cout << name_ << " min: " << tmin << " max: " << tmax << r << std::endl;
 //  	// return Hit {true, tmin, r.origin, shared_from_this()};
 //  	return Hit {true, tmin, r.origin, name_};
 // }
@@ -107,6 +87,7 @@ Hit Box::intersect(const Ray &r) const {
 	tmin = std::max(tmin, tmin_z);
 	tmax = std::min(tmax, tmax_z);
 
+	// if (tmax >= tmin) std::cout << "Box " << name_ << " hit: " << tmax << " " << tmin << " " << r << std::endl;
 	return Hit {tmax >= tmin, tmax, r.origin, name_};
 }
 
