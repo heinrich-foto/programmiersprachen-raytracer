@@ -70,8 +70,8 @@ Hit Sphere::intersect(Ray const& r) const
 	// std::cout << print_point(r.direction) << print_point(glm::normalize(r.direction)) << std::endl;
 	// return Hit {result, distance, {0,0,0}, {0,0,0}, this->name()};
 	// at the moment a lot of debugging code... No Point and so on...
-	return Hit {result, distance, r.origin, name_ };
-	// return Hit {result, distance, r.origin, shared_from_this()};
+	// return Hit {result, distance, r.origin, name_ };
+	return Hit {result, distance, r.origin, shared_from_this()};
 }
 
 std::ostream& Sphere::print(std::ostream& os) const

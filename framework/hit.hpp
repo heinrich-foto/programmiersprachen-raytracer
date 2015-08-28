@@ -18,13 +18,15 @@
 class Shape; // hit.hpp:26:18: error: use of undeclared identifier 'Shape'
 class Hit {
 public:
-	Hit(bool h, float distance, glm::vec3 RayOrigin, std::string object);
+	// Hit(bool h, float distance, glm::vec3 RayOrigin, std::string object);
+	Hit(bool h, float distance, glm::vec3 RayOrigin, std::shared_ptr<const Shape> object);
 	Hit();
 
 	bool hit() const;
 	float distance() const;
-	// std::shared_ptr<const Shape> object() const;
-	std::string object() const;
+	glm::vec3 hitPoint() const;
+	std::shared_ptr<const Shape> object() const;
+	// std::string object() const;
 
 	friend bool operator<(Hit const& lhs, Hit const& rhs) {
 		return lhs.distance_ < rhs.distance_;
@@ -43,8 +45,8 @@ private:
 	float distance_;
 	glm::vec3 normalVec_;
 	glm::vec3 hitPoint_;
-	// std::shared_ptr<const Shape> object_;
-	std::string object_;
+	std::shared_ptr<const Shape> object_;
+	// std::string object_;
 };
 
 #endif // BUW_HIT

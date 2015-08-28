@@ -17,7 +17,7 @@
 #include <glm/gtx/intersect.hpp>
 #include <glm/vec3.hpp>
 
-class Box : public Shape, public std::enable_shared_from_this<Box>
+class Box : public Shape
 {
 public: 
 	Box();

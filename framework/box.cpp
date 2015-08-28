@@ -107,7 +107,8 @@ Hit Box::intersect(const Ray &r) const {
 	tmin = std::max(tmin, tmin_z);
 	tmax = std::min(tmax, tmax_z);
 
-	return Hit {tmax >= tmin, tmax, r.origin, name_};
+	return Hit {tmax >= tmin, tmax, r.origin, shared_from_this()};
+	// return Hit {tmax >= tmin, tmax, r.origin, name_};
 }
 
 std::ostream& Box::print(std::ostream& os) const

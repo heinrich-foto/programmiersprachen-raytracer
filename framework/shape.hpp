@@ -20,7 +20,7 @@
 #include <iostream>
 #include <memory> // shared_from_this() maybe...
 class Hit; //error: unknown type name 'Hit'
-class Shape
+class Shape : public std::enable_shared_from_this<Shape>
 {
 public: 
 	// Shape(Color const color): name_("shape_"+color.str()),color_{color} {}; 

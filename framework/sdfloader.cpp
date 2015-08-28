@@ -104,6 +104,7 @@ Scene const& SDFLoader::load(std::string const& filename){
 	{
 		std::cout << "!! -> 71\t" << "Error of unknown type." << std::endl;
 	}
+	return scene_;
 }
 
 bool SDFLoader::parse(std::string const& line) {

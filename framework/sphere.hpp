@@ -16,7 +16,7 @@
 #include <glm/gtx/intersect.hpp>
 #include <glm/vec3.hpp>
 
-class Sphere : public Shape, public std::enable_shared_from_this<Sphere>
+class Sphere : public Shape
 {
 public: 
 	Sphere();
