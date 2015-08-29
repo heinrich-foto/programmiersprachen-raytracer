@@ -7,7 +7,23 @@ define material 4     1 1 0   1 1 0   1 0 0     1
 define material 5     0 1 1   0 1 1   0 0 1     1    
 define material 6     0 1 0   0 1 0   0 1 0     0
 
-define shape box  box 100 100 -300  -100 -100 -100 red
+#define shape box  box 100 100 -300  -100 -100 -100 red
+define shape box  box 100 100 -100  -100 -100 -300 magenta
+
 define shape sphere s2 100 100 -300 20 magenta
 define shape sphere s3 50 50 -100 20 magenta
 define shape sphere s1 -100 -100 -100 20 1
+
+
+define shape sphere s0 0 0 -500 20 2
+define shape sphere s0 100 0 -500 20 2
+define shape sphere s0 0 100 -500 20 2
+define shape sphere s0 100 100 -500 20 2
+
+define shape sphere s0 0 0 -1500 20 2
+define shape sphere s0 100 0 -1500 20 2
+define shape sphere s0 0 100 -1500 20 2
+define shape sphere s0 100 100 -1500 20 2
+
+define shape box bo0 0 0 -500 100 100 -1500 magenta
+define shape box bo0 0 0 -1500 100 100 -500 6
