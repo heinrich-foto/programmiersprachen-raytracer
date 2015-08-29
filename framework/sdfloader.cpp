@@ -5,6 +5,7 @@
 #include "shape.hpp"
 #include "box.hpp"
 #include "sphere.hpp"
+#include "triangle.hpp"
 #include "composit.hpp"
 #include "camera.hpp"
 
@@ -143,7 +144,7 @@ bool SDFLoader::parse(std::string const& line) {
 						if (word!="composite") {
 							Color color{}; std::string color_name = "";
 						
-							stream >> *shape >> color_name;
+							stream >> *shape >> color_name >> std::ws;
 							if (!stream.good()) {
 								shape->material(scene_.get_material(color_name));
 								scene_.shape.push_back(shape);
@@ -240,8 +241,8 @@ std::shared_ptr<Shape> SDFLoader::ShapeFactory(std::string const& input) {
 	} else if (input == "box") {
 		return std::make_shared<Box> ();
 	} else if (input=="triangle") {
-		throw std::invalid_argument("Not implemented."); 
-		// return std::make_shared<Triangle> ();
+		// throw std::invalid_argument("Not implemented."); 
+		return std::make_shared<Triangle> ();
 	} else if (input == "composite" || input == "composit") {
 		// define shape composite name child
 		return std::make_shared<Composit> ();

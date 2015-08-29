@@ -1,0 +1,126 @@
+define material red   1 0 0   1 0 0   1 0 0   1
+define material blue  0 0 1   0 0 1   0 0 1   1
+define material green 0 1 0   0 1 0   0 1 0   1
+define material magenta 1 0.3 0.5 1 0.3 0.5 1 0.3 0.5  1
+
+define material 1     0.9 0.1 0.1  0.9 0.1 0.1   0.9 0.1 0.1 1
+define material 2     0.5 0.8 0.1  0.5 0.8 0.1   0.5 0.8 0.1 1
+define material 3     0.6 0.3 0.3  0.6 0.3 0.3   0.6 0.3 0.3 1
+define material 4     0.4 0.9 0.1  0.4 0.9 0.1   0.4 0.9 0.1 1
+define material 5     0.5 0.5 0.5  0.5 0.5 0.5   0.5 0.5 0.5 1
+define material 6     0.1 0.6 0.6  0.1 0.6 0.6   0.1 0.6 0.6 1
+define material 7     0.1 0.7 0.7  0.1 0.7 0.7   0.1 0.7 0.7 1
+define material 8     0.0 0.2 0.8  0.0 0.2 0.8   0.0 0.2 0.8 1
+
+# Vorderseite Quadrat aus dreiecken.
+define shape triangle triangla   -200 -200 -400  -200 200 -400  200 200 -400  red
+define shape triangle trianglb   -200 -200 -400  200 -200 -400  200 200 -400  green
+
+# Linke Seite
+define shape triangle trianglc  -200 -200 -400  -200 -200 -800  -200  200 -400  1
+define shape triangle triangld  -200  200 -400  -200  200 -800  -200 -200 -800  7
+
+# Rechte Seite
+define shape triangle triangle  200 -200 -400  200 -200 -800   200 200 -800  3
+define shape triangle trianglf  200 -200 -400  200  200 -400   200 200 -800  4
+
+# obere Seite
+define shape triangle trianglg  -200 200 -400  200 200 -400  -200 200 -800  5
+define shape triangle trianglh   200 200 -400  200 200 -800  -200 200 -800  6
+
+# untere Seite
+define shape triangle triangli  -200 -200 -400  200 -200 -400  -200 -200 -800  7
+define shape triangle trianglj   200 -200 -400  200 -200 -800  -200 -200 -800  8
+
+
+# ein paar Eckpunkte
+define shape sphere   corner0  -200  200 -400   20  red
+define shape sphere   corner1  -200  200 -800   20  red
+define shape sphere   corner2  -200 -200 -800   20  red
+
+
+define shape sphere spherea   -200 -200 -398   20   red
+define shape sphere spherea_   -200 200 -398  20   red
+define shape sphere spherea__  200 200 -398   20   red
+
+define shape sphere sphereb   -200 -200 -398   20   red
+define shape sphere sphereb_  200 -200 -398   20   red
+define shape sphere sphereb__  200 200 -398   20   red
+
+define shape sphere spherec  -200 -200 -398    20   red
+define shape sphere spherec_   -200 -200 -798    20   red
+define shape sphere spherec__   -200  200 -398   20   red
+
+define shape sphere sphered  -200  200 -398    20   red
+define shape sphere sphered_   -200  200 -798    20   red
+define shape sphere sphered__   -200 -200 -798   20   red
+
+define shape sphere spheree  200 -200 -398    20   red
+define shape sphere spheree_   200 -200 -798    20   red
+define shape sphere spheree__  200 200 -798   20   red
+
+define shape sphere spheref  200 -200 -398    20   red
+define shape sphere spheref_   200 200 -398    20   red
+define shape sphere spheref__    200 200 -798   20   red
+
+define shape sphere sphereg  -200 200 -398    20   red
+define shape sphere sphereg_   200 200 -398    20   red
+define shape sphere sphereg__   -200 200 -798   20   red
+
+define shape sphere sphereh  200 200 -398    20   red
+define shape sphere sphereh_   200 200 -798    20   red
+define shape sphere sphereh__   -200 200 -798   20   red
+
+define shape sphere spherei  -200 -200 -398   20   red
+define shape sphere spherei_   200 -200 -398    20   red
+define shape sphere spherei__   -200 -200 -798   20   red
+
+define shape sphere spherej  200 -200 -398    20   red
+define shape sphere spherej_   200 -200 -798    20   red
+define shape sphere spherej__   -200 -200 -798    20   red
+
+define shape sphere sphere_H 0 0 -500 200 magenta
+define shape composite hinten sphere_H
+
+define shape composite Vorder			 triangla trianglb
+define shape composite corner_Vorder 	 spherea spherea_ spherea__ sphereb sphereb_ sphereb__
+define shape composite Seite_Vorder 	 corner_Vorder Vorder
+
+define shape composite Linke			 trianglc triangld
+define shape composite corner_Linke 	 spherec spherec_ spherec__ sphered sphered_ sphered__
+define shape composite Seite_Linke 		 corner_Linke Linke
+
+define shape composite Rechte			 triangle trianglf
+define shape composite corner_Rechte 	 spheree spheree_ spheree__ spheref spheref_ spheref__
+define shape composite Seite_Rechte 	 corner_Rechte Rechte
+
+define shape composite obere			 trianglg trianglh
+define shape composite corner_obere 	 sphereg sphereg_ sphereg__ sphereh sphereh_ sphereh__
+define shape composite Seite_obere 		 corner_obere obere
+
+define shape composite untere			 triangli trianglj
+define shape composite corner_untere 	 spherei spherei_ spherei__ spherej spherej_ spherej__
+define shape composite Seite_untere 	 corner_untere untere
+
+
+define shape composite wurfel_1 Seite_Vorder Seite_Linke Seite_Rechte Seite_obere Seite_untere
+define shape composite wurfel_2 Seite_Linke Seite_Rechte
+define shape composite wurfel_3 Seite_obere Seite_untere
+define shape composite wurfel_4 Seite_Linke Seite_untere
+define shape composite wurfel_5 Seite_Rechte Seite_untere
+define shape composite wurfel_6 Seite_Linke Seite_obere
+
+define shape composite wurfel_7 Seite_Vorder
+define shape composite wurfel_8  Seite_Linke
+define shape composite wurfel_9   Seite_Rechte
+define shape composite wurfel_10    Seite_obere
+define shape composite wurfel_11    Seite_untere
+
+define shape composite allCorner corner_Vorder corner_Linke corner_Rechte corner_obere corner_untere
+
+
+define shape composite root wurfel_4 wurfel_9 obere hinten allCorner
+
+
+camera eye 60.0
+render eye image.ppm 600 600
