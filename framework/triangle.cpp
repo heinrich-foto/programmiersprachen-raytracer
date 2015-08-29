@@ -49,8 +49,8 @@ Hit Triangle::intersect(Ray const& r) const
 	glm::vec3 IntersectionNormal;
 	glm::vec3 baryPosition;
 
-	auto result = glm::intersectRayTriangle	( r.origin, r.direction, p1_, p2_ , p3_, baryPosition);	
-	
+	auto result = glm::intersectRayTriangle	( r.origin, glm::normalize(r.direction), p1_, p2_ , p3_, baryPosition);	
+	distance = baryPosition.z;
 	// std::cout << print_point(r.direction) << print_point(glm::normalize(r.direction)) << std::endl;
 	// return Hit {result, distance, {0,0,0}, {0,0,0}, this->name()};
 	// at the moment a lot of debugging code... No Point and so on...

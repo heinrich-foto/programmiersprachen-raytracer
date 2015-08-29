@@ -79,7 +79,7 @@ define shape sphere spherej  200 -200 -398    20   red
 define shape sphere spherej_   200 -200 -798    20   red
 define shape sphere spherej__   -200 -200 -798    20   red
 
-define shape sphere sphere_H 0 0 -500 200 magenta
+define shape sphere sphere_H 0 0 -600 200 magenta
 define shape composite hinten sphere_H
 
 define shape composite Vorder			 triangla trianglb
