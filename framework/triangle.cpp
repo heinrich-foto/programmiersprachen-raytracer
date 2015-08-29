@@ -3,34 +3,22 @@
 
 Triangle::Triangle() : 
 	Shape{"triangle_default"}, 
-	center_{}, 
-	radius_{} 
-	{}
-Triangle::Triangle(double const& invalue) : 
-	Shape{"triangle_r_b"}, 
-	center_{}, 
-	radius_{invalue} 
-	{}
-Triangle::Triangle(glm::vec3 const& invec, double const& inradius) : 
-	Shape{"triangle_cr_b"}, 
-	center_{invec}, 
-	radius_{inradius} 
+	p1_{0,0,0},
+	p2_{0,0,0},
+	p3_{0,0,0}
 	{}
 
 Triangle::Triangle(std::string const& name, Material const& material): 
 	Shape("triangle_default_"+name, material), 
-	center_{}, 
-	radius_{} 
+	p1_{0,0,0},
+	p2_{0,0,0},
+	p3_{0,0,0}
 	{}
-Triangle::Triangle(std::string const& name, Material const& material, double const& radius ):
-	Shape("triangle_r_"+name,material),
-	center_{},
-	radius_{radius}
-	{}
-Triangle::Triangle(std::string const& name, Material const& material, glm::vec3 const& center, double const& radius) :
+Triangle::Triangle(std::string const& name, Material const& material, glm::vec3 const& p1, glm::vec3 const& p2, glm::vec3 const& p3) :
 	Shape("triangle_cr_"+name, material), 
-	center_{center}, 
-	radius_{radius} 
+	p1_{p1},
+	p2_{p2},
+	p3_{p3} 
 	{ 
 		// std::cout << "++ Konstruktor Triangle " << *this << std::endl; 
 	}
@@ -59,18 +47,15 @@ Hit Triangle::intersect(Ray const& r) const
 {
 	float distance;
 	glm::vec3 IntersectionNormal;
-	glm::vec3 HitPoint;
+	glm::vec3 baryPosition;
 
-	auto result = glm::intersectRayTriangle(
-		r.origin, glm::normalize(r.direction), center_, radius_, HitPoint, IntersectionNormal);
-	result = glm::intersectRayTriangle(
-		r.origin , glm::normalize(r.direction) , center_ , radius_ * radius_, distance );
+	auto result = glm::intersectRayTriangle	( r.origin, r.direction, p1_, p2_ , p3_, baryPosition);	
 	
 	// std::cout << print_point(r.direction) << print_point(glm::normalize(r.direction)) << std::endl;
 	// return Hit {result, distance, {0,0,0}, {0,0,0}, this->name()};
 	// at the moment a lot of debugging code... No Point and so on...
 	// return Hit {result, distance, r.origin, name_ };
-	return Hit {result, distance, IntersectionNormal, HitPoint, shared_from_this()};
+	return Hit {result, distance, IntersectionNormal, baryPosition, shared_from_this()};
 }
 
 std::ostream& Triangle::print(std::ostream& os) const

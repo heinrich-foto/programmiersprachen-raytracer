@@ -64,11 +64,21 @@ Color Renderer::raytrace(Ray const& ray, unsigned depth, Scene const & scene) {
         try {
           /*
           - Inverse Transformationsmatrix auf Strahl anwenden.
+              instance::intersect( ray, &hit ) {
+                ray_object = transform_ray( ray, M_inv )
+                object->intersect( ray_object, &hit_object )
+                hit = transform_hit( hit_object, M )
+              }
           - Strahlposition und Strahrichtung mit Matrix multiplizieren (homogene Koordinaten!!)
           - Intersection mit transformierten Strahl durchführen.
           - Seite 26-32 in den Folien
           (Rücktransformation der Normalen mit der Transponierten Inversen)
            */
+
+          // if (item->transformed) {
+          //   ray = transform_ray(ray, M_inv);
+          // }
+
           Hit hit = item->intersect(ray); // intersect des Composit wird aufgerufen.
           if (hit.hit()) { 
             // Ambient Light -> jedes ka eluminierende Object erhöt the Ambient Light??!
