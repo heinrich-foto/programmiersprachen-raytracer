@@ -20,12 +20,8 @@ class Triangle : public Shape
 {
 public: 
 	Triangle();
-	Triangle(double const&);
-	Triangle(glm::vec3 const&, double const&);
-
-	Triangle(std::string const&, Material const&);
-	Triangle(std::string const&, Material const&, double const& );
-	Triangle(std::string const&, Material const&, glm::vec3 const&, double const& );
+	Triangle(std::string const& name, Material const& material);
+	Triangle(std::string const& name, Material const& material, glm::vec3 const& p1, glm::vec3 const& p2, glm::vec3 const& p3);
 	~Triangle();
 
 
@@ -42,7 +38,7 @@ public:
 
 	/*virtual*/ std::ostream& print(std::ostream& os) const override;
 
-	friend std::istream& operator>>(std::istream& os, Sphere & input);
+	friend std::istream& operator>>(std::istream& os, Triangle & input);
 
 protected:
 	/*virtual*/ void readFromStream (std::istream & ins) override;

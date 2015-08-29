@@ -1,3 +1,5 @@
+#define GLM_FORCE_RADIANS
+
 #include "sdfloader.hpp"
 #include "material.hpp"
 #include "shape.hpp"

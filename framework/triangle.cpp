@@ -61,7 +61,10 @@ Hit Triangle::intersect(Ray const& r) const
 std::ostream& Triangle::print(std::ostream& os) const
 {
 	Shape::print(os);
-	return os << "  " << print_point(center_) << " with radius " << radius_ << std::endl;
+	return os << "  " << print_point(p1_) 
+	<< ", " << print_point(p2_) 
+	<< ", " << print_point(p3_)
+	<< std::endl;
 }
 
 void Triangle::readFromStream (std::istream & ins) {
@@ -71,20 +74,15 @@ void Triangle::readFromStream (std::istream & ins) {
 	ins >> std::ws >> x;
 	ins >> std::ws >> y;
 	ins >> std::ws >> z;
-	center_= glm::vec3 {x,y,z};
-    
-    ins >> std::ws >> radius_;
-	// return ins;
-}
+	p1_= glm::vec3 {x,y,z};
 
-// std::istream& operator>>(std::istream & ins, Triangle & input) {
-// 	ins >> std::ws >> input.name_;
-// 	float x,y,z;
-// 	ins >> std::ws >> x;
-// 	ins >> std::ws >> y;
-// 	ins >> std::ws >> z;
-// 	input.center_= glm::vec3 {x,y,z};
-    
-//     ins >> std::ws >> input.radius_;
-// 	return ins;
-// }
+	ins >> std::ws >> x;
+	ins >> std::ws >> y;
+	ins >> std::ws >> z;
+	p2_= glm::vec3 {x,y,z};
+
+	ins >> std::ws >> x;
+	ins >> std::ws >> y;
+	ins >> std::ws >> z;
+	p3_= glm::vec3 {x,y,z};
+}
