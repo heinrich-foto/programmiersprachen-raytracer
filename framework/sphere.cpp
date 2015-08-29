@@ -65,13 +65,19 @@ double Sphere::radius() const
 Hit Sphere::intersect(Ray const& r) const
 {
 	float distance;
+	glm::vec3 IntersectionNormal;
+	glm::vec3 HitPoint;
+
 	auto result = glm::intersectRaySphere(
-	r.origin , glm::normalize(r.direction) , center_ , radius_ * radius_, distance );
+		r.origin, glm::normalize(r.direction), center_, radius_, HitPoint, IntersectionNormal);
+	result = glm::intersectRaySphere(
+		r.origin , glm::normalize(r.direction) , center_ , radius_ * radius_, distance );
+	
 	// std::cout << print_point(r.direction) << print_point(glm::normalize(r.direction)) << std::endl;
 	// return Hit {result, distance, {0,0,0}, {0,0,0}, this->name()};
 	// at the moment a lot of debugging code... No Point and so on...
 	// return Hit {result, distance, r.origin, name_ };
-	return Hit {result, distance, r.origin, shared_from_this()};
+	return Hit {result, distance, IntersectionNormal, HitPoint, shared_from_this()};
 }
 
 std::ostream& Sphere::print(std::ostream& os) const
