@@ -31,7 +31,7 @@ bool Composit::add_child(std::shared_ptr<Shape> const& shape) {
 				minHit = hit;
 			}
 		} catch (...) {
-			std::cout << "Bad weak" << std::endl;
+			std::cout << "Bad weak in Composit" << std::endl;
 			return Hit {};
 		}
 	}
