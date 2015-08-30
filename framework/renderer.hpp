@@ -29,7 +29,7 @@ public:
   
   void render(Scene const& scene);
   Color raytrace(Ray const& ray, unsigned depth, Scene const& scene);
-  Color shading(Hit const& hit, std::vector<Light> const& lights) const;
+  Color shading(Hit const& hit, std::vector<Light> const& lights, Ray const& ray) const;
   void write(Pixel const& p);
 
   inline std::vector<Color> const& colorbuffer() const

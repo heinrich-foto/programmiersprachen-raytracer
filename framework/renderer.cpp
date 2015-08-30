@@ -12,6 +12,7 @@
 
 #include <limits>
 #include <glm/glm.hpp>
+#include <cmath>
 
 
 unsigned DETH = 4;
@@ -95,7 +96,7 @@ Color Renderer::raytrace(Ray const& ray, unsigned depth, Scene const & scene) {
       // } // for statement
       if (minHit.hit())
       {
-        return shading(minHit, scene.light);
+        return shading(minHit, scene.light, ray);
         // return (minHit.object())->material().kd();
       } else {
         return clr;
@@ -103,12 +104,12 @@ Color Renderer::raytrace(Ray const& ray, unsigned depth, Scene const & scene) {
     }
   }
 
-  Color Renderer::shading(Hit const& hit, std::vector<Light> const& lights) const {
+  Color Renderer::shading(Hit const& hit, std::vector<Light> const& lights, Ray const& r) const {
     // shading nicht in eigener Funktion.
     // http://glm.g-truc.net/0.9.2/api/a00006.html
     Color color {0.1,0.1,0.1}; // debug color
     // Color color {0,0,0};
-    
+
     glm::vec3 hitpoint = hit.hitPoint();
 
     for (auto& light : lights) { 
@@ -123,9 +124,17 @@ Color Renderer::raytrace(Ray const& ray, unsigned depth, Scene const & scene) {
         hit.normalVec().z*2*Diffuse-LightVector.z
       };
 
+      float Spekular = std::pow(
+            glm::dot(glm::normalize(reflectionRay),glm::normalize(r.direction))
+          , hit.object()->material().m()
+        );
+
       if (Diffuse > 0.0f && Diffuse < 1) {
         // if(Material.isDiffuse())
-        color += light.color() * hit.object()->material().kd() * Diffuse;
+        
+        color += light.ambient() * hit.object()->material().ka() 
+               + light.diffuse() * hit.object()->material().kd() * Diffuse
+               + 1 /* /(distance*distance) */ * hit.object()->material().ks() * Spekular;
       } else {
         return color;
       }
