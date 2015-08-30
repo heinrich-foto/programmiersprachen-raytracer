@@ -1,5 +1,4 @@
 #include "box.hpp"
-#include "triangle.hpp"
 #include <cmath>
 #include <algorithm>
 #include <vector>
@@ -41,36 +40,6 @@ glm::vec3 Box::max() const
 	return max_;
 }
 Hit Box::intersect(const Ray &r) const {
-	glm::vec3 A  = {min_.x          , min_.y ,          min_.z         };
-	glm::vec3 B  = {min_.x + min_.x , min_.y ,          min_.z         };
-	glm::vec3 C  = {min_.x ,          min_.y + min_.y , min_.z         };
-	glm::vec3 D  = {min_.x + min_.x , min_.y + min_.y , min_.z         };
-
-	glm::vec3 A_ = {min_.x          , min_.y ,          min_.z + min_.z};
-	glm::vec3 B_ = {min_.x + min_.x , min_.y ,          min_.z + min_.z};
-	glm::vec3 C_ = {min_.x ,          min_.y + min_.y , min_.z + min_.z};
-	glm::vec3 D_ = {min_.x + min_.x , min_.y + min_.y , min_.z + min_.z};
-
-	std::vector<std::shared_ptr<Triangle>> Seiten;
-
-	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, A,B,C}));
-	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, B,C,D}));
-
-	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, A_,B_,C_}));
-	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, B_,C_,D_}));
-
-	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, A,C,A_}));
-	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, C,C_,A_}));
-
-	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, B,D,B_}));
-	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, D,D_,B_}));
-
-	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, A,B,B_}));
-	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, A,A_,B_}));
-
-	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, C,D,D_}));
-	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, C,C_,D_}));
-
 	Hit minHit{};
 
 	for (auto const& item : Seiten) {
@@ -177,6 +146,34 @@ void Box::readFromStream (std::istream & ins) {
 	ins >> std::ws >> y;
 	ins >> std::ws >> z;
 	max_= glm::vec3 {x,y,z};
+
+	glm::vec3 A  = {min_.x          , min_.y ,          min_.z         };
+	glm::vec3 B  = {min_.x + min_.x , min_.y ,          min_.z         };
+	glm::vec3 C  = {min_.x ,          min_.y + min_.y , min_.z         };
+	glm::vec3 D  = {min_.x + min_.x , min_.y + min_.y , min_.z         };
+
+	glm::vec3 A_ = {min_.x          , min_.y ,          min_.z + min_.z};
+	glm::vec3 B_ = {min_.x + min_.x , min_.y ,          min_.z + min_.z};
+	glm::vec3 C_ = {min_.x ,          min_.y + min_.y , min_.z + min_.z};
+	glm::vec3 D_ = {min_.x + min_.x , min_.y + min_.y , min_.z + min_.z};
+
+	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, A,B,C}));
+	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, B,C,D}));
+
+	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, A_,B_,C_}));
+	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, B_,C_,D_}));
+
+	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, A,C,A_}));
+	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, C,C_,A_}));
+
+	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, B,D,B_}));
+	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, D,D_,B_}));
+
+	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, A,B,B_}));
+	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, A,A_,B_}));
+
+	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, C,D,D_}));
+	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, C,C_,D_}));
 	// return ins;
 }
 

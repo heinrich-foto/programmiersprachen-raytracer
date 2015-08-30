@@ -12,10 +12,12 @@
 #define BUW_BOX_HPP
 
 #include "shape.hpp"
+#include "triangle.hpp"
 
 #include <glm/vec3.hpp>
 #include <glm/gtx/intersect.hpp>
 #include <glm/vec3.hpp>
+#include <vector>
 
 class Box : public Shape
 {
@@ -47,6 +49,7 @@ protected:
 private:
 	glm::vec3 	min_;
 	glm::vec3 	max_;
+	std::vector<std::shared_ptr<Triangle>> Seiten;
 };
 
 #endif // BUW_BOX
