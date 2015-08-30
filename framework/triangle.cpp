@@ -50,9 +50,21 @@ Hit Triangle::intersect(Ray const& r) const
 	glm::vec3 baryPosition;
 
 	auto result = glm::intersectRayTriangle	( r.origin, glm::normalize(r.direction), p1_, p2_ , p3_, baryPosition);	
-	distance = baryPosition.z;
+	if (result==true) {
+		// Convert barycentric to world coordinates
+        double u, v, w;
+        u = baryPosition.x;
+        v = baryPosition.y;
+        w = 1 - (u+v);
 
-	IntersectionNormal = glm::cross(p1_-p2_ , p3_-p2_);
+        baryPosition.x = (u * p1_.x + v * p2_.x + w * p3_.x);
+        baryPosition.y = (u * p1_.y + v * p2_.y + w * p3_.y);
+        baryPosition.z = (u * p1_.z + v * p2_.z + w * p3_.z);
+	}
+
+	distance = glm::distance(r.origin,baryPosition);
+
+	IntersectionNormal = glm::cross(p1_-p2_ , p3_-p2_); // Normal on plane
 
 	return Hit {result, distance, IntersectionNormal, baryPosition, shared_from_this()};
 }
