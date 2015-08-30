@@ -27,3 +27,6 @@ define shape sphere s0 100 100 -1500 20 2
 
 define shape box bo0 -100 -100 -500 100 100 -1500 magenta
 define shape box bo0 0 0 -1500 100 100 -500 6
+
+define light ambient amb 0.1 0.2 0.1
+define light diffuse sun 0 0 -200 1.0 1.0 1.0

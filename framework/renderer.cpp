@@ -11,6 +11,8 @@
 #include "sdfloader.hpp"
 
 #include <limits>
+#include <glm/glm.hpp>
+
 
 unsigned DETH = 4;
 
@@ -50,7 +52,6 @@ void Renderer::render(Scene const& scene)
 }
 
 Color Renderer::raytrace(Ray const& ray, unsigned depth, Scene const & scene) {
-    // Hit minHit{false, std::numeric_limits<double>::infinity(), {0,0,0}, nullptr};
     Hit minHit{};
     Color clr;
     Color ambientColor{scene.ambientColor};
@@ -82,7 +83,6 @@ Color Renderer::raytrace(Ray const& ray, unsigned depth, Scene const & scene) {
           Hit hit = item->intersect(ray); // intersect des Composit wird aufgerufen.
           if (hit.hit()) { 
             // Ambient Light -> jedes ka eluminierende Object erhöt the Ambient Light??!
-            // clr += ambientColor * scene.get_shape(hit.object())->material().ka();
             clr += ambientColor * (hit.object())->material().ka();
           }
           if (hit.hit() && hit < minHit) { // if (hit)
@@ -95,18 +95,43 @@ Color Renderer::raytrace(Ray const& ray, unsigned depth, Scene const & scene) {
       // } // for statement
       if (minHit.hit())
       {
-        // shading nicht in eigener Funktion.
-        // for (auto& light : scene_.lights) { 
-        //   auto lightRay = Ray(hit.object()->hitpoint(), glm::normalize(light.postion()- hit..object()->hitpoint()))
-        // }
-
-        // return shade(scene.get_shape(minHit.object()));
-        // return (scene.get_shape(minHit.object()))->material().kd();
-        return (minHit.object())->material().kd();
+        return shading(minHit, scene.light);
+        // return (minHit.object())->material().kd();
       } else {
         return clr;
       }
     }
+  }
+
+  Color Renderer::shading(Hit const& hit, std::vector<Light> const& lights) const {
+    // shading nicht in eigener Funktion.
+    // http://glm.g-truc.net/0.9.2/api/a00006.html
+    Color color {0.1,0.1,0.1}; // debug color
+    // Color color {0,0,0};
+    
+    glm::vec3 hitpoint = hit.hitPoint();
+
+    for (auto& light : lights) { 
+      
+      glm::vec3 LightVector = glm::normalize(light.position() - hitpoint);
+
+      float Diffuse = glm::dot(glm::normalize(hit.normalVec()),LightVector);
+      
+      glm::vec3 reflectionRay = {
+        hit.normalVec().x*2*Diffuse-LightVector.x,
+        hit.normalVec().y*2*Diffuse-LightVector.y,
+        hit.normalVec().z*2*Diffuse-LightVector.z
+      };
+
+      if (Diffuse > 0.0f && Diffuse < 1) {
+        // if(Material.isDiffuse())
+        color += light.color() * hit.object()->material().kd() * Diffuse;
+      } else {
+        return color;
+      }
+    }
+
+    return color;
   }
 
 void Renderer::write(Pixel const& p)

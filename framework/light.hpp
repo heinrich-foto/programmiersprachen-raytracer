@@ -10,32 +10,30 @@
 #ifndef BUW_LIGHT_HPP
 #define BUW_LIGHT_HPP
 
+#include "color.hpp"
 #include <glm/vec3.hpp>
 #include <string>
+#include <iostream>
 
 class Light {
 public:
-	Light():
-		name_{"default_light"},
-		position_{200,200,0},
-		la_{0,0,0},
-		ld_{0,0,0},
-		lp_{0,0,0}
-	{};
+	Light();
+	Light(std::string const& name, glm::vec3 const& position, Color const& ambient, Color const& diffuse, Color const& hu);
 
-	Light(std::string const& name, glm::vec3 const& position, Color const& ambient, Color const& diffuse, Color const& hu):
-		name_{"default_light"},
-		position_{position},
-		la_{ambient},
-		ld_{diffuse},
-		lp_{hu}
-		{};
+	Color color() const;
+	Color ambient() const;
+	Color diffuse() const;
+	glm::vec3 position() const;
+
+	friend std::ostream& operator<<(std::ostream& os, Light const& input);
+	friend std::istream& operator>>(std::istream & ins, Light & input);
 private:
 	std::string name_;
 	glm::vec3 position_;
 	Color la_; // Ambient Light
 	Color ld_; // Diffuse Light
 	Color lp_; // Helligkeit der Punktlichtquelle
+	std::string lighttype_; // ambient, diffuse
 };
 
 #endif // BUW_LIGHT

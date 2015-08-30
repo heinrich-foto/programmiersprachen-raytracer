@@ -121,6 +121,8 @@ define shape composite allCorner corner_Vorder corner_Linke corner_Rechte corner
 
 define shape composite root wurfel_4 wurfel_9 obere hinten allCorner
 
+define light ambient amb 0.1 0.2 0.1
+define light diffuse sun 0 0 -200 1.0 1.0 1.0
 
 camera eye 60.0
 render eye image.ppm 600 600

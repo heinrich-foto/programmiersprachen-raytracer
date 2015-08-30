@@ -40,6 +40,10 @@ glm::vec3 Hit::hitPoint() const {
 	return hitPoint_;
 }
 
+glm::vec3 Hit::normalVec() const {
+	return normalVec_;
+}
+
 std::shared_ptr<const Shape> Hit::object() const
 // std::string Hit::object() const 
 {

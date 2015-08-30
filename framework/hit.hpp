@@ -32,6 +32,8 @@ public:
 	glm::vec3 normal() const { return normalVec_; };
 	void normal(glm::vec3 const& input) { normalVec_ = input; }; 
 
+	glm::vec3 normalVec() const;
+
 	std::shared_ptr<const Shape> object() const;
 	// std::string object() const;
 

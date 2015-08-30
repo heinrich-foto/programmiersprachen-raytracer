@@ -8,6 +8,7 @@
 #include "triangle.hpp"
 #include "composit.hpp"
 #include "camera.hpp"
+#include "light.hpp"
 
 #include <deque>
 #include <algorithm>
@@ -134,9 +135,18 @@ bool SDFLoader::parse(std::string const& line) {
 					} else { return false; }
 
 				} else if (word=="light") {
-					throw std::invalid_argument("Not implemented.");
-					// define light name pos La Ld
-					// define light name     La Ld
+					// throw std::invalid_argument("Not implemented.");
+					// define light ambient name pos La
+					// define light diffuse name     Ld
+					Light light;
+					stream >> light;
+					if (!stream.good()) {
+						scene_.light.push_back(light);
+						std::cout << "added new " << light << std::endl;
+						return true;
+					} else {
+						return false;
+					}
 				} else if (word=="shape") {
 					stream >> word;
 					try {
