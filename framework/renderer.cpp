@@ -14,6 +14,14 @@
 #include <glm/glm.hpp>
 #include <cmath>
 
+#if defined(ENABLE_OPENMP)
+#include <omp.h>
+#else
+typedef int omp_int_t;
+inline omp_int_t omp_get_thread_num() { return 0;}
+inline omp_int_t omp_get_max_threads() { return 1;}
+#endif
+
 
 unsigned DETH = 4;
 
@@ -34,10 +42,11 @@ unsigned Renderer::height() const {
 
 void Renderer::render(Scene const& scene)
 {
+  scene_ = std::make_shared<Scene> (scene);
   // std::cout << "Start renderer..." << std::endl;
   // for (auto const& item : scene.material) std::cout << item << std::endl;
   // for (auto const& item : scene.shape) std::cout << item <<  " " << *item << std::endl;
-
+  #pragma omp parallel for
   for (unsigned y = 0; y < height_; ++y) {
     for (unsigned x = 0; x < width_; ++x) {
 
@@ -53,18 +62,28 @@ void Renderer::render(Scene const& scene)
 }
 
 Color Renderer::raytrace(Ray const& ray, unsigned depth, Scene const & scene) {
-    Hit minHit{};
     Color clr;
-    Color ambientColor{scene.ambientColor};
+    Color ambientColor{scene.ambientColor}; // not used
 
     if (depth==0) {
       return Color{0,0,0};
     }
     else {
-      // for (auto const& item : scene.shape) {
-      auto item = scene.get_shape("root");
-        try {
-          /*
+
+          Hit hit = intersect(ray, depth); 
+
+      if (hit.hit())
+      {
+        return shading(hit, scene.light, ray);
+        // return (minHit.object())->material().kd();
+      } else {
+        return clr;
+      }
+    }
+  }
+
+Hit Renderer::intersect(Ray const& ray, unsigned depth) const {
+  /*
           - Inverse Transformationsmatrix auf Strahl anwenden.
               instance::intersect( ray, &hit ) {
                 ray_object = transform_ray( ray, M_inv )
@@ -79,34 +98,22 @@ Color Renderer::raytrace(Ray const& ray, unsigned depth, Scene const & scene) {
 
           // if (item->transformed) {
           //   ray = transform_ray(ray, M_inv);
-          // }
-
-          Hit hit = item->intersect(ray); // intersect des Composit wird aufgerufen.
-          if (hit.hit()) { 
-            // Ambient Light -> jedes ka eluminierende Object erhöt the Ambient Light??!
-            clr += ambientColor * (hit.object())->material().ka();
-          }
-          if (hit.hit() && hit < minHit) { // if (hit)
-            minHit = hit;
-          }
-        } catch (...) {
-          std::cout << "Bad weak" << std::endl;
-          return Color(0.0,0.9,0.1);
-        }
-      // } // for statement
-      if (minHit.hit())
-      {
-        return shading(minHit, scene.light, ray);
-        // return (minHit.object())->material().kd();
-      } else {
-        return clr;
-      }
-    }
+          // } (Gehört in Composite)
+  auto item = scene_->get_shape("root");
+  try { // intersect des Composit wird aufgerufen.
+  Hit hit = item->intersect(ray);
+  return (hit.hit()==true)? hit : Hit {};
+  } catch (...) {
+          std::cout << "Bad weak Pointer in Intersection." << std::endl;
+          return Hit {};
   }
+}
 
   Color Renderer::shading(Hit const& hit, std::vector<Light> const& lights, Ray const& r) const {
     // shading nicht in eigener Funktion.
     // http://glm.g-truc.net/0.9.2/api/a00006.html
+    // http://graphics.ucsd.edu/courses/cse168_s06/ucsd/lecture01.pdf
+    // http://graphics.ucsd.edu/courses/cse168_s06/
     Color color {0.1,0.1,0.1}; // debug color
     // Color color {0,0,0};
 
@@ -116,7 +123,7 @@ Color Renderer::raytrace(Ray const& ray, unsigned depth, Scene const & scene) {
       
       glm::vec3 LightVector = glm::normalize(light.position() - hitpoint);
 
-      float Diffuse = glm::dot(glm::normalize(hit.normalVec()),LightVector);
+      float Diffuse = std::max(0.0f,glm::dot(glm::normalize(hit.normalVec()),LightVector));
       
       glm::vec3 reflectionRay = {
         hit.normalVec().x*2*Diffuse-LightVector.x,
@@ -124,20 +131,31 @@ Color Renderer::raytrace(Ray const& ray, unsigned depth, Scene const & scene) {
         hit.normalVec().z*2*Diffuse-LightVector.z
       };
 
-      float Spekular = std::pow(
+      /*float Spekular = std::pow(
             glm::dot(glm::normalize(reflectionRay),glm::normalize(r.direction))
           , hit.object()->material().m()
-        );
+        );*/
 
-      if (Diffuse > 0.0f && Diffuse < 1) {
+      // Ambient Light
+      color += light.ambient() * hit.object()->material().ka(); 
+
+      // Shadow?
+      glm::vec3 epsilonPosition = hitpoint +0.0001f*glm::normalize(hitpoint);
+      Hit shadow = intersect(Ray {epsilonPosition,LightVector},1);
+      if ((!shadow.hit())&&(Diffuse > 0.0f && Diffuse < 1)) {
+        // Diffuse
         // if(Material.isDiffuse())
-        
-        color += light.ambient() * hit.object()->material().ka() 
-               + light.diffuse() * hit.object()->material().kd() * Diffuse
-               + 1 /* /(distance*distance) */ * hit.object()->material().ks() * Spekular;
-      } else {
-        return color;
-      }
+
+        color += light.diffuse() * hit.object()->material().kd() * Diffuse;
+               // + 1 /* /(distance*distance) */ * hit.object()->material().ks() * Spekular;
+               //+ hit.object()->material().ks() * Spekular;
+      } 
+      // Spekular
+      glm::vec3 Reflect = glm::reflect(-LightVector,hit.normalVec());
+      float Dot = std::max(0.0f,glm::dot(Reflect, glm::normalize(r.direction)));
+      float Base = Dot > 0.0f ? Dot : 0.0f;
+      float Specular = glm::pow(Base, hit.object()->material().m());
+      color += hit.object()->material().ks() * Specular;
     }
 
     return color;

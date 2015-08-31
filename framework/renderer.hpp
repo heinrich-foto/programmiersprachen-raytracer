@@ -29,6 +29,7 @@ public:
   
   void render(Scene const& scene);
   Color raytrace(Ray const& ray, unsigned depth, Scene const& scene);
+  Hit intersect(Ray const& ray, unsigned depth) const;
   Color shading(Hit const& hit, std::vector<Light> const& lights, Ray const& ray) const;
   void write(Pixel const& p);
 
@@ -43,6 +44,7 @@ private:
   std::vector<Color> colorbuffer_;
   std::string filename_; // outputfile
   PpmWriter ppm_;
+  std::shared_ptr<Scene> scene_;
 };
 
 #endif // #ifndef BUW_RENDERER_HPP

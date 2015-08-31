@@ -1,5 +1,6 @@
 #include "triangle.hpp"
 #include <cmath>
+#include <glm/gtx/fast_square_root.hpp> // fastNormalize
 
 Triangle::Triangle() : 
 	Shape{"triangle_default"}, 
@@ -52,6 +53,7 @@ Hit Triangle::intersect(Ray const& r) const
 	auto result = glm::intersectRayTriangle	( r.origin, glm::normalize(r.direction), p1_, p2_ , p3_, baryPosition);	
 	if (result==true) {
 		// Convert barycentric to world coordinates
+		// http://gamedev.stackexchange.com/questions/65723/finding-z-given-x-y-coordinates-on-terrain
         double u, v, w;
         u = baryPosition.x;
         v = baryPosition.y;
@@ -63,8 +65,9 @@ Hit Triangle::intersect(Ray const& r) const
 	}
 
 	distance = glm::distance(r.origin,baryPosition);
-
-	IntersectionNormal = glm::cross(p1_-p2_ , p3_-p2_); // Normal on plane
+	// http://glm.g-truc.net/0.9.2/api/a00006.html
+	// IntersectionNormal = glm::fastNormalize(glm::cross(p3_ - p1_, p2_ - p1_));
+	IntersectionNormal = glm::normalize(glm::cross(p3_ - p1_, p2_ - p1_));
 
 	return Hit {result, distance, IntersectionNormal, baryPosition, shared_from_this()};
 }

@@ -9,9 +9,9 @@ Box::Box(glm::vec3 const& min, glm::vec3 const& max) :
 	min_{min}, 
 	max_{max} 
 	{
-		std::swap(min_.x,max_.x);
-		std::swap(min_.y,max_.y);
-		std::swap(min_.z,max_.z);
+		if (min_.x>max_.x) std::swap(min_.x,max_.x);
+		if (min_.y>max_.y) std::swap(min_.y,max_.y);
+		if (min_.z>max_.z) std::swap(min_.z,max_.z);
 	}
 
 Box::Box(std::string const& name, Material const& material):
@@ -24,9 +24,9 @@ Box::Box(std::string const& name, Material const& material, glm::vec3 const& min
 	min_{min},
 	max_{max}
 	{
-		std::swap(min_.x,max_.x);
-		std::swap(min_.y,max_.y);
-		std::swap(min_.z,max_.z);
+		if (min_.x>max_.x) std::swap(min_.x,max_.x);
+		if (min_.y>max_.y) std::swap(min_.y,max_.y);
+		if (min_.z>max_.z) std::swap(min_.z,max_.z);
 	}
 
 Box::~Box() {}
@@ -39,28 +39,95 @@ glm::vec3 Box::max() const
 {
 	return max_;
 }
-Hit Box::intersect(const Ray &r) const {
-	Hit minHit{};
+// Intersection with triangle
+// Hit Box::intersect(const Ray &r) const {
+// 	Hit minHit{};
 
-	for (auto const& item : Seiten) {
-		try {
-			auto hit = item->intersect(r);
-			if (hit.hit() && hit < minHit) { // if (hit)
-				minHit = hit;
-			}
-		} catch (...) {
-			std::cout << "Bad weak in Box" << std::endl;
-			return Hit {};
-		}
+// 	for (auto const& item : Seiten) {
+// 		try {
+// 			auto hit = item->intersect(r);
+// 			if (hit.hit() && hit < minHit) { // if (hit)
+// 				minHit = hit;
+// 			}
+// 		} catch (...) {
+// 			std::cout << "Bad weak in Box" << std::endl;
+// 			return Hit {};
+// 		}
 		
-	}
-	if (minHit.hit())
-	{
-		return {minHit.hit(),minHit.distance(), minHit.hitPoint(), minHit.normal(),shared_from_this()};
-	} else {
-		return Hit {};
-	}
+// 	}
+// 	if (minHit.hit())
+// 	{
+// 		return {minHit.hit(),minHit.distance(), minHit.hitPoint(), minHit.normal(),shared_from_this()};
+// 	} else {
+// 		return Hit {};
+// 	}
+// }
+
+Hit Box::intersect(const Ray &r) const{
+  
+  float tmp, tmpX, tmpY, tmpZ, xLimit, yLimit, zLimit;
+  glm::vec3 xHitNormal, yHitNormal, zHitNormal;
+
+  if(max_.x < r.origin.x) {
+    xLimit = max_.x;
+    xHitNormal = {1,0,0};
+  } else {
+    xLimit = min_.x;
+    xHitNormal = {-1,0,0};
+  }
+
+  if(max_.y < r.origin.y) {
+    yLimit = max_.y;
+    yHitNormal = {0,1,0};
+  } else {
+    yLimit = min_.y;
+    yHitNormal = {0,-1,0};
+  }
+
+  if(max_.z < r.origin.z) {
+    zLimit = max_.z;
+    zHitNormal = {0,0,1};
+  } else {
+    zLimit = min_.z;
+    zHitNormal = {0,0,-1};
+  }
+
+  float xHitDistance, yHitDistance, zHitDistance;
+  glm::vec3 xHitPoint, yHitPoint, zHitPoint;
+  bool xHit, yHit, zHit;
+  float eps = 0.001;
+
+  glm::vec3 normDir = glm::normalize(r.direction);
+  xHitDistance = (xLimit - r.origin.x) / normDir.x;
+  tmpY = r.origin.y + xHitDistance * normDir.y;
+  tmpZ = r.origin.z + xHitDistance * normDir.z;
+  xHitPoint = {xLimit,  tmpY, tmpZ};
+  xHit = xHitDistance>0 && tmpY<=max_.y+eps && tmpY+eps>=min_.y && tmpZ<=max_.z+eps && tmpZ+eps>=min_.z ? true : false;
+
+  yHitDistance = (yLimit - r.origin.y) / normDir.y;
+  tmpX = r.origin.x + yHitDistance * normDir.x;
+  tmpZ = r.origin.z + yHitDistance * normDir.z;
+  yHitPoint = {tmpX, yLimit, tmpZ};
+  yHit = yHitDistance>0 && tmpX<=max_.x+eps && tmpX+eps>=min_.x && tmpZ<=max_.z+eps && tmpZ+eps>=min_.z ? true : false;
+
+  zHitDistance = (zLimit - r.origin.z) / normDir.z;
+  tmpX = r.origin.x + zHitDistance * normDir.x;
+  tmpY = r.origin.y + zHitDistance * normDir.y;
+  zHitPoint = {tmpX, tmpY, zLimit};
+  zHit = zHitDistance>0 && tmpX<=max_.x+eps && tmpX+eps>=min_.x && tmpY<=max_.y+eps && tmpY+eps>=min_.y ? true : false;
+
+  Hit xH {xHit, xHitDistance, xHitNormal, xHitPoint, shared_from_this()};
+  Hit yH {yHit, yHitDistance, yHitNormal, yHitPoint, shared_from_this()};
+  Hit zH {zHit, zHitDistance, zHitNormal, zHitPoint, shared_from_this()};
+
+  Hit hit{false, INFINITY, {INFINITY, INFINITY, INFINITY}, {0,0,0}, nullptr};
+  hit = xH.hit() && xH.distance() < hit.distance() ? xH : hit;
+  hit = yH.hit() && yH.distance() < hit.distance() ? yH : hit;
+  hit = zH.hit() && zH.distance() < hit.distance() ? zH : hit;
+
+  return hit;
 }
+
 
 // Hit Box::intersect(const Ray &r) const {
 	
@@ -100,6 +167,7 @@ Hit Box::intersect(const Ray &r) const {
 
 // 	// std::cout << name_ << " min: " << tmin << " max: " << tmax << r << std::endl;
 //  	return Hit {true, tmin_x, r.origin, shared_from_this()};
+//  	// return {bool,distance, hitPoint, normal,shared_from_this()};
 //  	// return Hit {true, tmin, r.origin, name_};
 // }
 // Hit Box::intersect(const Ray &r) const {
