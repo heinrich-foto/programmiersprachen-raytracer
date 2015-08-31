@@ -141,8 +141,9 @@ Hit Renderer::intersect(Ray const& ray, unsigned depth) const {
 
       // Shadow?
       glm::vec3 epsilonPosition = hitpoint +0.0001f*glm::normalize(hitpoint);
-      Hit shadow = intersect(Ray {epsilonPosition,LightVector},1);
-      if ((!shadow.hit())&&(Diffuse > 0.0f && Diffuse < 1)) {
+      // Hit shadow = intersect(Ray {epsilonPosition,LightVector},1);
+      // if ((!shadow.hit())&&(Diffuse > 0.0f && Diffuse < 1)) {
+      if ((Diffuse > 0.0f && Diffuse < 1)) {
         // Diffuse
         // if(Material.isDiffuse())
 
