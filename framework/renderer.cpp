@@ -51,19 +51,37 @@ void Renderer::render(Scene const& scene)
     for (unsigned x = 0; x < width_; ++x) {
 
       Pixel p(x,y);
+      
+      Ray ray{scene_->camera.compute_ray(p,height_,width_)};  
+      // std::cout << width_ << " " << x << " " << y << " " << ray; 
 
-      Ray ray{scene.camera.compute_ray(p,height_,width_)};  
-      // std::cout << width_ << " " << x << " " << y << " " << ray;         
-      p.color = raytrace(ray,DETH,scene);
+      if (scene_->SSAA_>0){//SSAA Supersampling (Jiggle)
+      int samples = sqrt(scene_->SSAA_);
+        for (int xAA=1;xAA<samples+1;++xAA){
+          for (int yAA=1;yAA<samples+1;++yAA){
+            float xA = ray.direction.x +(float) (xAA)/(float)samples-0.5f; 
+            float yA = ray.direction.y +(float) (yAA)/(float)samples-0.5f;
+            float zA = ray.direction.z;
+            Ray aaRay{ray.origin, {xA,yA,zA}};
+            p.color +=raytrace(aaRay,DETH);
+          }
+        }
+      }
+      if (scene_->SSAA_>0) {
+        p.color /=scene_->SSAA_;
+      } else {
+        p.color +=raytrace(ray,DETH);
+      }
+
       write(p);
     }
   }
   ppm_.save(filename_);
 }
 
-Color Renderer::raytrace(Ray const& ray, unsigned depth, Scene const & scene) {
+Color Renderer::raytrace(Ray const& ray, unsigned depth) {
     Color clr;
-    Color ambientColor{scene.ambientColor}; // not used
+    Color ambientColor{scene_->ambientColor}; // not used
 
     if (depth==0) {
       return Color{0,0,0};
@@ -74,7 +92,7 @@ Color Renderer::raytrace(Ray const& ray, unsigned depth, Scene const & scene) {
 
       if (hit.hit())
       {
-        return shading(hit, scene.light, ray);
+        return shading(hit, scene_->light, ray);
         // return (minHit.object())->material().kd();
       } else {
         return clr;
@@ -114,8 +132,8 @@ Hit Renderer::intersect(Ray const& ray, unsigned depth) const {
     // http://glm.g-truc.net/0.9.2/api/a00006.html
     // http://graphics.ucsd.edu/courses/cse168_s06/ucsd/lecture01.pdf
     // http://graphics.ucsd.edu/courses/cse168_s06/
-    Color color {0.1,0.1,0.1}; // debug color
-    // Color color {0,0,0};
+    // Color color {0.1,0.1,0.1}; // debug color
+    Color color {0,0,0};
 
     glm::vec3 hitpoint = hit.hitPoint();
 
@@ -141,9 +159,9 @@ Hit Renderer::intersect(Ray const& ray, unsigned depth) const {
 
       // Shadow?
       glm::vec3 epsilonPosition = hitpoint +0.0001f*glm::normalize(hitpoint);
-      // Hit shadow = intersect(Ray {epsilonPosition,LightVector},1);
-      // if ((!shadow.hit())&&(Diffuse > 0.0f && Diffuse < 1)) {
-      if ((Diffuse > 0.0f && Diffuse < 1)) {
+      Hit shadow = intersect(Ray {epsilonPosition,LightVector},1);
+      if ((!shadow.hit())&&(Diffuse > 0.0f && Diffuse < 1)) {
+      // if ((Diffuse > 0.0f && Diffuse < 1)) {
         // Diffuse
         // if(Material.isDiffuse())
 
@@ -152,8 +170,10 @@ Hit Renderer::intersect(Ray const& ray, unsigned depth) const {
                //+ hit.object()->material().ks() * Spekular;
       } 
       // Spekular
-      glm::vec3 Reflect = glm::reflect(-LightVector,hit.normalVec());
+      glm::vec3 Reflect = glm::reflect(LightVector,hit.normalVec());
+      // glm::vec3 Reflect = glm::reflect(-LightVector,hit.normalVec());
       float Dot = std::max(0.0f,glm::dot(Reflect, glm::normalize(r.direction)));
+
       float Base = Dot > 0.0f ? Dot : 0.0f;
       float Specular = glm::pow(Base, hit.object()->material().m());
       color += hit.object()->material().ks() * Specular;

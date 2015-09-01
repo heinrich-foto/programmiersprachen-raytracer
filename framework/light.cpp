@@ -9,7 +9,7 @@ Light::Light():
 	{}
 
 Light::Light(std::string const& name, glm::vec3 const& position, Color const& ambient, Color const& diffuse, Color const& hu):
-	name_{"default_light"},
+	name_{name},
 	position_{position},
 	la_{ambient},
 	ld_{diffuse},
@@ -29,6 +29,7 @@ Color Light::diffuse() const {
 }
 
 glm::vec3 Light::position() const {
+	// if (lighttype_=="ambient") throw std::invalid_argument("Ambient light dosnt have a position.");
 	return position_;
 }
 

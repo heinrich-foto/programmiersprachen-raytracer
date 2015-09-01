@@ -61,6 +61,20 @@ struct Color
     return *this;
   }
 
+    Color& operator/=(Color const& rsd){
+    r /= rsd.r;
+    g /= rsd.g;
+    b /= rsd.b;
+    return *this;
+  }
+
+  Color& operator/=(float rsd){
+    r /= rsd;
+    g /= rsd;
+    b /= rsd;
+    return *this;
+  }
+
   Color& operator-=(Color const& other)
   {
     r -= other.r;
@@ -80,6 +94,13 @@ struct Color
   {
     auto tmp(a);
     tmp -= b;
+    return tmp;
+  }
+
+    friend Color operator/(Color const& a, Color const& b)
+  {
+    auto tmp(a);
+    tmp /= b;
     return tmp;
   }
 

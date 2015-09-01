@@ -2,7 +2,7 @@ define material red   1 0 0   1 0 0   1 0 0   1
 define material shinyred 1 0 0  1 0 0 1 0 0   100
 define material blue  0 0 1   0 0 1   0 0 1   10
 define material green 0 1 0   0 1 0   0 1 0   1
-define material magenta 1 0.3 0.5 1 0.3 0.5 1 0.3 0.5  1
+define material magenta 1 0.3 0.5   0.3 0.2 0.1 0 0.1 0.1  100
 
 define material 1     0.9 0.1 0.1  0.9 0.1 0.1   0.9 0.1 0.1 1
 define material 2     0.5 0.8 0.1  0.5 0.8 0.1   0.5 0.8 0.1 1
@@ -80,7 +80,7 @@ define shape sphere spherej  200 -200 -398    20   red
 define shape sphere spherej_   200 -200 -798    20   red
 define shape sphere spherej__   -200 -200 -798    20   red
 
-define shape sphere sphere_H 0 0 -600 20 blue
+define shape sphere sphere_H 0 0 -600 100 blue
 define shape composite hinten sphere_H
 
 define shape composite Vorder			 triangla trianglb
@@ -119,11 +119,12 @@ define shape composite wurfel_11    Seite_untere
 
 define shape composite allCorner corner_Vorder corner_Linke corner_Rechte corner_obere corner_untere
 
+define shape box box_oben -200 200 -400 200 250 -800 blue
+define shape composite root wurfel_4 wurfel_9 obere hinten allCorner box_oben
 
-define shape composite root wurfel_4 wurfel_9 obere hinten allCorner
-
-define light ambient amb 0.1 0.2 0.1
-define light diffuse sun 100 100 -600 1.0 1.0 1.0
+#define light ambient amb 0.1 0.2 0.1
+#define light diffuse sun 100 100 -600 1.0 1.0 1.0
+#define light diffuse sun -300 300 -300 0.0 1.0 0.0
 
 camera eye 60.0
 render eye image.ppm 600 600

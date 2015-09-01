@@ -24,6 +24,7 @@ public:
 	Color ambient() const;
 	Color diffuse() const;
 	glm::vec3 position() const;
+	std::string type() const {return lighttype_; };
 
 	friend std::ostream& operator<<(std::ostream& os, Light const& input);
 	friend std::istream& operator>>(std::istream & ins, Light & input);

@@ -6,7 +6,7 @@
 int main(int argc, char* argv[])
 {
   std::string sdfFileName = "../";
-  if (argc == 2) {
+  if (argc >= 2) {
     sdfFileName += argv[1];
   } else {
     sdfFileName += "sdf_scene_test.sdf";
@@ -15,6 +15,11 @@ int main(int argc, char* argv[])
   auto SDF = SDFLoader::instance();
   Scene scene = SDF->load(sdfFileName);
 
+  if (argc >= 3) {
+    scene.SSAA_=std::stof(argv[2]);
+  } else {
+    scene.SSAA_=1;
+  }
   unsigned width = scene.resX;
   unsigned height = scene.resY;
   std::string const filename = scene.filename;

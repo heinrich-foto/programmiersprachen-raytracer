@@ -38,10 +38,11 @@ struct Scene
 	std::vector<std::shared_ptr<Shape>> shape;
 	std::vector<Light> light;
 	Camera camera;
-	Color ambientColor;
-	float ambientBrightness;
+	Color ambientColor;		// could be Depricated soon?
+	float ambientBrightness; // Depricated
 	unsigned resX;
 	unsigned resY;
+	float SSAA_;
 	std::string filename;
 
 	Material get_material(std::string name) const {

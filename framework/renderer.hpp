@@ -28,7 +28,7 @@ public:
   unsigned height() const;
   
   void render(Scene const& scene);
-  Color raytrace(Ray const& ray, unsigned depth, Scene const& scene);
+  Color raytrace(Ray const& ray, unsigned depth);
   Hit intersect(Ray const& ray, unsigned depth) const;
   Color shading(Hit const& hit, std::vector<Light> const& lights, Ray const& ray) const;
   void write(Pixel const& p);

@@ -84,7 +84,34 @@ Scene const& SDFLoader::load(std::string const& filename){
 				// hat keine weiteren Auswirkungen, Kamera ist wichtig und setzt im Grunde schon alles.
 				// denn wenn keine Kamera gesetzt ist, wurde auch kein Renderer gesetzt, somit kombinierte
 				// Fehlermeldung. (siehe oben)
-				
+
+				Color clr {0,0,0};
+				bool addDefaultLight = true;
+				if(!scene_.light.empty()) {
+					for (auto const& item : scene_.light) {
+						if (item.type()=="ambient") {
+							// Ambientes Licht aufsummieren
+							clr += item.ambient();
+							// kein extra Licht notwendig.
+							addDefaultLight = false;
+						} else { // type==diffuse
+							// es könnte sein, dass es notwendig ist. Aber wenn schon false, dann muss nicht.
+							addDefaultLight = (addDefaultLight==false)? false : true;
+						}
+					}
+				} 
+				if (addDefaultLight) {
+					Light light {"SDF_default", {0,0,0}, {0.1,0.1,0.1}, {0,0,0}, {0,0,0}};
+					std::cout << "Warning: A default Ambient light was genererated." << light << std::endl;
+					scene_.light.push_back(light);
+					clr += light.ambient();
+				}
+				// std::remove_if(scene_.light.begin(), scene_.light.end(),
+    //     			[](const Light & item) { return "ambient"==item.type(); });
+				// Member ambientColor of Scene maybe not used...
+				std::cout << "Final Scene Ambient light is: " << clr << std::endl;
+				scene_.ambientColor = clr; 
+				scene_.ambientBrightness = 0; // Dosnt used??! --> Depricated
 				return scene_;
 			}
 			else {
