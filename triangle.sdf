@@ -123,7 +123,7 @@ define shape box box_oben -200 200 -400 200 250 -800 blue
 define shape composite root wurfel_4 wurfel_9 obere hinten allCorner box_oben
 
 define light ambient amb 0.1 0.2 0.1
-#define light diffuse sun 100 100 -600 1.0 1.0 1.0
+define light diffuse sun 100 100 -600 1.0 1.0 1.0
 #define light diffuse sun -300 300 -300 0.0 1.0 0.0
 
 camera eye 60.0

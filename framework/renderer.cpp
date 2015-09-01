@@ -172,13 +172,13 @@ Hit Renderer::intersect(Ray const& ray, unsigned depth) const {
                //+ hit.object()->material().ks() * Spekular;
       } 
       // Spekular
-      // glm::vec3 Reflect = glm::reflect(LightVector,hit.normalVec());
-      glm::vec3 Reflect = glm::reflect(-LightVector,hit.normalVec());
+      glm::vec3 Reflect = glm::reflect(LightVector,hit.normalVec());
+      // glm::vec3 Reflect = glm::reflect(-LightVector,hit.normalVec());
       float Dot = std::max(0.0f,glm::dot(Reflect, glm::normalize(r.direction)));
 
       float Base = Dot > 0.0f ? Dot : 0.0f;
       float Specular = glm::pow(Base, hit.object()->material().m());
-      // color += hit.object()->material().ks() * Specular;
+      color += hit.object()->material().ks() * Specular;
     }
 
     return color;

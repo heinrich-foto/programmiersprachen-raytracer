@@ -1,28 +1,30 @@
 # materials
-define material red 1 0 0 1 0 0 1 0 0 10 
-define material blue 0 0 1 0 0 1 0 0 1 10 
+define material red 1 0 0 0.8 0 0 0.5 0 0 100 
+define material blue  0 0 1   0 0 1   0 0 1   10
+define material green 0 1 0   0 1 0   0 1 0   1
+define material magenta 1 0.3 0.5   0.3 0.2 0.1 0 0.1 0.1  100
+
 # geometry
-define shape box rbottom0 10 10 -30 20 20 -20 red
-#define shape box rbottom1 -10 -11 -20 -13 -13 -22 red
-#define shape box rbottom2 -100 -80 -200 100 80 -100 red
-#define shape box rbottom3 -100 -80 -200 100 80 -100 red
-#define shape box rbottom4 -100 -80 -200 100 80 -100 red
-define shape sphere bsphere0 -100 -100 -200 20 blue
-#define shape sphere bsphere1 0 0 -300 20 blue
+define shape box rbottom0 -100 100 -300 -200 200 -400 red
+
+define shape sphere bsphere0 100 -100 -400 100 red
+define shape sphere bsphere1 -100 -200 -300 100 blue
+define shape box ground 0 0 0 green
+
 #define shape sphere bsphere2 0 0 200 20 blue
 #define shape sphere bsphere3 0 0 300 20 blue
 # composite
 #define shape composite rbottom rbottom0 rbottom1 rbottom2 rbottom3 rbottom4
 #define shape composite bsphere bsphere0 bsphere1 bsphere2 bsphere3
-define shape composite root rbottom0 bsphere0 
+#define shape composite root rbottom0 bsphere0 
 # scene xform
 transform root scale 2 2 2
 transform root rotate 45 0 0 1
 transform root translate 0 0 -10
 # lights
-define light ambient amb 0.1 0.1 0.1
-define light diffuse sun 500 800 0 1.0 1.0 1.0
-define light diffuse spot1 -500 800 0 0.8 0.8 0.8
+define light ambient amb 0.5 0.5 0.5
+define light diffuse sun 500 -800 0 1.0 1.0 1.0
+define light diffuse spot1 -500 -800 0 0.8 0.8 0.8
 # camera
 define camera eye 60.0 480 320
 # camera xform
