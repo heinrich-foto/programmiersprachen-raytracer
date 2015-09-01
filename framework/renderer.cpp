@@ -149,17 +149,19 @@ Hit Renderer::intersect(Ray const& ray, unsigned depth) const {
         hit.normalVec().z*2*Diffuse-LightVector.z
       };
 
-      /*float Spekular = std::pow(
-            glm::dot(glm::normalize(reflectionRay),glm::normalize(r.direction))
-          , hit.object()->material().m()
-        );*/
+      // float Specular = std::pow(
+      //       glm::dot(glm::normalize(reflectionRay),glm::normalize(r.direction))
+      //     , hit.object()->material().m()
+      //   );
 
       // Ambient Light
       color += light.ambient() * hit.object()->material().ka(); 
 
       // Shadow?
       glm::vec3 epsilonPosition = hitpoint +0.0001f*glm::normalize(hitpoint);
-      Hit shadow = intersect(Ray {epsilonPosition,LightVector},1);
+      Ray LightRay {hitpoint, LightVector};
+      LightRay.max_t = glm::length(light.position()-hitpoint);
+      Hit shadow = intersect(LightRay,1);
       if ((!shadow.hit())&&(Diffuse > 0.0f && Diffuse < 1)) {
       // if ((Diffuse > 0.0f && Diffuse < 1)) {
         // Diffuse
@@ -170,13 +172,13 @@ Hit Renderer::intersect(Ray const& ray, unsigned depth) const {
                //+ hit.object()->material().ks() * Spekular;
       } 
       // Spekular
-      glm::vec3 Reflect = glm::reflect(LightVector,hit.normalVec());
-      // glm::vec3 Reflect = glm::reflect(-LightVector,hit.normalVec());
+      // glm::vec3 Reflect = glm::reflect(LightVector,hit.normalVec());
+      glm::vec3 Reflect = glm::reflect(-LightVector,hit.normalVec());
       float Dot = std::max(0.0f,glm::dot(Reflect, glm::normalize(r.direction)));
 
       float Base = Dot > 0.0f ? Dot : 0.0f;
       float Specular = glm::pow(Base, hit.object()->material().m());
-      color += hit.object()->material().ks() * Specular;
+      // color += hit.object()->material().ks() * Specular;
     }
 
     return color;

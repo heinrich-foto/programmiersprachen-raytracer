@@ -37,6 +37,7 @@ bool Composit::add_child(std::shared_ptr<Shape> const& shape) {
 	}
 	if (minHit.hit())
 	{
+		if (minHit.distance()<r.max_t) { minHit.hit(false); }
 		return minHit;
 	} else {
 		return Hit {};

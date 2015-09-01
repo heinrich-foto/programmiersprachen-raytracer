@@ -39,11 +39,13 @@ struct Ray
 		direction{ d },
 		inv_direction{1.0 / glm::normalize(direction).x,
 					1.0 / glm::normalize(direction).y,
-					1.0 / glm::normalize(direction).y } {}
+					1.0 / glm::normalize(direction).y },
+		max_t{INFINITY} {}
 
 	glm::vec3 origin;
 	glm::vec3 direction;
 	glm::vec3 inv_direction;
+	float max_t;
 
 	friend std::ostream& operator<<(std::ostream& os, Ray const& ray) {
 		return os << "Ray with origin: [" << std::to_string(ray.origin.x) << ";" << std::to_string(ray.origin.y) << ";" << std::to_string(ray.origin.z) << "]"

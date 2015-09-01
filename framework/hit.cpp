@@ -32,6 +32,10 @@ bool Hit::hit() const {
 	return hit_;
 }
 
+void Hit::hit(bool value) {
+	hit_ = value;
+}
+
 float Hit::distance() const {
 	return distance_;
 }

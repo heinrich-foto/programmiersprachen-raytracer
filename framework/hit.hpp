@@ -25,6 +25,7 @@ public:
 	Hit();
 
 	bool hit() const;
+	void hit(bool value);
 	float distance() const;
 	glm::vec3 hitPoint() const;
 	
