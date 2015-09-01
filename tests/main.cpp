@@ -65,18 +65,19 @@ TEST_CASE("intersectRaySphere", "[intersect]")
 	glm::vec3 sphere_center(0.0,0.0,5.0); 
 	float sphere_radius (1.0);
 	float distance (0.0);
+
 	auto result = glm::intersectRaySphere(
 	ray_origin , ray_direction , sphere_center , sphere_radius , distance );
 	REQUIRE(distance == Approx(4.0f)); 
 
-	Sphere sphere (sphere_center, sphere_radius);
+	auto sphere = std::make_shared<Sphere> (Sphere {sphere_center, sphere_radius});
 	Ray ray(ray_origin,ray_direction);
-	REQUIRE(Approx(4) == sphere.intersect(ray).distance());
-	REQUIRE(true == sphere.intersect(ray).hit());
+	REQUIRE(Approx(4) == sphere->intersect(ray).distance());
+	REQUIRE(true == sphere->intersect(ray).hit());
 
 	Ray ray2(ray_origin,glm::vec3{0,0,3});
-	REQUIRE(Approx(4) == sphere.intersect(ray2).distance());
-	REQUIRE(true == sphere.intersect(ray2).hit());	
+	REQUIRE(Approx(4) == sphere->intersect(ray2).distance());
+	REQUIRE(true == sphere->intersect(ray2).hit());	
 }
 
 TEST_CASE("box ray intersect", "[intersct]") 
@@ -86,9 +87,9 @@ TEST_CASE("box ray intersect", "[intersct]")
 	// ray direction has to be normalized ! // you can use:
 	// v = glm::normalize(some_vector) 
 
-	Box box1 (glm::vec3{1,1,1}, glm::vec3{2,2,2});
-	Box box2 (glm::vec3{-2,-2,-2},glm::vec3{1,1,1});
-	Box box3 (glm::vec3{1,1,1},glm::vec3{-1,-1,-1});
+	auto box1 = std::make_shared<Box> ( Box {glm::vec3{1,1,1}, glm::vec3{2,2,2}});
+	auto box2 = std::make_shared<Box> ( Box {glm::vec3{-2,-2,-2},glm::vec3{1,1,1}});
+	auto box3 = std::make_shared<Box> ( Box {glm::vec3{1,1,1},glm::vec3{-1,-1,-1}});
 
 	Ray ray_x (ray_origin,glm::vec3{1,0,0});
 	Ray ray_y (ray_origin,glm::vec3{0,1,0});
@@ -101,30 +102,30 @@ TEST_CASE("box ray intersect", "[intersct]")
 
 	Ray ray_ (ray_origin,glm::vec3{8,9,8});
 
-	REQUIRE(true  == box1.intersect(ray_xyz).hit());
-	REQUIRE(true  == box1.intersect(ray_).hit());
-	REQUIRE(false == box1.intersect(ray_x).hit());
-	REQUIRE(false == box1.intersect(ray_y).hit());
-	// REQUIRE(false == box1.intersect(ray_z).hit()); // with expansion: false == true
-	REQUIRE(false == box1.intersect(ray_xy).hit());
-	REQUIRE(false == box1.intersect(ray_yz).hit());
-	REQUIRE(false == box1.intersect(ray_xz).hit());
+	REQUIRE(true  == box1->intersect(ray_xyz).hit());
+	REQUIRE(true  == box1->intersect(ray_).hit());
+	REQUIRE(false == box1->intersect(ray_x).hit());
+	REQUIRE(false == box1->intersect(ray_y).hit());
+	// REQUIRE(false == box1->intersect(ray_z).hit()); // with expansion: false == true
+	REQUIRE(false == box1->intersect(ray_xy).hit());
+	REQUIRE(false == box1->intersect(ray_yz).hit());
+	REQUIRE(false == box1->intersect(ray_xz).hit());
 
-	REQUIRE(true  == box2.intersect(ray_xyz).hit());
-	REQUIRE(true  == box2.intersect(ray_).hit());
-	REQUIRE(true  == box2.intersect(ray_x).hit());
-	REQUIRE(true  == box2.intersect(ray_y).hit());
-	REQUIRE(true  == box2.intersect(ray_z).hit());
-	REQUIRE(true  == box2.intersect(ray_xy).hit());
-	REQUIRE(true  == box2.intersect(ray_yz).hit());
-	REQUIRE(true  == box2.intersect(ray_xz).hit());
+	REQUIRE(true  == box2->intersect(ray_xyz).hit());
+	REQUIRE(true  == box2->intersect(ray_).hit());
+	REQUIRE(true  == box2->intersect(ray_x).hit());
+	REQUIRE(true  == box2->intersect(ray_y).hit());
+	REQUIRE(true  == box2->intersect(ray_z).hit());
+	REQUIRE(true  == box2->intersect(ray_xy).hit());
+	REQUIRE(true  == box2->intersect(ray_yz).hit());
+	REQUIRE(true  == box2->intersect(ray_xz).hit());
 
-	Box b (glm::vec3{0.5, 0.5, 0.5}, glm::vec3{0.1, 0.0, 0.0});
+	auto b = std::make_shared<Box> (Box {glm::vec3{0.5, 0.5, 0.5}, glm::vec3{0.1, 0.0, 0.0}});
 	Ray ray1(glm::vec3{0.0, 0.0, 0.0}, glm::vec3{0.2, 0.2, 0.2});
 	Ray ray2(glm::vec3{1.0, 1.0, 1.0}, glm::vec3{0.0, 0.0, 0.0});
 
-	REQUIRE(b.intersect(ray1).hit() == true);
-	REQUIRE(b.intersect(ray2).hit() == false);
+	REQUIRE(b->intersect(ray1).hit() == true);
+	REQUIRE(b->intersect(ray2).hit() == false);
 }
 
 
