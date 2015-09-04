@@ -248,6 +248,7 @@ void Box::readFromStream (std::istream & ins) {
 	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, D,C,C_}));
 	Seiten.push_back(std::make_shared<Triangle> (Triangle {"",{}, D,C_,D_}));
 	// return ins;
+	ins >> std::ws;
 }
 
 // std::istream& operator>>(std::istream & ins, Box & input) {

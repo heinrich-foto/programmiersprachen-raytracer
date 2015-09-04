@@ -74,6 +74,7 @@ std::istream& operator>>(std::istream & ins, Shape & input)
 	// Input in Abgeleiteter Klasse abarbeiten. Vorher Stream zurücksetzen (da sonst Name fehlt.)
 	for (auto rit=word.rbegin(); rit!=word.rend(); ++rit) ins.putback(*rit);
 	input.readFromStream(ins);
+	ins >> std::ws;
 	return ins;
 }
 

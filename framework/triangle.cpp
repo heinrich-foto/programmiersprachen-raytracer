@@ -99,4 +99,5 @@ void Triangle::readFromStream (std::istream & ins) {
 	ins >> std::ws >> y;
 	ins >> std::ws >> z;
 	p3_= glm::vec3 {x,y,z};
+	ins >> std::ws;
 }

@@ -53,5 +53,5 @@ bool Composit::add_child(std::shared_ptr<Shape> const& shape) {
 }
 
 /*virtual*/ void Composit::readFromStream (std::istream & ins) {
-	ins >> std::ws >> name_;
+	ins >> std::ws >> name_ >> std::ws;
 }

@@ -65,5 +65,6 @@ std::istream& operator>>(std::istream & ins, Camera & input) {
 	} else {
 		input.position_= glm::vec3 {0,0,0};
 	}
+	ins >> std::ws;
 	return ins; // should be empty
 }

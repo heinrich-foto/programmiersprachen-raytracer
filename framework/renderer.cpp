@@ -59,8 +59,8 @@ void Renderer::render(Scene const& scene)
       int samples = sqrt(scene_->SSAA_);
         for (int xAA=1;xAA<samples+1;++xAA){
           for (int yAA=1;yAA<samples+1;++yAA){
-            float xA = ray.direction.x +(float) (xAA)/(float)samples-0.5f; 
-            float yA = ray.direction.y +(float) (yAA)/(float)samples-0.5f;
+            float xA = ray.direction.x + float(xAA)/(float)samples-0.5f; 
+            float yA = ray.direction.y + float(yAA)/(float)samples-0.5f;
             float zA = ray.direction.z;
             Ray aaRay{ray.origin, {xA,yA,zA}};
             p.color +=raytrace(aaRay,DETH);
@@ -140,14 +140,8 @@ Hit Renderer::intersect(Ray const& ray, unsigned depth) const {
     for (auto& light : lights) { 
       
       glm::vec3 LightVector = glm::normalize(light.position() - hitpoint);
-
-      float Diffuse = std::max(0.0f,glm::dot(glm::normalize(hit.normalVec()),LightVector));
-      
-      glm::vec3 reflectionRay = {
-        hit.normalVec().x*2*Diffuse-LightVector.x,
-        hit.normalVec().y*2*Diffuse-LightVector.y,
-        hit.normalVec().z*2*Diffuse-LightVector.z
-      };
+      // rename to nDotL
+      float nDotL = std::max(0.0f,glm::dot(glm::normalize(hit.normalVec()),LightVector));
 
       // float Specular = std::pow(
       //       glm::dot(glm::normalize(reflectionRay),glm::normalize(r.direction))
@@ -158,27 +152,31 @@ Hit Renderer::intersect(Ray const& ray, unsigned depth) const {
       color += light.ambient() * hit.object()->material().ka(); 
 
       // Shadow?
-      glm::vec3 epsilonPosition = hitpoint +0.0001f*glm::normalize(hitpoint);
+      glm::vec3 epsilonPosition = hitpoint +0.001f*glm::normalize(hitpoint);
       Ray LightRay {hitpoint, LightVector};
       LightRay.max_t = glm::length(light.position()-hitpoint);
       Hit shadow = intersect(LightRay,1);
-      if ((!shadow.hit())&&(Diffuse > 0.0f && Diffuse < 1)) {
-      // if ((Diffuse > 0.0f && Diffuse < 1)) {
-        // Diffuse
+      if ((!shadow.hit())&&(nDotL > 0.0f && nDotL < 1)) {
+      // if ((nDotL > 0.0f && nDotL < 1)) {
+        // nDotL
         // if(Material.isDiffuse())
 
-        color += light.diffuse() * hit.object()->material().kd() * Diffuse;
+        color += light.diffuse() * hit.object()->material().kd() * nDotL;
                // + 1 /* /(distance*distance) */ * hit.object()->material().ks() * Spekular;
                //+ hit.object()->material().ks() * Spekular;
-      } 
-      // Spekular
-      glm::vec3 Reflect = glm::reflect(LightVector,hit.normalVec());
-      // glm::vec3 Reflect = glm::reflect(-LightVector,hit.normalVec());
-      float Dot = std::max(0.0f,glm::dot(Reflect, glm::normalize(r.direction)));
+      
+        // Spekular
+        glm::vec3 Reflect = glm::reflect(LightVector,hit.normalVec());
+        // https://de.wikipedia.org/wiki/Blinn-Beleuchtungsmodell
+        auto h = glm::normalize(-r.direction + LightVector);
+        float nDotH = glm::dot(h, hit.normalVec());
+        // glm::vec3 Reflect = glm::reflect(-LightVector,hit.normalVec());
+        float Dot = std::max(0.0f,glm::dot(Reflect, glm::normalize(r.direction)));
 
-      float Base = Dot > 0.0f ? Dot : 0.0f;
-      float Specular = glm::pow(Base, hit.object()->material().m());
-      color += hit.object()->material().ks() * Specular;
+        float Base = Dot > 0.0f ? Dot : 0.0f;
+        float Specular = glm::pow(Base, hit.object()->material().m());
+        color += hit.object()->material().ks() * Specular;
+      } 
     }
 
     return color;
